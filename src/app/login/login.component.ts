@@ -17,7 +17,7 @@ export class LoginComponent {
 
   loginForm:any|FormGroup;
 
-  loginStatus:boolean=false;
+  loginStatus:boolean=true;
 
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -36,19 +36,29 @@ export class LoginComponent {
       localStorage.setItem("jwt", this.responsedata.Token);
       console.log(response);
 
-      this.loginStatus=true;
+      this.loginStatus=false;
 
       this.openSnackBar("Your Login was successfull", "Ok")  
+
   
     }, error=> {
 
       this.openSnackBar("There was error Login Try again", "Ok")  
+
     })
   }
   logout(){
 
+    this.loginForm.reset();
+    this.loginStatus=true;
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
+  }
+
+  // Route to register page
+
+  toRegisterPage(){
+   this.router.navigate(['/register']); 
   }
 }

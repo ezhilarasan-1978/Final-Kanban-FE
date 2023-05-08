@@ -1,4 +1,4 @@
-.userInformation{
+/* .userInformation{
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -26,15 +26,16 @@
     margin-top: 0px;
     margin-bottom:0px;
     padding: 0px;
-  }
-  
+  } */
+
+
+  /* .registerButton{
+        margin-left: 60px;
+  } */
   
   .loginPanel{
       width: 40vw;
       max-width: 40vw;
-      /* margin-left: 10%;
-      margin-top: 2%;
-      margin-bottom: 5%; */
       margin:auto;
       margin-top: 60px;
   }

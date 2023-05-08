@@ -54,10 +54,10 @@ export class RegisterComponent {
     console.log(this.registerForm.value);
     this.userService.regsiterCustomer(this.registerForm.value).subscribe( response=>{
 
-      console.log(response);
+      this.routing.navigate(['/login'])
 
     }, error=> alert(error))
-    this.registerForm.reset();
+
 
     this.openSnackBar("Your Account Was Created Succesfully Kindly Login Using Credentials", "Ok");
   }
