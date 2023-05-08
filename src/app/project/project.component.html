@@ -18,6 +18,14 @@
         <ul>
           <li *ngFor="let member of projectForm.get('members').value">{{member}}</li>
         </ul>
+        <br>
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="Columns" formControlName="columnName">
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="button" (click)="addColumn()">Add Column</button>
+          <ul>
+            <li *ngFor="let column of projectForm.get('columns').value">{{column}}</li>
+          </ul>
         <button mat-raised-button color="primary" type="button" [disabled]="projectForm.invalid" (click)="addProject()">Create Project</button>
     </form>
     </mat-card-content>

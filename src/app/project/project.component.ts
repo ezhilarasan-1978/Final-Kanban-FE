@@ -18,8 +18,14 @@ export class ProjectComponent {
     this.projectForm = this.formBuilder.group({
       name: ['', Validators.required],
       members: [[]],
-      memberName: ['']
+      memberName: [''],
+      columns:[[]],
+      columnName:['']
     });
+  }
+  addColumn(){
+    this.columns.value.push(this.columnName.value.trim());
+    this.columnName.setValue('');
   }
 
   get name() {
@@ -34,21 +40,24 @@ export class ProjectComponent {
     return this.projectForm.get('memberName');
   }
 
+  get columns(){
+    return this.projectForm.get('columns')
+  }
+
+  get columnName(){
+    return this.projectForm.get('columnName')
+  }
+
   findUserName:any;
   addMember() {
     this.user.findUserCustomer(this.memberName.value.trim()).subscribe(
       response=>{
-        this.findUserName=response;
-        console.log("This si response"+response);
-        
+        this.findUserName=response;        
       },
       error=>{console.log("This is error"+error);
       }
-    )
-
-    console.log("This is the status of findusername boolean"+this.findUserName);
-    
-    if (this.findUserName) {
+    )    
+    if (this.findUserName===true) {
       this.members.value.push(this.memberName.value.trim());
       this.memberName.setValue('');
       this.findUserName=false;
@@ -56,11 +65,28 @@ export class ProjectComponent {
   }
 
   addProject() {
+    let count=0;
+    const columnList:Map<string, any[]>=new Map();
+    for(let i=0;i<this.columns.value.length;i++){
+      columnList.set(this.columns.value[i],[])
+      count++;
+    }
+
+    console.log("------------------------------------");
+    console.log(count);
+    console.log(this.columns.value);
+    console.log(columnList)
+    console.log(columnList.values);
+    
+    console.log(Object.fromEntries(columnList.entries()))
+    
+    console.log("------------------------------------");
+    
     if (this.projectForm.valid) {
       const project: Project = {
         name: this.name.value,
         members: this.members.value,
-        columns: {}
+        columns: Object.fromEntries(columnList.entries())
  
       };
       console.log(project);
