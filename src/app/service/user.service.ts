@@ -16,4 +16,8 @@ export class UserService {
   regsiterCustomer(userData:any){
     return this.httpClient.post('http://localhost:8007/api/v1/user/register', userData );
   }
+
+  findUserCustomer(name:string){
+    return this.httpClient.get(this.baseUrl+"/findUser/"+`${name}`);
+  }
 }
