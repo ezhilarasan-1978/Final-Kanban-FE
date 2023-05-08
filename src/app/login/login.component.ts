@@ -24,7 +24,7 @@ export class LoginComponent {
   ngOnInit() {
 
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
+      userName: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required)
     });
   }

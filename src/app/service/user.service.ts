@@ -13,4 +13,7 @@ export class UserService {
   loginUser(loginData:any){
     return this.httpClient.post(this.baseUrl+"/login", loginData);
   }
+  regsiterCustomer(userData:any){
+    return this.httpClient.post('http://localhost:8007/api/v1/user/register', userData );
+  }
 }
