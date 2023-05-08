@@ -54,16 +54,16 @@ export class ProjectComponent {
   addMember() {
     this.user.findUserCustomer(this.memberName.value.trim()).subscribe(
       response=>{
-        this.findUserName=response;        
+        this.findUserName=response;  
+        if (this.findUserName===true) {
+          this.members.value.push(this.memberName.value.trim());
+          this.memberName.setValue('');
+          this.findUserName=false;
+        }      
       },
       error=>{console.log("This is error"+error);
       }
     )    
-    if (this.findUserName===true) {
-      this.members.value.push(this.memberName.value.trim());
-      this.memberName.setValue('');
-      this.findUserName=false;
-    }
   }
 
   addProject() {
@@ -93,18 +93,16 @@ export class ProjectComponent {
 
         response=> {console.log(response);;
           for(let i=0; i<this.members.value.length; i++){
-            console.log(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`);
-            
+         
             this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`).subscribe(
               response => console.log(response));
           }
         },
-
-        
         eroror=>{alert("error inserting projects")}
       )
 
-     
+      this.members.clear();
+      this.columns.clear();
 
     }
   }
