@@ -54,6 +54,7 @@ export class RegisterComponent {
     console.log(this.registerForm.value);
     this.userService.regsiterCustomer(this.registerForm.value).subscribe( response=>{
 
+      
       this.routing.navigate(['/login'])
 
     }, error=> alert(error))

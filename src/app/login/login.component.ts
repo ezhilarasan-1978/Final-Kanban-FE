@@ -38,7 +38,7 @@ export class LoginComponent {
 
       this.loginStatus=false;
 
-      this.openSnackBar("Your Login was successfull", "Ok")  
+      this.openSnackBar("Your Login was successful", "Ok")  
 
   
     }, error=> {
