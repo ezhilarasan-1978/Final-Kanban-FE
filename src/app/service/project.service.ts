@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,5 +6,12 @@ import { Injectable } from '@angular/core';
 })
 export class ProjectService {
 
-  constructor() { }
+  constructor(private httpClient:HttpClient) {}
+  
+  baseurl:string="http://localhost:8007/api/v1/project/";
+  addNewProject(project:any){
+    return this.httpClient.post(this.baseurl+"add", project)
+  }
+
+
 }

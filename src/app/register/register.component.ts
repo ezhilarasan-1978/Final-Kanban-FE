@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import {CustomValidation} from '../service/CustomValidation';
 import { UserService } from '../service/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +23,8 @@ export class RegisterComponent {
       phone: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
       password: ['' ,[Validators.required]],
       Cpassword: ['', Validators.required],
-      name:['', Validators.required]
+      name:['', Validators.required],
+      projectList: new FormArray([])
     }, {
       validators: [CustomValidation.passwordMatchValidator]
     });
@@ -54,7 +55,7 @@ export class RegisterComponent {
     console.log(this.registerForm.value);
     this.userService.regsiterCustomer(this.registerForm.value).subscribe( response=>{
 
-      
+
       this.routing.navigate(['/login'])
 
     }, error=> alert(error))

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Project } from 'src/assets/Project';
 import { UserService } from '../service/user.service';
+import { ProjectService } from '../service/project.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-project',
@@ -12,7 +14,7 @@ export class ProjectComponent {
 
   projectForm:any| FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private user:UserService) { }
+  constructor(private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
 
   ngOnInit() {
     this.projectForm = this.formBuilder.group({
@@ -71,16 +73,6 @@ export class ProjectComponent {
       columnList.set(this.columns.value[i],[])
       count++;
     }
-
-    console.log("------------------------------------");
-    console.log(count);
-    console.log(this.columns.value);
-    console.log(columnList)
-    console.log(columnList.values);
-    
-    console.log(Object.fromEntries(columnList.entries()))
-    
-    console.log("------------------------------------");
     
     if (this.projectForm.valid) {
       const project: Project = {
@@ -89,7 +81,31 @@ export class ProjectComponent {
         columns: Object.fromEntries(columnList.entries())
  
       };
-      console.log(project);
+      console.log("-------------------------------------------------------------");
+      
+      console.log(this.members.value);
+      console.log(this.members.value.length);
+      console.log(this.members.value[0]);
+      console.log(this.members.value[1]);
+      console.log(this.members.value[2]);
+      
+      this.project.addNewProject(project).subscribe(
+
+        response=> {console.log(response);;
+          for(let i=0; i<this.members.value.length; i++){
+            console.log(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`);
+            
+            this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`).subscribe(
+              response => console.log(response));
+          }
+        },
+
+        
+        eroror=>{alert("error inserting projects")}
+      )
+
+     
+
     }
   }
 
