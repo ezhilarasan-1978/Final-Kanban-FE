@@ -88,11 +88,15 @@ export class ProjectComponent {
       response=>{
         this.findUserName=response;  
         if (this.findUserName) {
-          if(!this.members.value.includes(this.memberName.value.trim()))
+          if(this.members.value.length<=5){
+            if(!this.members.value.includes(this.memberName.value.trim()))
           {
             this.members.value.push(this.memberName.value.trim());
             this.memberName.setValue('');
             this.findUserName=false; 
+          }
+          }else{
+            this.openSnackBar("Cannot Add more than 5 Employees to a Project", "Ok");
           }
         }      
       },
@@ -161,5 +165,5 @@ boardView(project:string){
 }
 // ----------------------------
 
-    }
+}
 
