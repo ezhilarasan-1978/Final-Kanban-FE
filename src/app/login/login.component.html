@@ -1,5 +1,5 @@
-
-<mat-card class="loginPanel">
+<body>
+  <mat-card class="loginPanel">
     <mat-card-header>
       <mat-card-title>
         Login
@@ -9,7 +9,6 @@
       <form [formGroup]="loginForm" (ngSubmit)="loginCustomer()" #formData="ngForm">
         <mat-form-field appearance="outline">
           <input matInput placeholder="User Name" formControlName="userName">
-     
   
           <div  *ngIf="loginForm.controls.userName.dirty || loginForm.controls.userName.touched">
             <p class="loginFormErrors" *ngIf="loginForm.get('userName').hasError('required') ">UserName is Required</p>
@@ -30,7 +29,8 @@
             <button mat-raised-button color="warn" type="button" (click)="logout()">Logout</button>
           </ng-template>
           <button type="button" class="registerButton" mat-raised-button color="accent" (click)="toRegisterPage()">Register</button>
-
+  
       </form>
     </mat-card-content>
   </mat-card>
+</body>

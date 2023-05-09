@@ -32,12 +32,21 @@
   /* .registerButton{
         margin-left: 60px;
   } */
-  
+   body{
+    display: block;
+    background: url(../../assets/682226.jpg) no-repeat center center fixed;
+    background-size: cover!important;
+    padding-top: 160px;
+  }
+
+  mat-card{
+    background-color: whitesmoke;
+  }
   .loginPanel{
       width: 40vw;
       max-width: 40vw;
       margin:auto;
-      margin-top: 60px;
+ 
   }
   .example-card {
       max-width: 80%;
