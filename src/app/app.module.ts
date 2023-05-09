@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { ProjectComponent } from './project/project.component';
 import { FormsModule } from '@angular/forms';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatSnackBarModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

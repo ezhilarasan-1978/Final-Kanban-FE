@@ -39,3 +39,18 @@ mat-card{
   .loginFormErrors{
     color: #d94621;
   }
+
+  /* mat-mdc-chip-set-stacked{
+    display: flex;
+    flex-direction: row;
+  } */
+
+ mat-chip-option{
+    margin-top: 10px;
+    margin-left: 10px;
+   
+  }
+
+  .mat-mdc-chip-set {
+    max-width: 150px;
+  }

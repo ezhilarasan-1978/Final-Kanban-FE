@@ -16,6 +16,15 @@ export class ProjectComponent {
 
   projectForm:any| FormGroup;
 
+  primary:any="accent";
+  secondary:any="warn";
+  // availableColors = [
+  //   {name: 'none', color: undefined},
+  //   {name: 'Primary', color: 'primary'},
+  //   {name: 'Accent', color: 'accent'},
+  //   {name: 'Warn', color: 'warn'},
+  // ];
+
   constructor(private snackBar:MatSnackBar ,private routes:Router ,private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
 
   currentUserName:any;
