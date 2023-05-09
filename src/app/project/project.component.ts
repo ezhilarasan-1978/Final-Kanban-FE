@@ -16,6 +16,8 @@ export class ProjectComponent {
 
   projectForm:any| FormGroup;
 
+  projectList:any;
+
   primary:any="accent";
   secondary:any="warn";
   // availableColors = [
@@ -38,13 +40,26 @@ export class ProjectComponent {
       columns:[[]],
       columnName:['']
     });
+
+    this.user.getProjectList().subscribe(
+      response=>{
+        this.projectList=response;
+      },
+      error=>{console.log(error);
+      }
+    );
+
+
   }
+
+
   addColumn(){
     if(!this.columns.value.includes(this.columnName.value.trim())&&this.columnName.value.trim().length>0){
       this.columns.value.push(this.columnName.value.trim());
       this.columnName.setValue('');
+    }else{
+      this.openSnackBar("Empty or Duplicate Columns Not Allowed", "Ok");
     }
-   
   }
 
   get name() {
@@ -140,5 +155,11 @@ export class ProjectComponent {
       openSnackBar(message: string, action: string) {
         this.snackBar.open(message, action);
       }
+// -----------------------------------------
+boardView(project:string){
+  this.routes.navigate(['/'], { state: { ProjectName: project} } )
 }
+// ----------------------------
+
+    }
 

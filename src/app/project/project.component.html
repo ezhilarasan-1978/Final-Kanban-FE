@@ -1,4 +1,13 @@
-<mat-card>
+<div class="pageView">
+    <mat-card class="firstCard">
+      <mat-card-content>
+        <h2>List of Projects</h2>
+      </mat-card-content>
+      <div class="projectList" *ngFor="let project of projectList">
+        <button class="projectButton" mat-raised-button color="accent" type="button" (click)="boardView(project)" >{{project}}</button>
+      </div>
+    </mat-card>
+  <mat-card>
     <mat-card-header>
       <mat-card-title>Create Project</mat-card-title>
     </mat-card-header>
@@ -18,11 +27,13 @@
         <!-- <ul>
           <li *ngFor="let member of projectForm.get('members').value">{{member}}</li>
         </ul> -->
-        <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-          <mat-chip-option selected [color]="secondary" *ngFor="let member of projectForm.get('members').value">
-            {{member}}
-          </mat-chip-option>
-        </mat-chip-listbox>
+        <div class="chip">
+          <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
+            <mat-chip-option selected [color]="secondary" *ngFor="let member of projectForm.get('members').value">
+              {{member}}
+            </mat-chip-option>
+          </mat-chip-listbox>
+        </div>
         <br>
         <mat-form-field appearance="outline">
             <input matInput placeholder="Columns" formControlName="columnName">
@@ -31,13 +42,16 @@
           <!-- <ul>
             <li *ngFor="let column of projectForm.get('columns').value">{{column}}</li>
           </ul> -->
-          <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
-            <mat-chip-option selected [color]="primary" *ngFor="let column of projectForm.get('columns').value">
-              {{column}}
-            </mat-chip-option>
-          </mat-chip-listbox>
+          <div class="chip">
+            <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
+              <mat-chip-option selected [color]="primary" *ngFor="let column of projectForm.get('columns').value">
+                {{column}} 
+                <!-- <i class="fa fa-close"></i> -->
+              </mat-chip-option>
+            </mat-chip-listbox>
+          </div>
         <button mat-raised-button color="primary" type="button" [disabled]="projectForm.invalid" (click)="addProject()">Create Project</button>
     </form>
     </mat-card-content>
   </mat-card>
-
+</div>
