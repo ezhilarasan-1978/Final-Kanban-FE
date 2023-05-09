@@ -4,6 +4,7 @@ import { Project } from 'src/assets/Project';
 import { UserService } from '../service/user.service';
 import { ProjectService } from '../service/project.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -14,7 +15,7 @@ export class ProjectComponent {
 
   projectForm:any| FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
+  constructor(private routes:Router ,private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
 
   ngOnInit() {
     this.projectForm = this.formBuilder.group({
@@ -58,7 +59,7 @@ export class ProjectComponent {
     this.user.findUserCustomer(this.memberName.value.trim()).subscribe(
       response=>{
         this.findUserName=response;  
-        if (this.findUserName.length>0) {
+        if (this.findUserName) {
           this.members.value.push(this.memberName.value.trim());
           this.memberName.setValue('');
           this.findUserName=false;
@@ -84,13 +85,6 @@ export class ProjectComponent {
         columns: Object.fromEntries(columnList.entries())
  
       };
-      console.log("-------------------------------------------------------------");
-      
-      console.log(this.members.value);
-      console.log(this.members.value.length);
-      console.log(this.members.value[0]);
-      console.log(this.members.value[1]);
-      console.log(this.members.value[2]);
       
       this.project.addNewProject(project).subscribe(
 
@@ -103,10 +97,7 @@ export class ProjectComponent {
         },
         eroror=>{alert("error inserting projects")}
       )
-
-      this.members.clear();
-      this.columns.clear();
-
+      this.routes.navigate(['/login']);
     }
   }
 
