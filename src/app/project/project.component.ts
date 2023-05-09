@@ -95,7 +95,7 @@ export class ProjectComponent {
               response => console.log(response));
           }
         },
-        eroror=>{alert("error inserting projects")}
+        error=>{alert("error inserting projects")}
       )
       this.routes.navigate(['/login']);
     }
