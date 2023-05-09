@@ -38,8 +38,11 @@ export class LoginComponent {
 
       this.loginStatus=false;
 
-      this.openSnackBar("Your Login was successful", "Ok")  
-
+      this.openSnackBar("Your Login was successful", "Ok") 
+      console.log(this.loginForm.get('userName').value);
+       
+            
+      this.router.navigate(['/project'],  { state: { User: this.loginForm.get('userName').value} });
   
     }, error=> {
 
