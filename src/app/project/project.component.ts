@@ -26,8 +26,11 @@ export class ProjectComponent {
     });
   }
   addColumn(){
-    this.columns.value.push(this.columnName.value.trim());
-    this.columnName.setValue('');
+    if(this.columnName.value.trim().length>0){
+      this.columns.value.push(this.columnName.value.trim());
+      this.columnName.setValue('');
+    }
+   
   }
 
   get name() {
@@ -55,7 +58,7 @@ export class ProjectComponent {
     this.user.findUserCustomer(this.memberName.value.trim()).subscribe(
       response=>{
         this.findUserName=response;  
-        if (this.findUserName===true) {
+        if (this.findUserName.length>0) {
           this.members.value.push(this.memberName.value.trim());
           this.memberName.setValue('');
           this.findUserName=false;
