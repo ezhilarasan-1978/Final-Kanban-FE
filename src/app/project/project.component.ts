@@ -49,7 +49,8 @@ export class ProjectComponent {
       }
     );
       
-    this.columns.value.push("To-Be-Done");
+    this.columns.value.push("To Be Done");
+    this.columns.value.push("Work In Progress");
     this.columns.value.push("Completed");
   }
 
