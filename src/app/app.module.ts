@@ -18,6 +18,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProjectComponent } from './project/project.component';
 import { FormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
+import { BoardViewComponent } from './board-view/board-view.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {MatChipsModule} from '@angular/material/chips';
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    ProjectComponent
+    ProjectComponent,
+    BoardViewComponent
   ],
   imports: [
     BrowserModule,

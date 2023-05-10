@@ -12,4 +12,8 @@ export class ProjectService {
   addNewProject(project:any){
     return this.httpClient.post(this.baseurl+"add", project)
   }
+
+  getProject(projectName:any){
+    return this.httpClient.get(this.baseurl+projectName)
+  }
 }
