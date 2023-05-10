@@ -28,7 +28,7 @@ export class ProjectComponent {
   // ];
 
   constructor(private snackBar:MatSnackBar ,private routes:Router ,private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
-
+  
   currentUserName:any;
   ngOnInit() {
    this.currentUserName=history.state.User;
@@ -49,7 +49,8 @@ export class ProjectComponent {
       }
     );
       
-
+    this.columns.value.push("To-Be-Done");
+    this.columns.value.push("Completed");
   }
 
 
@@ -153,6 +154,7 @@ export class ProjectComponent {
            this.openSnackBar(`Project with name ${project.name} already exist`, "OK"); 
           }
         )
+        this.routes.navigate(['/boardView'], { state: { ProjectName: project.name} } )
       }
       }  
   }
@@ -161,7 +163,7 @@ export class ProjectComponent {
       }
 // -----------------------------------------
 boardView(project:string){
-  this.routes.navigate(['/'], { state: { ProjectName: project} } )
+  this.routes.navigate(['/boardView'], { state: { ProjectName: project} } )
 }
 // ----------------------------
 

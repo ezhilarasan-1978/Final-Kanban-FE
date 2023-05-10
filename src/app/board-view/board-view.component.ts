@@ -13,10 +13,13 @@ export class BoardViewComponent implements OnInit {
   
   projectDetails:any|Project;
 
+
   constructor(private projectService:ProjectService){}
 
   ngOnInit(): void {
-    this.projectService.getProject("BoardView").subscribe(
+    let currentUserName=history.state.ProjectName;
+
+    this.projectService.getProject(currentUserName).subscribe(
       response=>{ 
         this.projectDetails=response;
         console.log('-----------------------------');
@@ -53,8 +56,4 @@ getColumnNames() {
 getColumnTasks(columnName: string) {
     return this.projectDetails.columns[columnName];
   }
-
-
-
-  
 }
