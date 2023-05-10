@@ -28,7 +28,10 @@
           <ng-template #loginBlock>
             <button mat-raised-button color="warn" type="button" (click)="logout()">Logout</button>
           </ng-template>
-          <button type="button" class="registerButton" mat-raised-button color="accent" (click)="toRegisterPage()">Register</button>
+          <div class="register-Message">
+            <h3>Not a Registerd User ?</h3>
+            <button type="button" class="registerButton" mat-raised-button color="accent" (click)="toRegisterPage()">Register</button>
+          </div>
   
       </form>
     </mat-card-content>

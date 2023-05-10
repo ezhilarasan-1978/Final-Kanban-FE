@@ -29,9 +29,7 @@
   } */
 
 
-  /* .registerButton{
-        margin-left: 60px;
-  } */
+
    body{
     display: block;
     background: url(../../assets/682226.jpg) no-repeat center center fixed;
@@ -81,3 +79,19 @@
     .loginFormErrors{
       color: #d94621;
     }
+
+ .register-Message{
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+  }
+
+    h3{
+      margin-top: 10px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+   .registerButton{
+    margin-top: 6px;
+  }
