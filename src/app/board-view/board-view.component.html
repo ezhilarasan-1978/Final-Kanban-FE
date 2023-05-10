@@ -11,8 +11,14 @@ class="example-list"
     <div *ngFor="let columnName of getColumnNames()" class="example-container">
       <h2>{{columnName}}</h2>
       <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)" class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag>{{task.name}}</div>
-      </div>
+        <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag>
+            
+            <!-- Card html to be written here -->
+            {{task.name}}
+        
+        
+        </div>
+        </div>
     </div>
   </div>
 

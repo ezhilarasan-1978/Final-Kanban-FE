@@ -53,4 +53,8 @@ getColumnNames() {
 getColumnTasks(columnName: string) {
     return this.projectDetails.columns[columnName];
   }
+
+
+
+  
 }
