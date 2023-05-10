@@ -19,6 +19,7 @@ import { ProjectComponent } from './project/project.component';
 import { FormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
 import { BoardViewComponent } from './board-view/board-view.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BoardViewComponent } from './board-view/board-view.component';
     MatSnackBarModule,
     HttpClientModule,
     FormsModule,
-    MatChipsModule
+    MatChipsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

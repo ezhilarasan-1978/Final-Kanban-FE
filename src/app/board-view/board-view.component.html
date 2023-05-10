@@ -1,1 +1,18 @@
-<p>board-view works!</p>
+<!-- 
+<div
+cdkDropList
+[cdkDropListData]="basket"
+class="example-list"
+(cdkDropListDropped)="drop($event)">
+<div class="example-box" *ngFor="let item of basket" cdkDrag>{{item}}</div>
+</div> -->
+
+  <div cdkDropListGroup>
+    <div *ngFor="let columnName of getColumnNames()" class="example-container">
+      <h2>{{columnName}}</h2>
+      <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag>{{task.name}}</div>
+      </div>
+    </div>
+  </div>
+
