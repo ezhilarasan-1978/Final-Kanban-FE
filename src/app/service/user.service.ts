@@ -28,4 +28,10 @@ export class UserService {
 
     return this.httpClient.get(this.baseurl2+"projectList", {headers})
   }
+  
+  deleteProject(projectName:string){
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("jwt")}` })
+
+    return this.httpClient.get(this.baseurl2+ `removeProject/${projectName}`, {headers})
+  }
 }

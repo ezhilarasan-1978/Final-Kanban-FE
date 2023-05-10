@@ -66,7 +66,7 @@ export class RegisterComponent {
 
   openSnackBar(message: string, action: string) {
     this.matSnackBar.open(message, action);
-    // this.routing.navigate(['/loginComponent']);
+   this.routing.navigate(['/loginComponent']);
 
   }
 }

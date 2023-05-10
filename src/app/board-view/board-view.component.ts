@@ -5,6 +5,7 @@ import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@
 import { Project, Task } from '../../assets/Project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-board-view',
@@ -17,7 +18,8 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus:any;
 
 
-  constructor(private projectService:ProjectService, private snackBar:MatSnackBar, private routing:Router){}
+  constructor(private projectService:ProjectService,
+     private snackBar:MatSnackBar, private routing:Router, private user:UserService){}
 
   ngOnInit(): void {
     let currentUserName=history.state.ProjectName;
@@ -108,7 +110,7 @@ getColumnTasks(columnName: string) {
   }
 
   deleteProject(){
-    this.projectService.deleteProject(this.projectDetails.name).subscribe(
+    this.user.deleteProject(this.projectDetails.name).subscribe(
 
       response=> { this.openSnackBar("The project was deleted Successfully", "OK") },
       error=>{

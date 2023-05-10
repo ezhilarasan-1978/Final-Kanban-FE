@@ -21,8 +21,4 @@ export class ProjectService {
   updateProject(project:Project){
     return this.httpClient.put(this.baseurl+`save/${project.name}`, project.columns)
   }
-
-  deleteProject(projectName:string){
-    return this.httpClient.delete(this.baseurl+ `delete/${projectName}`)
-  }
 }
