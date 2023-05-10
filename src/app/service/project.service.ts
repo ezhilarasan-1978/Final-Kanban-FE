@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Project } from 'src/assets/Project';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,13 @@ export class ProjectService {
 
   getProject(projectName:any){
     return this.httpClient.get(this.baseurl+projectName)
+  }
+
+  updateProject(project:Project){
+    return this.httpClient.put(this.baseurl+`save/${project.name}`, project.columns)
+  }
+
+  deleteProject(projectName:string){
+    return this.httpClient.delete(this.baseurl+ `delete/${projectName}`)
   }
 }

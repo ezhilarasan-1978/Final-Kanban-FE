@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Project, Task } from '../../assets/Project';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-board-view',
@@ -15,7 +17,7 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus:any;
 
 
-  constructor(private projectService:ProjectService){}
+  constructor(private projectService:ProjectService, private snackBar:MatSnackBar, private routing:Router){}
 
   ngOnInit(): void {
     let currentUserName=history.state.ProjectName;
@@ -50,7 +52,15 @@ export class BoardViewComponent implements OnInit {
           event.currentIndex
         );
       }
-      console.log(this.projectDetails);
+      this.projectService.updateProject(this.projectDetails).subscribe(
+
+        response=>{console.log(response);
+        },
+        error=> {alert("There was error updating the project");
+        console.log(error);
+        
+        }
+      )
     }
 
 getColumnNames() {
@@ -86,15 +96,30 @@ getColumnTasks(columnName: string) {
     }
   
     let sum=lowCount+mediumCount;
-    if(sum>lowCount&&(this.currentCardTaskStatus=="Low" ||this.currentCardTaskStatus=="Medium")){
-      alert(true)
+    if(highCount>sum&&(this.currentCardTaskStatus=="Low" ||this.currentCardTaskStatus=="Medium")){
       return true;
     } else{
-      alert(false)
       return false;
     } 
   }
+
   onDrag(task:any){
     this.currentCardTaskStatus=task.priority;
+  }
+
+  deleteProject(){
+    this.projectService.deleteProject(this.projectDetails.name).subscribe(
+
+      response=> { this.openSnackBar("The project was deleted Successfully", "OK") },
+      error=>{
+        this.openSnackBar("There wad error deleting the project", "OK")
+      }
+    )
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action);
+    this.routing.navigate(['/project']);
+
   }
 }

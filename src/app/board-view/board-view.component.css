@@ -1,7 +1,10 @@
+.example-button-container{
+  margin-top: 70px;
+}
 .example-container {
     width: 200px;
     max-width: 100%;
-    margin: 100px 25px 25px 100px;
+    margin: 50px 25px 25px 100px;
     display: inline-block;
     vertical-align: top;
   }

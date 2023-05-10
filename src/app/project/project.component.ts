@@ -136,12 +136,11 @@ export class ProjectComponent {
           const project: Project = {
             name: this.name.value,
             members: this.members.value,
-            columns: Object.fromEntries(columnList.entries())
-    
+            columns: Object.fromEntries(columnList.entries())    
           };
         this.project.addNewProject(project).subscribe(
 
-          response=> {console.log(response);;
+          response=> {console.log(response);
             for(let i=0; i<this.members.value.length; i++){
            
               this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`).subscribe(
