@@ -24,7 +24,10 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
+import { TaskComponent } from './task/task.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +35,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     LoginComponent,
     RegisterComponent,
     ProjectComponent,
-    BoardViewComponent
+    BoardViewComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatDialogModule,
     MatTooltipModule,
     MatNativeDateModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDatepickerModule,
+    MatMenuModule,
+    MatSelectModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

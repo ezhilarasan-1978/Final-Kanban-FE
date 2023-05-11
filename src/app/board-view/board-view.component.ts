@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectComponent } from '../project/project.component';
+import { TaskComponent } from '../task/task.component';
 
 
 @Component({
@@ -175,6 +176,6 @@ getColumnTasks(columnName: string) {
     }
     
     taskWindow(){
-  
+      this.dialog.open(TaskComponent);
     }
 }
