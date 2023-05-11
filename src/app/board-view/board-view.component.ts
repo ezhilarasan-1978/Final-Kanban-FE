@@ -27,15 +27,16 @@ export class BoardViewComponent implements OnInit {
      private snackBar:MatSnackBar, private routing:Router, private user:UserService, private dialog:MatDialog){}
 
   ngOnInit(): void {
-    let currentUserName=history.state.ProjectName;
+  
+    let val=this.projectService.getProjectName();
 
-    this.projectService.getProject(currentUserName).subscribe(
+    this.projectService.getProject(val).subscribe(
       response=>{ 
         this.projectDetails=response;
-    
       },
       error=>alert("There was error fetching Project Details")    
     )
+ 
   }
 
   // ----Array of arrays for the task;
@@ -50,7 +51,7 @@ export class BoardViewComponent implements OnInit {
           return;
         }
         if (event.container.id === "cdk-drop-list-1" && this.getThePriorityTasks()) {
-          alert("inside second logic")
+      
           return;
         }
         transferArrayItem(
@@ -156,7 +157,7 @@ getColumnTasks(columnName: string) {
 // ------------------------------------u---------------------------------------
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
-    this.routing.navigate(['/project']);
+    // this.routing.navigate(['/project']);
 
   }
 
@@ -176,6 +177,6 @@ getColumnTasks(columnName: string) {
     }
     
     taskWindow(){
-      this.dialog.open(TaskComponent);
+      this.dialog.open(TaskComponent);      
     }
 }

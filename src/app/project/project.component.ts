@@ -121,7 +121,6 @@ export class ProjectComponent {
       this.members.value.push(this.currentUserName);
     }
 
-    alert("this is the length of columns"+this.columns.value.length)
     //  ---------------------------------------------------------------------------
       if(this.columns.value.length<2){
         this.openSnackBar("There must be atleast 2 columns", "Got-It")
@@ -142,10 +141,11 @@ export class ProjectComponent {
 
           response=> {console.log(response);
             for(let i=0; i<this.members.value.length; i++){
-           
+              
               this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`).subscribe(
-                response => console.log(response));
-  
+               
+              response => console.log(response));
+
             this.openSnackBar("Project added Successfuly", "OK");   
             this.routes.navigate(['/login']);
             }
@@ -158,13 +158,15 @@ export class ProjectComponent {
       }
       }  
   }
-      openSnackBar(message: string, action: string) {
+
+  openSnackBar(message: string, action: string) {
         this.snackBar.open(message, action);
       }
 // -----------------------------------------
-boardView(project:string){
-  this.routes.navigate(['/boardView'], { state: { ProjectName: project} } )
-}
+    boardView(project:string){
+      this.project.setProjectName(project);
+      this.routes.navigate(['/boardView'] );
+    }
 // ----------------------------
 
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Task } from 'src/assets/Project';
+import { Router } from '@angular/router';
+import { ProjectService } from '../service/project.service';
+
 
 @Component({
   selector: 'app-task',
@@ -11,7 +14,7 @@ export class TaskComponent implements OnInit {
 
   
   priorityColor:any;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private routing:Router, private projectService:ProjectService) { }
   ngOnInit(): void {
     this.setPriority("Clear");
   }
@@ -23,7 +26,8 @@ export class TaskComponent implements OnInit {
 
   setDate(){
     // console.log(this.startDate?.value)
-    this.createDate = this.startDate?.value;
+    this.createDate = this.startDate?.value?.slice(0,10);
+
 
   }
 
@@ -33,7 +37,7 @@ export class TaskComponent implements OnInit {
     taskPriority: [''],
     startDate: [''],
     dueDate: [''],
-    members: ['']
+    members: [[]]
   })
 
    membersList: string[] = ['Priyanshu','Ezhil','Mahek']; //list of registered users - user 
@@ -56,7 +60,7 @@ export class TaskComponent implements OnInit {
   }
 
   onSubmit() { 
-    
+
 
     const task: any = {
       name: this.taskName?.value,
@@ -67,8 +71,22 @@ export class TaskComponent implements OnInit {
       assignee: this.user,
       members: this.members?.value
     };
-
-   
+    this.projectService.addNewTask(task).subscribe(
+      repsonse=> 
+      {
+        console.log(repsonse)
+        // this.AddTask.reset();
+      }
+      ,
+      error=> console.log(error)
+      
+    );
   }
 
+  onClose(){
+    // this.AddTask.reset();
+    this.routing.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.routing.navigate(['/boardView']);
+    });
+  }
 }

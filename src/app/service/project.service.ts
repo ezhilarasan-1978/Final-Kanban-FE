@@ -6,6 +6,17 @@ import { Project } from 'src/assets/Project';
   providedIn: 'root'
 })
 export class ProjectService {
+  
+  projectName:any;
+
+  setProjectName(name:any){
+    this.projectName=name;
+  }
+
+  getProjectName(){
+    return this.projectName;
+  }
+
 
   constructor(private httpClient:HttpClient) {}
   
@@ -20,5 +31,9 @@ export class ProjectService {
 
   updateProject(project:Project){
     return this.httpClient.put(this.baseurl+`save/${project.name}`, project.columns)
+  }
+  addNewTask(task:any){
+    // let name="Corrected Code"
+    return this.httpClient.put(this.baseurl+`task/${this.projectName}`, task)
   }
 }
