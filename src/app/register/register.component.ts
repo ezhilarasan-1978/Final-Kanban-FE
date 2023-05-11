@@ -61,7 +61,7 @@ export class RegisterComponent {
     }, error=> alert(error))
 
 
-    this.openSnackBar("Your Account Was Created Succesfully Kindly Login Using Credentials", "Ok");
+    this.openSnackBar("Your Account Was Created Successfully Kindly Login Using Credentials", "Ok");
   }
 
   openSnackBar(message: string, action: string) {

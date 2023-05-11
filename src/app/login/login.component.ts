@@ -22,7 +22,7 @@ export class LoginComponent {
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   ngOnInit() {
-
+    
     this.loginForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required)

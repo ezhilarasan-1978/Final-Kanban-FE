@@ -8,11 +8,12 @@
     <div *ngFor="let columnName of getColumnNames()" class="example-container">
       <h2>{{columnName}}</h2>
       <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)"  class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag (mouseover)="onDrag(task)">
+        <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag (cdkDragStarted)="onDragStart(task)">
             
+          <button type="button" (click)="delete( columnName,task)">delete task</button>
             <!-- Card html to be written here -->
             {{task.name}}
-        
+            {{task.priority}}
         </div>
         </div>
     </div>

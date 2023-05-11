@@ -14,10 +14,11 @@ import { UserService } from '../service/user.service';
 })
 export class BoardViewComponent implements OnInit {
   
+
   projectDetails:any|Project;
   currentCardTaskStatus:any;
 
-
+// ---------------------------------------------
   constructor(private projectService:ProjectService,
      private snackBar:MatSnackBar, private routing:Router, private user:UserService){}
 
@@ -27,7 +28,7 @@ export class BoardViewComponent implements OnInit {
     this.projectService.getProject(currentUserName).subscribe(
       response=>{ 
         this.projectDetails=response;
-        console.log('-----------------------------');
+    
       },
       error=>alert("There was error fetching Project Details")    
     )
@@ -45,6 +46,7 @@ export class BoardViewComponent implements OnInit {
           return;
         }
         if (event.container.id === "cdk-drop-list-1" && this.getThePriorityTasks()) {
+          alert("inside second logic")
           return;
         }
         transferArrayItem(
@@ -54,15 +56,17 @@ export class BoardViewComponent implements OnInit {
           event.currentIndex
         );
       }
-      this.projectService.updateProject(this.projectDetails).subscribe(
+      console.log(this.projectDetails);
+      
+      // this.projectService.updateProject(this.projectDetails).subscribe(
 
-        response=>{console.log(response);
-        },
-        error=> {alert("There was error updating the project");
-        console.log(error);
+      //   response=>{console.log(response);
+      //   },
+      //   error=> {alert("There was error updating the project");
+      //   console.log(error);
         
-        }
-      )
+      //   }
+      // )
     }
 
 getColumnNames() {
@@ -74,38 +78,43 @@ getColumnTasks(columnName: string) {
   }
 
 
-// ------------------------------methods for manipulation of content
+// ------------------------------methods for manipulation of content drag and drop
 
   getNumberOfTaskInWIP(): boolean{
-   let num= this.projectDetails.columns["In Progress"].length
+   let num= this.projectDetails.columns["Work In Progress"].length
          return num<=4;
   }
 
   getThePriorityTasks(){
-    let mediumCount=0;
-    let highCount=0;
-    let lowCount=0;
-    for(let i =0; i<this.projectDetails.columns["To Do"].length;i++){
-      if(this.projectDetails.columns["To Do"][i].priority=="High"){
-        highCount++;
+    let high=0;
+    let urgent=0;
+    let low=0;
+    for(let i =0; i<this.projectDetails.columns["To Be Done"].length;i++){
+      if(this.projectDetails.columns["To Be Done"][i].priority=="Urgent"){
+        urgent++;
       }
-      if(this.projectDetails.columns["To Do"][i].priority=="Low"){
-        lowCount++;
+      if(this.projectDetails.columns["To Be Done"][i].priority=="Low"){
+        low++;
       }
-      if(this.projectDetails.columns["To Do"][i].priority=="Medium"){
-        mediumCount++;
+      if(this.projectDetails.columns["To Be Done"][i].priority=="High"){
+        high++;
       }
     }
   
-    let sum=lowCount+mediumCount;
-    if(highCount>sum&&(this.currentCardTaskStatus=="Low" ||this.currentCardTaskStatus=="Medium")){
+    let sum=low+high;
+   
+    if(urgent>sum&&this.currentCardTaskStatus!="Urgent"){
+    
+      sum=0;
       return true;
     } else{
+      sum=0;
       return false;
     } 
   }
 
-  onDrag(task:any){
+  onDragStart(task:any){
+   
     this.currentCardTaskStatus=task.priority;
   }
 
@@ -118,7 +127,19 @@ getColumnTasks(columnName: string) {
       }
     )
   }
+// -----------------------Delete and Insert task------------------------------
+  delete(columnName:any,task:any){
+       for(let i=0; i<this.projectDetails.columns[columnName].length;i++){
+        if(this.projectDetails.columns[columnName][i].name==task.name){
+          this.projectDetails.columns[columnName].splice(i,1);
+          this.openSnackBar("The task was deleted successfuly", "OK")
 
+          break;
+        }
+      }
+  }
+
+// ------------------------------------u---------------------------------------
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
     this.routing.navigate(['/project']);
