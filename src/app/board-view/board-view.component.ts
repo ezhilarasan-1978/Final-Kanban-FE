@@ -6,6 +6,9 @@ import { Project, Task } from '../../assets/Project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProjectComponent } from '../project/project.component';
+
 
 @Component({
   selector: 'app-board-view',
@@ -20,7 +23,7 @@ export class BoardViewComponent implements OnInit {
 
 // ---------------------------------------------
   constructor(private projectService:ProjectService,
-     private snackBar:MatSnackBar, private routing:Router, private user:UserService){}
+     private snackBar:MatSnackBar, private routing:Router, private user:UserService, private dialog:MatDialog){}
 
   ngOnInit(): void {
     let currentUserName=history.state.ProjectName;
@@ -58,15 +61,15 @@ export class BoardViewComponent implements OnInit {
       }
       console.log(this.projectDetails);
       
-      // this.projectService.updateProject(this.projectDetails).subscribe(
+      this.projectService.updateProject(this.projectDetails).subscribe(
 
-      //   response=>{console.log(response);
-      //   },
-      //   error=> {alert("There was error updating the project");
-      //   console.log(error);
+        response=>{console.log(response);
+        },
+        error=> {alert("There was error updating the project");
+        console.log(error);
         
-      //   }
-      // )
+        }
+      )
     }
 
 getColumnNames() {
@@ -126,17 +129,27 @@ getColumnTasks(columnName: string) {
         this.openSnackBar("There wad error deleting the project", "OK")
       }
     )
+    
   }
 // -----------------------Delete and Insert task------------------------------
   delete(columnName:any,task:any){
        for(let i=0; i<this.projectDetails.columns[columnName].length;i++){
         if(this.projectDetails.columns[columnName][i].name==task.name){
           this.projectDetails.columns[columnName].splice(i,1);
-          this.openSnackBar("The task was deleted successfuly", "OK")
+          this.openSnackBar("The task was deleted successfully", "OK")
 
           break;
         }
       }
+      this.projectService.updateProject(this.projectDetails).subscribe(
+
+        response=>{console.log(response);
+        },
+        error=> {alert("There was error updating the project");
+        console.log(error);
+        
+        }
+      )
   }
 
 // ------------------------------------u---------------------------------------
@@ -145,4 +158,23 @@ getColumnTasks(columnName: string) {
     this.routing.navigate(['/project']);
 
   }
+
+  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+  show:boolean=false;
+  load(date:any){ return date?.slice(8,10); }
+
+  loadA(assigne:any){ return assigne?.slice(0,1); }
+  
+  hide(){ this.show=false; }
+  
+  unhide(task:any){ this.show=true; }
+
+  
+    projectWindow(){
+      this.dialog.open(ProjectComponent);
+    }
+    
+    taskWindow(){
+  
+    }
 }

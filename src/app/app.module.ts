@@ -20,6 +20,10 @@ import { FormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
 import { BoardViewComponent } from './board-view/board-view.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,11 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     HttpClientModule,
     FormsModule,
     MatChipsModule,
-    DragDropModule
+    DragDropModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatNativeDateModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]

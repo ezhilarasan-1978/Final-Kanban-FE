@@ -1,58 +1,125 @@
-.example-button-container{
-  margin-top: 70px;
-}
 .example-container {
-    width: 200px;
-    max-width: 100%;
-    margin: 50px 25px 25px 100px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  
-  .example-list {
-    border: solid 1px #ccc;
-    min-height: 60px;
-    background: white;
-    border-radius: 4px;
-    overflow: hidden;
-    display: block;
-  }
-  
-  .example-box {
-    padding: 20px 10px;
-    border-bottom: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    cursor: move;
-    background: white;
-    font-size: 14px;
-  }
-  
-  .cdk-drag-preview {
-    box-sizing: border-box;
-    border-radius: 4px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-                0 8px 10px 1px rgba(0, 0, 0, 0.14),
-                0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  }
-  
-  .cdk-drag-placeholder {
-    opacity: 0;
-  }
-  
-  .cdk-drag-animating {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  
-  .example-box:last-child {
-    border: none;
-  }
-  
-  .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  
+  width: 240px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  background-color: rgb(238, 236, 243);
+  border-top: 5px solid rgb(138, 107, 247);
+  max-width: 100%;
+  margin: 0 25px 25px 40px;
+  display: inline-block;
+  vertical-align: top;
+}
+#delete{
+  position: absolute;
+  margin-left: 140px;
+  margin-top: -4px;
+  font-size: 23px;
+}
+.parent{
+  margin-top:50px;
+}
+.example-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+ 
+}
+
+.example-box {
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+mat-card-actions{
+  /* margin-left: 0px; */
+  margin-top: 15px;
+}
+
+mat-card {
+  width: 180px;
+  height: auto;
+}
+
+#createdate{
+  position: absolute;
+  font-size: 10px;
+  margin-left: 100px;
+  margin-top: -10px;
+}
+#deadline{
+  position: absolute;
+  margin-top: 5px;
+  margin-left: -18px;
+  font-size: 12px;
+}
+#cal{
+  margin-left: 20px;
+}
+ #assigne{
+  position: absolute;
+  font-size: 15px;
+  margin-top: 3px;
+  color: white;
+  margin-left: -18px;
+}
+#iconA{
+  color: rgb(248, 76, 130);
+  font-size: 25px;
+  margin-left: 25px;
+} 
+span , #delete, small{
+  cursor: pointer;
+}
+.btn{
+  padding: 10px;
+  margin:20px;
+}
+#side-nav{
+  text-align: center;
+  width:200px;
+  background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.5) 50%);
+  background-color: #d2c9fd;
+  background-size: 200px;
+}
+.mat-drawer-content{
+  padding-left: 50px;
+  padding: 20px;
+
+}
+
+/* Body css */
