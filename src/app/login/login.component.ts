@@ -40,6 +40,7 @@ export class LoginComponent {
 
       this.openSnackBar("Your Login was successful", "Ok") 
       console.log(this.loginForm.get('userName').value);
+      localStorage.setItem("currentUser", this.loginForm.get('userName').value)
        
             
       this.router.navigate(['/project'],  { state: { User: this.loginForm.get('userName').value} });
