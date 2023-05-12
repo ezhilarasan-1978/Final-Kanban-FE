@@ -21,7 +21,7 @@ export class RegisterComponent {
     registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
       phone: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
-      password: ['' ,[Validators.required]],
+      password: ['' ,[Validators.required,Validators.minLength(8)]],
       Cpassword: ['', Validators.required],
       name:['', Validators.required],
       projectList: new FormArray([])

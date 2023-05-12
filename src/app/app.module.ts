@@ -28,6 +28,9 @@ import { TaskComponent } from './task/task.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +62,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSidenavModule,
     MatDatepickerModule,
     MatMenuModule,
-    MatSelectModule 
+    MatSelectModule,
+    MatExpansionModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

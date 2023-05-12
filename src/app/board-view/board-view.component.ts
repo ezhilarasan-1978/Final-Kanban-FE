@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Project, Task } from '../../assets/Project';
@@ -9,6 +9,7 @@ import { UserService } from '../service/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectComponent } from '../project/project.component';
 import { TaskComponent } from '../task/task.component';
+import { MatSidenav } from '@angular/material/sidenav';
 
 
 @Component({
@@ -21,21 +22,71 @@ export class BoardViewComponent implements OnInit {
 
   projectDetails:any|Project;
   currentCardTaskStatus:any;
-
+  projectList:any;
 // ---------------------------------------------
   constructor(private projectService:ProjectService,
      private snackBar:MatSnackBar, private routing:Router, private user:UserService, private dialog:MatDialog){}
 
   ngOnInit(): void {
+
+    
   
+    // let val=this.projectService.getProjectName();
+
+    // if(val==null){
+    //   this.user.getProjectList().subscribe(
+    //     response=>{
+    //       this.projectList=response;
+    //       val=this.projectList[0];
+    //       this.projectService.setProjectName(val);
+    //     //  -----------------------
+    //     this.projectService.getProject(val).subscribe(
+    //       response=>{ 
+    //         this.projectDetails=response;
+    //         console.log("second service");
+    
+    //       },
+    //       error=>alert("There was error fetching Project Details")    
+    //     )
+
+    //     // -----
+    //     },
+    //     error=>{console.log(error);
+    //     }
+    //   );
+
+    // }else{
+    //   this.projectService.getProject(val).subscribe(
+    //     response=>{ 
+    //       this.projectDetails=response;
+    //       console.log("second service");
+  
+    //     },
+    //     error=>alert("There was error fetching Project Details")    
+    //   )
+    // }
     let val=this.projectService.getProjectName();
 
-    this.projectService.getProject(val).subscribe(
-      response=>{ 
-        this.projectDetails=response;
-      },
-      error=>alert("There was error fetching Project Details")    
-    )
+    this.user.getProjectList().subscribe(
+      response=>{
+          this.projectList=response;
+        
+        if(val==null){
+          val=this.projectList[0];
+        }
+          this.projectService.setProjectName(val);
+          
+          this.projectService.getProject(val).subscribe(
+          response=>{ 
+            this.projectDetails=response;
+          },
+          error=>alert("There was error fetching Project Details")    
+        )
+        },
+        error=>{console.log(error);
+        }
+      );
+    
  
   }
 
@@ -179,4 +230,44 @@ getColumnTasks(columnName: string) {
     taskWindow(){
       this.dialog.open(TaskComponent);      
     }
+
+// -------------------------
+  isShowing: boolean=false;
+
+  
+  @ViewChild('sidenav', {static: true}) sidenav!: MatSidenav;
+  toggleSidenav() {
+    this.sidenav.toggle();
+  }  
+  callMethods() {
+    this.toggleSidenav();
+}
+
+boardView(project:string){
+  this.projectService.setProjectName(project);
+  this.projectService.getProject(project).subscribe(
+    response=>{ 
+      this.projectDetails=response;
+      console.log("second service");
+
+    },
+    error=>alert("There was error fetching Project Details")    
+  )
+  // this.routing.navigate(['/boardView'], { state: { ProjectName: project} } )
+}
+
+getColorClass(value: string): string {
+  if (value === 'Urgent') {
+    return 'card-red';
+  } else if (value === 'High') {
+    return 'card-yellow';
+  } else if (value === 'Low') {
+    return 'card-grey';
+  } else if (value=== 'Normal'){
+    return 'card-blue';
+  }else {
+    return '';
+  }
+}
+
 }

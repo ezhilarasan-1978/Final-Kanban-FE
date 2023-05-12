@@ -8,6 +8,15 @@ export class UserService {
 
   constructor(private httpClient:HttpClient) {}
 
+  currentUser:any;
+
+  setUser(name:any){
+    this.currentUser=name;
+  }
+  getUser(){
+    return this.currentUser;
+  }
+
   baseUrl:string ="http://localhost:3033/api/v1/auth";
   baseurl2:string="http://localhost:8007/api/v1/user/";
 

@@ -62,8 +62,9 @@
           </mat-select>
         </mat-form-field>
       </div>
-  
+      
       <span mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="priority" matTooltip="Priority">
+        <span>Priority: </span>
         <mat-icon *ngIf="priorityColor=='Urgent'" style="color: red;">flag</mat-icon>
         <mat-icon *ngIf="priorityColor=='High'" style="color: rgb(217, 217, 77);">flag</mat-icon>
         <mat-icon *ngIf="priorityColor=='Low'" style="color: rgb(168, 169, 168);">flag</mat-icon>

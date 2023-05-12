@@ -31,7 +31,7 @@ export class ProjectComponent {
   
   currentUserName:any;
   ngOnInit() {
-   this.currentUserName=history.state.User;
+    this.user.getUser();
 
     this.projectForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -147,7 +147,7 @@ export class ProjectComponent {
               response => console.log(response));
 
             this.openSnackBar("Project added Successfuly", "OK");   
-            this.routes.navigate(['/login']);
+            this.routes.navigate(['/boardView']);
             }
           },
           error=>{

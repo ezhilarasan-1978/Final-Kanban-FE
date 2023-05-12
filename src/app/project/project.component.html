@@ -1,17 +1,24 @@
-<div class="pageView">
-    <mat-card class="firstCard">
-      <mat-card-content>
-        <h2>List of Projects</h2>
-      </mat-card-content>
-      <div class="projectList" *ngFor="let project of projectList">
-        <button class="projectButton" mat-raised-button color="accent" type="button" (click)="boardView(project)" >{{project}}</button>
-      </div>
-    </mat-card>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Create Project</mat-card-title>
-    </mat-card-header>
+<div class="container">
+  <!-- <mat-card class="firstCard">
     <mat-card-content>
+      <h2>List of Projects</h2>
+    </mat-card-content>
+    <div class="projectList" *ngFor="let project of projectList">
+      <button class="projectButton" mat-raised-button color="accent" type="button" (click)="boardView(project)" >{{project}}</button>
+    </div>
+  </mat-card> -->
+
+  <mat-dialog-actions id="clr">
+    <button mat-button mat-dialog-close  id="close" matTooltip="Close">
+    <mat-icon>clear</mat-icon>
+  </button>
+  </mat-dialog-actions>
+
+  <!-- <mat-card> -->
+    <!-- <mat-card-header> -->
+    <h2 class="cntr">Create Project</h2>
+    <!-- </mat-card-header>
+    <mat-card-content> -->
       <form [formGroup]="projectForm">
         <mat-form-field appearance="outline">
           <input matInput placeholder="Name" formControlName="name">
@@ -23,7 +30,9 @@
         <mat-form-field appearance="outline">
           <input matInput placeholder="Members" formControlName="memberName">
         </mat-form-field>
+        <div class="cntr">
         <button mat-raised-button color="primary" type="button" (click)="addMember()">Add Member</button>
+      </div>
         <!-- <ul>
           <li *ngFor="let member of projectForm.get('members').value">{{member}}</li>
         </ul> -->
@@ -38,7 +47,9 @@
         <mat-form-field appearance="outline">
             <input matInput placeholder="Columns" formControlName="columnName">
           </mat-form-field>
+          <div class="cntr">
           <button mat-raised-button color="primary" type="button" (click)="addColumn()">Add Column</button>
+        </div>
           <!-- <ul>
             <li *ngFor="let column of projectForm.get('columns').value">{{column}}</li>
           </ul> -->
@@ -50,8 +61,8 @@
               </mat-chip-option>
             </mat-chip-listbox>
           </div>
-        <button mat-raised-button color="primary" type="button" [disabled]="projectForm.invalid" (click)="addProject()">Create Project</button>
+        <button class="btn" mat-raised-button color="primary" type="button" [disabled]="projectForm.invalid" (click)="addProject()">Create Project</button>
     </form>
-    </mat-card-content>
-  </mat-card>
+    <!-- </mat-card-content>
+  </mat-card> -->
 </div>

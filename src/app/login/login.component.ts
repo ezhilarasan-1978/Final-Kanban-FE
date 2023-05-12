@@ -42,8 +42,8 @@ export class LoginComponent {
       console.log(this.loginForm.get('userName').value);
       localStorage.setItem("currentUser", this.loginForm.get('userName').value)
        
-            
-      this.router.navigate(['/project'],  { state: { User: this.loginForm.get('userName').value} });
+      this.userService.setUser(this.loginForm.get('userName').value);      
+      this.router.navigate(['/boardView']);
   
     }, error=> {
 
