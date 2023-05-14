@@ -57,7 +57,7 @@ export class LoginComponent {
     this.loginStatus=true;
   }
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
+    this._snackBar.open(message, action,{duration:1000});
   }
 
   // Route to register page

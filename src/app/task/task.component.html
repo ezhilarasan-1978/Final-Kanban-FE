@@ -1,111 +1,114 @@
 <mat-card>
-    <mat-dialog-actions>
-      <button (click)="onClose()" mat-button mat-dialog-close  id="close" matTooltip="Close">
-      <mat-icon>clear</mat-icon>
-    </button>
-    </mat-dialog-actions>
-  
-    <form [formGroup]="AddTask" (ngSubmit)="onSubmit()">
-  
+  <mat-dialog-actions>
       <h2>Add Task</h2>
-  
-      <div>
-        <mat-form-field class="block">
-          <mat-label>Task Name</mat-label>
-          <input matInput formControlName="taskName">
-          <mat-error *ngIf="taskName?.invalid && (taskName?.dirty || taskName?.touched)">
-            <mat-error *ngIf="taskName?.errors?.['required']">
-              Task name is required
-            </mat-error>
+      <button (click)="onClose()" mat-button id="close" matTooltip="Close">
+        <mat-icon>clear</mat-icon>
+      </button>
+  </mat-dialog-actions>
+
+  <form [formGroup]="AddTask" (ngSubmit)="onSubmit()">
+
+
+    <div>
+      <mat-form-field class="block">
+        <mat-label>Task Name</mat-label>
+        <input matInput formControlName="taskName">
+        <mat-error *ngIf="taskName?.invalid && (taskName?.dirty || taskName?.touched)">
+          <mat-error *ngIf="taskName?.errors?.['required']">
+            Task name is required
           </mat-error>
-        </mat-form-field>
-      </div>
-  
-      <div>
-        <mat-form-field class="input">
-          <mat-label>Task Content</mat-label>
-          <textarea matInput  formControlName="taskContent"></textarea>
-          <mat-error *ngIf="taskContent?.invalid && (taskContent?.dirty || taskContent?.touched)">
-            <mat-error *ngIf="taskContent?.errors?.['required']">
-              Task Content is required
-            </mat-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="input">
+        <mat-label>Task Content</mat-label>
+        <textarea matInput formControlName="taskContent"></textarea>
+        <mat-error *ngIf="taskContent?.invalid && (taskContent?.dirty || taskContent?.touched)">
+          <mat-error *ngIf="taskContent?.errors?.['required']">
+            Task Content is required
           </mat-error>
-        </mat-form-field>
-      </div>
-  
-      <div >
-        <mat-form-field appearance="fill">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="picker1" formControlName="startDate" [min]="currentDate">
-          <mat-datepicker-toggle  matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </div>
-  
-      <div>
-        <mat-form-field appearance="fill" >
-          <mat-label>Due Date</mat-label>
-          <input matInput [matDatepicker]="picker2" formControlName="dueDate" [min]="createDate">
-          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-      </div>
-  
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Assigned to</mat-label>
-          <mat-select formControlName="members" multiple>
-            <mat-select-trigger>
-              {{members?.value|| ''}}
-            </mat-select-trigger>
-            <mat-option *ngFor="let member of membersList" [value]="member">{{member}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      
-      <span mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="priority" matTooltip="Priority">
-        <span>Priority: </span>
-        <mat-icon *ngIf="priorityColor=='Urgent'" style="color: red;">flag</mat-icon>
-        <mat-icon *ngIf="priorityColor=='High'" style="color: rgb(217, 217, 77);">flag</mat-icon>
-        <mat-icon *ngIf="priorityColor=='Low'" style="color: rgb(168, 169, 168);">flag</mat-icon>
-        <mat-icon *ngIf="priorityColor=='Normal'" style="color: rgb(84, 165, 211);">flag</mat-icon>
-        <mat-icon *ngIf="priorityColor=='Clear'">flag</mat-icon>
-      </span>
-     <div class="icons-Assignee">
-        <mat-menu #menu="matMenu" >
-            <button mat-menu-item (click)="setPriority('Urgent')">
-              <mat-icon style="color: red;">flag</mat-icon>
-              <span>Urgent</span>
-            </button>
-            <button mat-menu-item (click)="setPriority('High')">
-              <mat-icon style="color: yellow;">flag</mat-icon>
-              <span>High</span>
-            </button>
-            <button mat-menu-item (click)="setPriority('Normal')">
-              <mat-icon style="color: rgb(36, 152, 184);">flag</mat-icon>
-              <span>Normal</span>
-            </button>
-            <button mat-menu-item (click)="setPriority('Low')">
-              <mat-icon style="color: rgb(168, 169, 168);">flag</mat-icon>
-              <span>Low</span>
-            </button>
-            <button mat-menu-item (click)="setPriority('Clear')">
-              <mat-icon>clear</mat-icon>
-              <span>Clear</span>
-            </button>
-          </mat-menu>
-      
-          <mat-chip color="accent" id="assignedby">Assigned by {{user}}</mat-chip>
-      
-     </div>
-      <!-- <button mat-raised-button matTooltip="Info about the action"
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="startDate" [min]="currentDate"
+          (dateInput)="setDate()">
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Due Date</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="dueDate" [min]="createDate">
+        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Assigned to</mat-label>
+        <mat-select formControlName="members" multiple>
+          <mat-select-trigger>
+            {{members?.value|| ''}}
+          </mat-select-trigger>
+          <mat-option *ngFor="let member of membersList" [value]="member">{{member}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <span mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="priority"
+      matTooltip="Priority">
+      <span>Priority: </span>
+      <mat-icon *ngIf="priorityColor=='Urgent'" style="color: red;">flag</mat-icon>
+      <mat-icon *ngIf="priorityColor=='High'" style="color: rgb(217, 217, 77);">flag</mat-icon>
+      <mat-icon *ngIf="priorityColor=='Low'" style="color: rgb(168, 169, 168);">flag</mat-icon>
+      <mat-icon *ngIf="priorityColor=='Normal'" style="color: rgb(84, 165, 211);">flag</mat-icon>
+      <mat-icon *ngIf="priorityColor=='Clear'">flag</mat-icon>
+    </span>
+    <div class="icons-Assignee">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="setPriority('Urgent')">
+          <mat-icon style="color: red;">flag</mat-icon>
+          <span>Urgent</span>
+        </button>
+        <button mat-menu-item (click)="setPriority('High')">
+          <mat-icon style="color: yellow;">flag</mat-icon>
+          <span>High</span>
+        </button>
+        <button mat-menu-item (click)="setPriority('Normal')">
+          <mat-icon style="color: rgb(36, 152, 184);">flag</mat-icon>
+          <span>Normal</span>
+        </button>
+        <button mat-menu-item (click)="setPriority('Low')">
+          <mat-icon style="color: rgb(168, 169, 168);">flag</mat-icon>
+          <span>Low</span>
+        </button>
+        <button mat-menu-item (click)="setPriority('Clear')">
+          <mat-icon>clear</mat-icon>
+          <span>Clear</span>
+        </button>
+      </mat-menu>
+
+      <mat-chip color="accent" id="assignedby">Assigned by {{user}}</mat-chip>
+
+    </div>
+    <!-- <button mat-raised-button matTooltip="Info about the action"
         aria-label="Button that displays a tooltip when focused or hovered over">
         Assigned by {{user}}
       </button> -->
-  
-      <button class="addButton"(click)="onClose()" mat-raised-button color="accent" [disabled]="!AddTask.valid" type="submit">Add</button>
 
-  
-    </form>
-  
+    <button mat-dialog-close class="addButton" (click)="onClose()" mat-raised-button color="accent"
+      [disabled]="!AddTask.valid" type="submit">Add</button>
+
+
+  </form>
+
 </mat-card>

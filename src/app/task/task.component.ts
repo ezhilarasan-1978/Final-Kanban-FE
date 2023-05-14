@@ -12,21 +12,32 @@ import { ProjectService } from '../service/project.service';
 })
 export class TaskComponent implements OnInit {
 
-  
-  priorityColor:any;
-  constructor(private fb: FormBuilder, private routing:Router, private projectService:ProjectService) { }
+
+  priorityColor: any;
+  constructor(private fb: FormBuilder, private routing: Router, private projectService: ProjectService) { }
   ngOnInit(): void {
     this.setPriority("Clear");
   }
 
-  public currentDate: Date = new Date(); 
-  createDate:any;
-  user:any=localStorage.getItem("currentUser");
+  public currentDate: Date = new Date();
+  createDate: any;
+  user: any = localStorage.getItem("currentUser");
 
 
-  setDate(){
-    // console.log(this.startDate?.value)
-    this.createDate = this.startDate?.value?.slice(0,10);
+  setDate() {
+    console.log(this.startDate!.value)
+    this.createDate = this.startDate?.value
+    console.log(typeof (this.createDate));
+    
+    let hoursDiff = this.createDate.getHours() - this.createDate.getTimezoneOffset() / 60;
+    let minutesDiff = (this.createDate.getHours() - this.createDate.getTimezoneOffset()) % 60;
+    this.createDate.setHours(hoursDiff);
+    this.createDate.setMinutes(minutesDiff);
+
+    console.log(JSON.stringify(this.createDate));
+    this.createDate = JSON.stringify(this.createDate)
+    this.createDate = this.createDate.slice(1, 11)
+    console.log(this.createDate);
 
 
   }
@@ -40,9 +51,9 @@ export class TaskComponent implements OnInit {
     members: [[]]
   })
 
-   membersList: string[] = ['Priyanshu','Ezhil','Mahek']; //list of registered users - user 
+  membersList: string[] = ['Priyanshu', 'Ezhil', 'Mahek']; //list of registered users - user 
 
- 
+
   get taskName() { return this.AddTask.get("taskName") }
 
   get taskContent() { return this.AddTask.get("taskContent") }
@@ -53,13 +64,13 @@ export class TaskComponent implements OnInit {
 
   get dueDate() { return this.AddTask.get("dueDate") }
 
-  get members() { return this.AddTask.get("members") } 
+  get members() { return this.AddTask.get("members") }
 
-  setPriority(colorCode:any){
-    this.priorityColor=colorCode;
+  setPriority(colorCode: any) {
+    this.priorityColor = colorCode;
   }
 
-  onSubmit() { 
+  onSubmit() {
 
 
     const task: any = {
@@ -72,20 +83,20 @@ export class TaskComponent implements OnInit {
       members: this.members?.value
     };
     this.projectService.addNewTask(task).subscribe(
-      repsonse=> 
-      {
+      repsonse => {
         console.log(repsonse)
         // this.AddTask.reset();
       }
       ,
-      error=> console.log(error)
-      
+      error => console.log(error)
+
     );
+    this.onClose()
   }
 
-  onClose(){
+  onClose() {
     // this.AddTask.reset();
-    this.routing.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+    this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.routing.navigate(['/boardView']);
     });
   }

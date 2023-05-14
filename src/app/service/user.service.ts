@@ -32,10 +32,15 @@ export class UserService {
     return this.httpClient.get(this.baseUrl+"/findUser/"+`${name}`);
   }
 
+  // getProjectList(){
+  //   const headers = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("jwt")}` })
+
+  //   return this.httpClient.get(this.baseurl2+"projectList", {headers})
+  // }
   getProjectList(){
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("jwt")}` })
 
-    return this.httpClient.get(this.baseurl2+"projectList", {headers})
+    return this.httpClient.get(this.baseurl2+"details", {headers})
   }
   
   deleteProject(projectName:string){
