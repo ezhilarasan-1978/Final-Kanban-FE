@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProjectComponent } from '../project/project.component';
 import { TaskComponent } from '../task/task.component';
 import { MatSidenav } from '@angular/material/sidenav';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -25,48 +26,49 @@ export class BoardViewComponent implements OnInit {
   projectList: any;
   // ---------------------------------------------
   constructor(private projectService: ProjectService,
+      private http:HttpClient
+    ,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
-    // let val=this.projectService.getProjectName();
-    // if(val==null){
-    //   this.user.getProjectList().subscribe(
-    //     response=>{
-    //       this.projectList=response;
-    //       val=this.projectList[0];
-    //       this.projectService.setProjectName(val);
-    //     //  -----------------------
-    //     this.projectService.getProject(val).subscribe(
-    //       response=>{ 
-    //         this.projectDetails=response;
-    //         console.log("second service");
-    //       },
-    //       error=>alert("There was error fetching Project Details")    
-    //     )
-    //     // -----
-    //     },
-    //     error=>{console.log(error);
-    //     }
-    //   );
-    // }else{
-    //   this.projectService.getProject(val).subscribe(
-    //     response=>{ 
-    //       this.projectDetails=response;
-    //       console.log("second service");
-    //     },
-    //     error=>alert("There was error fetching Project Details")    
-    //   )
-    // }
     let val = this.projectService.getProjectName();
 
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
         if (val == null) {
-          console.log("test");
-          val = this.projectList.projectList[0];
-          console.log(val);
+          
+          if(this.projectList.projectList.length!==0){
+
+            val = this.projectList.projectList[0];
+          }
+          // --------------------------
+         
+            const project: Project = {
+              name:"Project1",
+              members: [this.user.currentUser],
+              columns: {}  
+            };
+          this.projectService.addNewProject(project).subscribe(
+  
+            response=> {console.log(response);
+            
+                
+                this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.user.currentUser}/${project.name}`).subscribe(
+                 
+                response => console.log(response));
+  
+              },
+            
+            
+            error=>{
+             this.openSnackBar(`Project with name ${project.name} already exist`, "OK"); 
+            }
+          )
+
+          //--------
+          
         }
         this.projectService.setProjectName(val);
         this.projectService.getProject(val).subscribe(
@@ -266,7 +268,6 @@ export class BoardViewComponent implements OnInit {
     // this.routing.navigate(['/project']);
   }
 
-  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   show: boolean = false;
   load(date: any) { return date?.slice(8, 10); }
 
@@ -289,6 +290,7 @@ export class BoardViewComponent implements OnInit {
 
   @ViewChild('sidenav', { static: true }) sidenav!: MatSidenav;
   toggleSidenav() {
+    alert("this is the side nav")
     this.sidenav.toggle();
   }
   callMethods() {

@@ -109,7 +109,6 @@ export class ProjectComponent {
 
   addProject() {
 
-    console.log("This is the current user"+this.user.currentUser);
     
     if(this.members.value.length===0){
   

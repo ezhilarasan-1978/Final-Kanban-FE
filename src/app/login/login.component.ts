@@ -34,7 +34,6 @@ export class LoginComponent {
     this.userService.loginUser(this.loginForm.value).subscribe( response=>{
       this.responsedata=response;
       localStorage.setItem("jwt", this.responsedata.Token);
-      console.log(response);
 
       this.loginStatus=false;
 
@@ -43,7 +42,6 @@ export class LoginComponent {
       localStorage.setItem("currentUser", this.loginForm.get('userName').value)
        
       this.userService.setUser(this.loginForm.get('userName').value);   
-      alert(this.loginForm.get('userName').value)   
       this.router.navigate(['/boardView']);
   
     }, error=> {
