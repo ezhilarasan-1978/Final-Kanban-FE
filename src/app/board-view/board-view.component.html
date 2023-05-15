@@ -1,4 +1,3 @@
-<body>
   <div class="parent">
     <mat-sidenav-container class="example-container-nav">
       <mat-sidenav #sidenav mode="side" opened id="side-nav">
@@ -21,9 +20,19 @@
 
       <mat-sidenav-content>
         <div *ngIf="projectList.projectList.length==0">Project list is empty create a new one</div>
-        <button mat-icon-button (click)="toggleSidenav()"><mat-icon>menu</mat-icon></button>
-        <button mat-icon-button (click)="sortName()"><mat-icon>sort</mat-icon></button>
-        <button mat-icon-button (click)="sortPriority()"><mat-icon>sort</mat-icon></button>
+        <button mat-icon-button (click)="toggleSidenav()" class="nav"><mat-icon>menu</mat-icon></button>
+        <mat-form-field class="example-form-field" appearance="outline">
+          <input matInput type="text" [(ngModel)]="searchText" placeholder="Search...">
+          <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="search()">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
+        <button mat-icon-button (click)="sortPriority()"  matTooltip="Sort by Priority" class="icn"><img src="../../assets/Arrow.png"></button>
 
         <div cdkDropListGroup class="kanban-main">
           <div *ngFor="let columnName of getColumnNames()" class="example-container">
@@ -74,4 +83,3 @@
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>
-</body>

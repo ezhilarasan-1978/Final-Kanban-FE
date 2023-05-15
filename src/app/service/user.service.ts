@@ -11,6 +11,7 @@ export class UserService {
   currentUser:any;
 
   setUser(name:any){
+    alert(name);
     this.currentUser=name;
   }
   getUser(){

@@ -109,16 +109,17 @@ export class ProjectComponent {
 
   addProject() {
 
-    console.log("This is the current user"+this.currentUserName);
+    console.log("This is the current user"+this.user.currentUser);
     
-    if(this.members.value.length==0){
+    if(this.members.value.length===0){
   
-      this.members.value.push(this.currentUserName);
+      this.members.value.push(this.user.currentUser);
     }
 
-    if(!this.members.value.includes(this.currentUserName)){
+    if(!this.members.value.includes(this.user.currentUser)){
   
-      this.members.value.push(this.currentUserName);
+      this.members.value.push(this.user.currentUser);
+
     }
 
     //  ---------------------------------------------------------------------------
@@ -147,7 +148,9 @@ export class ProjectComponent {
               response => console.log(response));
 
             this.openSnackBar("Project added Successfuly", "OK");   
-            this.routes.navigate(['/boardView']);
+            this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.routes.navigate(['/boardView']);
+            });
             }
           },
           error=>{

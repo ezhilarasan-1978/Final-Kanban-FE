@@ -82,6 +82,51 @@ export class BoardViewComponent implements OnInit {
     );
   }
 
+  searchText: string = '';
+  clearSearch(){
+    this.searchText=''; 
+  }
+  search() {
+    if (this.searchText == '') {
+      let val = this.projectService.getProjectName();
+      this.user.getProjectList().subscribe(
+        response => {
+          this.projectList = response;
+          if (val == null) {
+            console.log("test");
+            val = this.projectList.projectList[0];
+            console.log(val);
+          }
+          this.projectService.setProjectName(val);
+          this.projectService.getProject(val).subscribe(
+            response => {
+              this.projectDetails = response;
+            },
+            error => alert("There was error fetching Project Details")
+          )
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+    }
+    else {
+      for (let col of Object.entries(this.projectDetails.columns)) {
+        let [name, arr] = col as any;
+        console.log(name);
+        arr = arr.filter((task: Task) => {
+          return task.name.startsWith(this.searchText)
+          //  return task.name.toLowerCase().includes(this.searchText)
+        })
+        console.log(arr);
+        this.projectDetails.columns[name]=arr
+        console.log(this.projectDetails.columns[name]);
+      }
+    }
+    console.log(this.projectDetails.columns);
+  }
+
   // ----Array of arrays for the task;
 
   drop(event: CdkDragDrop<Task[]>) {

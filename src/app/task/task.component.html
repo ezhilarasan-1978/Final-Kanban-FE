@@ -59,7 +59,7 @@
           <mat-select-trigger>
             {{members?.value|| ''}}
           </mat-select-trigger>
-          <mat-option *ngFor="let member of membersList" [value]="member">{{member}}</mat-option>
+          <mat-option *ngFor="let member of projectMembers" [value]="member">{{member}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

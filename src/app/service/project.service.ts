@@ -26,7 +26,7 @@ export class ProjectService {
   }
 
   getProject(projectName:any){
-    return this.httpClient.get(this.baseurl+projectName)
+    return this.httpClient.get(this.baseurl+projectName);
   }
 
   updateProject(project:Project){

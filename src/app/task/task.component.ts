@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Task } from 'src/assets/Project';
 import { Router } from '@angular/router';
 import { ProjectService } from '../service/project.service';
 
@@ -12,15 +11,23 @@ import { ProjectService } from '../service/project.service';
 })
 export class TaskComponent implements OnInit {
 
-
   priorityColor: any;
+
+  projectMembers:string[]=[];
+
+  project:any;
+
   constructor(private fb: FormBuilder, private routing: Router, private projectService: ProjectService) { }
   ngOnInit(): void {
     this.setPriority("Clear");
+    this.projectService.getProject(this.projectService.projectName).subscribe(data => {this.project = data;  this.projectMembers=this.project.members});
+   
   }
+  membersList:string[]=[];
 
   public currentDate: Date = new Date();
   createDate: any;
+  deadline:any;
   user: any = localStorage.getItem("currentUser");
 
 
@@ -39,6 +46,23 @@ export class TaskComponent implements OnInit {
     this.createDate = this.createDate.slice(1, 11)
     console.log(this.createDate);
 
+  }
+
+
+  setDueDate(){
+    // console.log(this.startDate!.value)
+    this.deadline = this.dueDate?.value
+    // console.log(typeof (this.createDate));
+    
+    let hoursDiff = this.deadline.getHours() - this.deadline.getTimezoneOffset() / 60;
+    let minutesDiff = (this.deadline.getHours() - this.deadline.getTimezoneOffset()) % 60;
+    this.deadline.setHours(hoursDiff);
+    this.deadline.setMinutes(minutesDiff);
+
+    // console.log(JSON.stringify(this.createDate));
+    this.deadline = JSON.stringify(this.deadline)
+    this.deadline = this.deadline.slice(1, 11)
+    // console.log(this.createDate);
 
   }
 
@@ -50,9 +74,6 @@ export class TaskComponent implements OnInit {
     dueDate: [''],
     members: [[]]
   })
-
-  membersList: string[] = ['Priyanshu', 'Ezhil', 'Mahek']; //list of registered users - user 
-
 
   get taskName() { return this.AddTask.get("taskName") }
 
@@ -71,14 +92,22 @@ export class TaskComponent implements OnInit {
   }
 
   onSubmit() {
+    this.deadline = this.dueDate?.value
+       
+    let hoursDiff = this.deadline.getHours() - this.deadline.getTimezoneOffset() / 60;
+    let minutesDiff = (this.deadline.getHours() - this.deadline.getTimezoneOffset()) % 60;
+    this.deadline.setHours(hoursDiff);
+    this.deadline.setMinutes(minutesDiff);
 
+    this.deadline = JSON.stringify(this.deadline)
+    this.deadline = this.deadline.slice(1, 11);
 
-    const task: any = {
+      const task: any = {
       name: this.taskName?.value,
       content: this.taskContent?.value,
       priority: this.priorityColor,
       createDate: this.createDate,
-      deadline: this.dueDate?.value,
+      deadline: this.deadline,
       assignee: this.user,
       members: this.members?.value
     };
