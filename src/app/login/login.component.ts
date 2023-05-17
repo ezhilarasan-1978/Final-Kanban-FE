@@ -21,6 +21,8 @@ export class LoginComponent {
 
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+  hide = true;
+
   ngOnInit() {
     
     this.loginForm = new FormGroup({
@@ -29,8 +31,24 @@ export class LoginComponent {
     });
   }
 
+  speak(){
+  const speak = new SpeechSynthesisUtterance(`Welcome ${this.loginForm.get('userName').value}`);
+    speak.rate=0.8;
+    window.speechSynthesis.speak(speak);
+  }
+  
+  type: string = "password";
+  isText: boolean = false;
+  eyeIcon: string = "fa-eye-slash";
+
+  change() {
+    this.isText = !this.isText;
+    this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
+    this.isText ? this.type = "text" : this.type = "password";
+  }
+
   responsedata:any;
-  loginCustomer() {
+  loginCustomer() {   
     this.userService.loginUser(this.loginForm.value).subscribe( response=>{
       this.responsedata=response;
       localStorage.setItem("jwt", this.responsedata.Token);
@@ -40,8 +58,9 @@ export class LoginComponent {
       this.openSnackBar("Your Login was successful", "Ok") 
       console.log(this.loginForm.get('userName').value);
       localStorage.setItem("currentUser", this.loginForm.get('userName').value)
-       
-      this.userService.setUser(this.loginForm.get('userName').value);   
+      
+      this.userService.setUser(this.loginForm.get('userName').value); 
+      this.speak();  
       this.router.navigate(['/boardView']);
   
     }, error=> {

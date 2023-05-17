@@ -19,8 +19,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
-
-
+  isSidenavOpen: boolean = true;
   projectDetails: any | Project;
   currentCardTaskStatus: any;
   projectList: any;
@@ -30,63 +29,44 @@ export class BoardViewComponent implements OnInit {
     ,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
 
-    let val = this.projectService.getProjectName();
-
-    this.user.getProjectList().subscribe(
-      response => {
-        this.projectList = response;
-        if (val == null) {
+      let val=this.projectService.getProjectName();
+    
+      this.user.getProjectList().subscribe(
+        response=>{
+            this.projectList=response;
           
-          if(this.projectList.projectList.length!==0){
-
-            val = this.projectList.projectList[0];
+          if(val === null || typeof val === 'undefined'){
+        
+            val=this.projectList.projectList[0];
           }
-          // --------------------------
-         
-            const project: Project = {
-              name:"Project1",
-              members: [this.user.currentUser],
-              columns: {}  
-            };
-          this.projectService.addNewProject(project).subscribe(
-  
-            response=> {console.log(response);
+            this.projectService.setProjectName(val);
             
-                
-                this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.user.currentUser}/${project.name}`).subscribe(
-                 
-                response => console.log(response));
-  
-              },
-            
-            
-            error=>{
-             this.openSnackBar(`Project with name ${project.name} already exist`, "OK"); 
-            }
+            this.projectService.getProject(val).subscribe(
+            response=>{ 
+              this.projectDetails=response;
+            },
+            error=>console.log("There was error fetching Project Details")    
           )
-
-          //--------
-          
-        }
-        this.projectService.setProjectName(val);
-        this.projectService.getProject(val).subscribe(
-          response => {
-            this.projectDetails = response;
           },
-          error => alert("There was error fetching Project Details")
-        )
-      },
-      error => {
-        console.log(error);
+          error=>{console.log(error);
+          }
+        );
+    
       }
-    );
-  }
+      
+      showL:boolean=false;
+
+      showList(){
+        this.showL = !this.showL;
+      }
+
 
   searchText: string = '';
   clearSearch(){
     this.searchText=''; 
+    this.search();
   }
   search() {
     if (this.searchText == '') {
@@ -119,7 +99,6 @@ export class BoardViewComponent implements OnInit {
         console.log(name);
         arr = arr.filter((task: Task) => {
           return task.name.startsWith(this.searchText)
-          //  return task.name.toLowerCase().includes(this.searchText)
         })
         console.log(arr);
         this.projectDetails.columns[name]=arr
@@ -129,7 +108,6 @@ export class BoardViewComponent implements OnInit {
     console.log(this.projectDetails.columns);
   }
 
-  // ----Array of arrays for the task;
 
   drop(event: CdkDragDrop<Task[]>) {
     this.getThePriorityTasks();
@@ -185,8 +163,12 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
+
   getColumnNames() {
-    return Object.keys(this.projectDetails.columns);
+    if (this.projectDetails && this.projectDetails.columns) {
+      return Object.keys(this.projectDetails.columns);
+    }
+    return [];
   }
 
   getColumnTasks(columnName: string) {
@@ -199,26 +181,17 @@ export class BoardViewComponent implements OnInit {
   }
 
   getThePriorityTasks() {
-    let high = 0;
     let urgent = 0;
-    let low = 0;
     for (let i = 0; i < this.projectDetails.columns["To Be Done"].length; i++) {
       if (this.projectDetails.columns["To Be Done"][i].priority == "Urgent") {
         urgent++;
       }
-      if (this.projectDetails.columns["To Be Done"][i].priority == "Low") {
-        low++;
-      }
-      if (this.projectDetails.columns["To Be Done"][i].priority == "High") {
-        high++;
-      }
     }
-    let sum = low + high;
-    if (urgent > sum && this.currentCardTaskStatus != "Urgent") {
-      sum = 0;
+    if (urgent > 5 && this.currentCardTaskStatus != "Urgent") {
+      urgent = 0;
       return true;
     } else {
-      sum = 0;
+      urgent = 0;
       return false;
     }
   }
@@ -289,9 +262,11 @@ export class BoardViewComponent implements OnInit {
   isShowing: boolean = false;
 
   @ViewChild('sidenav', { static: true }) sidenav!: MatSidenav;
+   
   toggleSidenav() {
-    alert("this is the side nav")
     this.sidenav.toggle();
+    this.isSidenavOpen = !this.isSidenavOpen;
+
   }
   callMethods() {
     this.toggleSidenav();

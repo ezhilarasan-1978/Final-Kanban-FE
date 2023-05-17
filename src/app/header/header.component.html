@@ -15,6 +15,11 @@
         <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
         KanBan-Board
       </a>
+      <div *ngIf="true" id="icon">
+        <span matTooltip="Log out"><i class="fa fa-sign-out"></i></span>
+        <span matTooltip="User"><i class="fa fa-solid fa-user"></i></span>
+        {{loggedUser}}
+      </div>
       <div>
         <!-- <a style="color: white; text-decoration: none; font-size: 1.2rem; margin: 10px;" routerLink="project">Project</a> -->
         <!-- <a style="color: white; text-decoration: none; font-size: 1.2rem;" routerLink="board">Board</a> -->

@@ -56,9 +56,23 @@
             <mat-icon>warning</mat-icon>UserName is Required
           </p>
         </div>
-        <mat-form-field appearance="outline">
+        <!-- <mat-form-field appearance="outline">
           <input matInput type="password" placeholder="Password" formControlName="password">
-        </mat-form-field>
+        </mat-form-field> -->
+
+        
+          <mat-form-field appearance="outline">
+            <!-- <span id="icon"><i class="fa fa-solid fa-lock fa-bounce"></i></span> -->
+            <span id="eyes" (click)="change()"><i class="fa {{eyeIcon}}"></i></span>
+            <input matInput [type]="type" placeholder="Password" formControlName="password">
+            <!-- <mat-error *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+              <mat-error *ngIf="password?.errors?.['required']">
+                Password is required
+              </mat-error>
+            </mat-error> -->
+          </mat-form-field>
+        
+
         <div *ngIf="loginForm.controls.password.dirty||loginForm.controls.password.touched">
           <p class="loginFormErrors" *ngIf="loginForm.get('password').hasError('required')">
             <mat-icon>warning</mat-icon>Password is required

@@ -1,7 +1,7 @@
 <mat-card>
   <mat-dialog-actions>
       <h2>Add Task</h2>
-      <button (click)="onClose()" mat-button id="close" matTooltip="Close">
+      <button mat-button mat-dialog-close id="close" matTooltip="Close">
         <mat-icon>clear</mat-icon>
       </button>
   </mat-dialog-actions>
@@ -64,6 +64,7 @@
       </mat-form-field>
     </div>
 
+    <div id="prty">
     <span mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="priority"
       matTooltip="Priority">
       <span>Priority: </span>
@@ -96,18 +97,12 @@
           <span>Clear</span>
         </button>
       </mat-menu>
-
-      <mat-chip color="accent" id="assignedby">Assigned by {{user}}</mat-chip>
-
     </div>
-    <!-- <button mat-raised-button matTooltip="Info about the action"
-        aria-label="Button that displays a tooltip when focused or hovered over">
-        Assigned by {{user}}
-      </button> -->
+  </div>
+    <mat-chip color="accent" id="assignedby">Assigned by {{user}}</mat-chip>
 
-    <button mat-dialog-close class="addButton" (click)="onClose()" mat-raised-button color="accent"
+    <button class="addButton" mat-dialog-close mat-raised-button color="accent"
       [disabled]="!AddTask.valid" type="submit">Add</button>
-
 
   </form>
 

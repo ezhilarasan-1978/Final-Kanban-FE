@@ -13,21 +13,21 @@ export class TaskComponent implements OnInit {
 
   priorityColor: any;
 
-  projectMembers:string[]=[];
+  projectMembers: string[] = [];
 
-  project:any;
+  project: any;
 
   constructor(private fb: FormBuilder, private routing: Router, private projectService: ProjectService) { }
   ngOnInit(): void {
     this.setPriority("Clear");
-    this.projectService.getProject(this.projectService.projectName).subscribe(data => {this.project = data;  this.projectMembers=this.project.members});
-   
+    this.projectService.getProject(this.projectService.projectName).subscribe(data => { this.project = data; this.projectMembers = this.project.members });
+
   }
-  membersList:string[]=[];
+  membersList: string[] = [];
 
   public currentDate: Date = new Date();
   createDate: any;
-  deadline:any;
+  deadline: any;
   user: any = localStorage.getItem("currentUser");
 
 
@@ -35,7 +35,7 @@ export class TaskComponent implements OnInit {
     console.log(this.startDate!.value)
     this.createDate = this.startDate?.value
     console.log(typeof (this.createDate));
-    
+
     let hoursDiff = this.createDate.getHours() - this.createDate.getTimezoneOffset() / 60;
     let minutesDiff = (this.createDate.getHours() - this.createDate.getTimezoneOffset()) % 60;
     this.createDate.setHours(hoursDiff);
@@ -48,23 +48,6 @@ export class TaskComponent implements OnInit {
 
   }
 
-
-  setDueDate(){
-    // console.log(this.startDate!.value)
-    this.deadline = this.dueDate?.value
-    // console.log(typeof (this.createDate));
-    
-    let hoursDiff = this.deadline.getHours() - this.deadline.getTimezoneOffset() / 60;
-    let minutesDiff = (this.deadline.getHours() - this.deadline.getTimezoneOffset()) % 60;
-    this.deadline.setHours(hoursDiff);
-    this.deadline.setMinutes(minutesDiff);
-
-    // console.log(JSON.stringify(this.createDate));
-    this.deadline = JSON.stringify(this.deadline)
-    this.deadline = this.deadline.slice(1, 11)
-    // console.log(this.createDate);
-
-  }
 
   AddTask = this.fb.group({
     taskName: ['', Validators.required],
@@ -93,7 +76,7 @@ export class TaskComponent implements OnInit {
 
   onSubmit() {
     this.deadline = this.dueDate?.value
-       
+
     let hoursDiff = this.deadline.getHours() - this.deadline.getTimezoneOffset() / 60;
     let minutesDiff = (this.deadline.getHours() - this.deadline.getTimezoneOffset()) % 60;
     this.deadline.setHours(hoursDiff);
@@ -102,7 +85,7 @@ export class TaskComponent implements OnInit {
     this.deadline = JSON.stringify(this.deadline)
     this.deadline = this.deadline.slice(1, 11);
 
-      const task: any = {
+    const task: any = {
       name: this.taskName?.value,
       content: this.taskContent?.value,
       priority: this.priorityColor,
@@ -114,19 +97,15 @@ export class TaskComponent implements OnInit {
     this.projectService.addNewTask(task).subscribe(
       repsonse => {
         console.log(repsonse)
-        // this.AddTask.reset();
-      }
-      ,
+      },
       error => console.log(error)
-
     );
     this.onClose()
   }
 
   onClose() {
-    // this.AddTask.reset();
     this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.routing.navigate(['/boardView']);
+    this.routing.navigate(['/boardView']);
     });
   }
 }

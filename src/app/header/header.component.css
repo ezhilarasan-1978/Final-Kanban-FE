@@ -21,6 +21,16 @@
     /* background-color:#171717!important; */
     opacity: 0.9;
 }
+#icon{
+    color: white;
+    margin-top: -5px;
+    font-size:18px;
+    margin-left: 670px;
+}
+span{
+padding: 10px;
+cursor: pointer;
+}
 .navbar-brand{
 
     margin: 0px 15px;

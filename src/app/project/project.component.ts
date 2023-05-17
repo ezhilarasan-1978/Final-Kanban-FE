@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProjectComponent {
 
+
   projectForm:any| FormGroup;
 
   projectList:any;
@@ -170,6 +171,4 @@ export class ProjectComponent {
       this.routes.navigate(['/boardView'] );
     }
 // ----------------------------
-
-}
-
+  }

@@ -111,6 +111,11 @@
     margin-top: 20px;
     z-index: 1;
   }
+
+  #eyes{
+    position: absolute;
+    left: 400px;
+}
   
   .example-form {
     min-width: 150px;
