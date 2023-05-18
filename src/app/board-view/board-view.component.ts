@@ -58,6 +58,15 @@ export class BoardViewComponent implements OnInit {
               this.notifications=response;
               console.log(this.notifications);
               console.log(this.notifications.notificationMessage);
+              console.log(Array.from(this.notifications.notificationMessage));
+              console.log(this.user.getUser());
+              for (let obj of Object.entries(this.notifications.notificationMessage)) {
+                let [msg, flag] = obj as any;
+                console.log(msg);
+                console.log(flag);
+              }
+              
+
             },
             error=>{
               alert("Failed to get notification")
@@ -173,6 +182,26 @@ export class BoardViewComponent implements OnInit {
       )
       console.log(arr);
     }
+  }
+  readAll(){
+    this.noti.readAllNotifications().subscribe(
+      response=>{
+        console.log("Read all msgs");
+      },
+      error=>{
+        alert("Read Notifications Failed")
+      }
+    )
+  }
+  readMsg(msg:any){
+    this.noti.readNotifications(msg).subscribe(
+      response=>{
+        console.log("Read msgs");
+      },
+      error=>{
+        alert("Read Notification Failed")
+      }
+    )
   }
 
   getColumnNames() {

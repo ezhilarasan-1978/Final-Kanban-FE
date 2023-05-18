@@ -7,10 +7,15 @@ import { UserService } from './user.service';
 })
 export class NotificationService {
 
-  constructor(private httpClient:HttpClient,private user:UserService) { }
-   url='http://localhost:8090/api/v1/notifications/Priyanshu';
+  constructor(private httpClient: HttpClient, private user: UserService) { }
 
-   getNotification(){
-    return this.httpClient.get('http://localhost:8090/api/v1/notifications/'+localStorage.getItem('currentUser'));
+  getNotification() {
+    return this.httpClient.get('http://localhost:8090/api/v1/notifications/' + localStorage.getItem('currentUser'));
+  }
+  readAllNotifications(){
+    return this.httpClient.get('http://localhost:8090/api/v1/notifications/allRead/' + localStorage.getItem('currentUser'));
+  }
+  readNotifications(msg:any){
+    return this.httpClient.get(`http://localhost:8090/api/v1/notifications/read/${localStorage.getItem('currentUser')}/${msg}`);
   }
 }
