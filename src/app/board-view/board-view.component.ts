@@ -67,7 +67,7 @@ export class BoardViewComponent implements OnInit {
     
       }
       
-      showL:boolean=false;
+      showL:boolean=true;
 
       showList(){
         this.showL = !this.showL;
@@ -211,11 +211,14 @@ export class BoardViewComponent implements OnInit {
     this.currentCardTaskStatus = task.priority;
   }
 
-  deleteProject() {
-    this.user.deleteProject(this.projectDetails.name).subscribe(
+  deleteProject(project:any) {
+    this.user.deleteProject(project).subscribe(
       response => { 
         // this.projectList.projectList=this.projectList.projectList
         this.openSnackBar("The project was deleted Successfully", "OK") 
+        this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.routing.navigate(['/boardView']);
+        });
       },
       error => {
         this.openSnackBar("There wad error deleting the project", "OK")

@@ -24,7 +24,8 @@ export class LoginComponent {
   hide = true;
 
   ngOnInit() {
-    
+    this.loginStatus = this.authService.getLoginStatus();
+    alert(`ngOnInit msg ${this.authService.getLoginStatus()}`);
     this.loginForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required)
@@ -53,13 +54,15 @@ export class LoginComponent {
       this.responsedata=response;
       localStorage.setItem("jwt", this.responsedata.Token);
 
-      this.loginStatus=false;
+      // this.loginStatus=false;
 
       this.openSnackBar("Your Login was successful", "Ok") 
       console.log(this.loginForm.get('userName').value);
       localStorage.setItem("currentUser", this.loginForm.get('userName').value)
       
       this.userService.setUser(this.loginForm.get('userName').value); 
+      this.authService.setLoginStatus();
+      // this.loginStatus = true;
       this.speak();  
       this.router.navigate(['/boardView']);
   
@@ -69,11 +72,15 @@ export class LoginComponent {
 
     })
   }
-  logout(){
-
+  logout(){   
+    alert("logout");
+    this.authService.setLogOutStatus();
     this.loginForm.reset();
-    this.loginStatus=true;
-  }
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/login']);
+  })
+}
+
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action,{duration:1000});
   }

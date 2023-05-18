@@ -14,7 +14,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProjectComponent {
 
-
   projectForm:any| FormGroup;
 
   projectList:any;
@@ -110,14 +109,13 @@ export class ProjectComponent {
 
   addProject() {
 
-    
     if(this.members.value.length===0){
-  
+      alert(this.user.currentUser)
       this.members.value.push(this.user.currentUser);
     }
 
     if(!this.members.value.includes(this.user.currentUser)){
-  
+      alert(this.user.currentUser)
       this.members.value.push(this.user.currentUser);
 
     }

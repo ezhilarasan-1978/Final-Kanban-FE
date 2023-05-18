@@ -78,7 +78,7 @@
             <mat-icon>warning</mat-icon>Password is required
           </p>
         </div>
-        <ng-container *ngIf="loginStatus; else loginBlock">
+        <ng-container *ngIf="!loginStatus; else loginBlock">
           <button class="login" [disabled]="formData.invalid" mat-raised-button color="accent" type="submit">Login</button>
         </ng-container>
         <ng-template #loginBlock>
