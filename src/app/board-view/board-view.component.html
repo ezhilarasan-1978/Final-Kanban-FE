@@ -14,6 +14,17 @@
             <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project}}</div>
         </div>
       </div>
+      <!-- <div class="firstCard">
+        <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
+        <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
+          <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
+            <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project}}        
+             <button class="deleteIcon" (click)="deleteProject(project)" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+              <mat-icon>delete</mat-icon>
+            </button> 
+          </div>
+        </div>
+      </div> -->
 
     </mat-sidenav>
 
@@ -36,8 +47,36 @@
       <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
           src="../../assets/Arrow.png"></button> -->
 
-          <button mat-icon-button (click)="toggleSidenav()" class="nav"><mat-icon>menu</mat-icon></button>
-      <mat-card class="barCard">
+          <!-- <button mat-icon-button (click)="toggleSidenav()" class="navT"><mat-icon>menu</mat-icon></button> -->
+          <div class="nav">
+            <input type="checkbox" id="nav-check">
+            <div class="nav-header">
+              <button mat-icon-button (click)="toggleSidenav()" class="navT"><mat-icon>menu</mat-icon></button>
+              <div class="nav-title">
+                <mat-form-field class="example-form-field" appearance="outline">
+                  <span id="icon"><mat-icon>search</mat-icon></span>
+                  <input id="search"  matInput type="text"  (input)="search()" [(ngModel)]="searchText" placeholder="Search...">
+                  <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (keyup)="clearSearch()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="nav-btn">
+              <label for="nav-check">
+                <span></span>
+                <span></span>
+                <span></span>
+              </label>
+            </div>
+            
+            <div class="nav-links">
+              <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
+              <button mat-icon-button (click)="sortPriority()"  matTooltip="Sort by Priority" class="icn"><img src="../../assets/Arrow.png"></button>
+          </div>
+          </div>     
+     
+          <!-- <mat-card class="barCard">
         <div *ngIf="projectList.projectList.length==0">Project list is empty create a new one</div>
         <mat-form-field class="example-form-field" appearance="outline">
           <span id="icon"><mat-icon>search</mat-icon></span>
@@ -52,7 +91,7 @@
           <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
           <button mat-icon-button (click)="sortPriority()"  matTooltip="Sort by Priority" class="icn"><img src="../../assets/Arrow.png"></button>
         </div>
-      </mat-card> 
+      </mat-card>  -->
 
       <div cdkDropListGroup class="kanban-main">
         <div *ngFor="let columnName of getColumnNames()" class="example-container">
@@ -70,7 +109,7 @@
                   <div class="box">
                     <div class="icons">
                         <div *ngFor="let name of task.members" class="icon">
-                            <div class="circle">{{name.charAt(0)}}</div>
+                            <div class="circle" matTooltip="{{name}}">{{name.charAt(0)}}</div>
                         </div>
                     </div>
                 </div>
@@ -110,3 +149,7 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 <!-- </div> -->
+
+
+
+
