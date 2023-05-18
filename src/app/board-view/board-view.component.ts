@@ -11,6 +11,7 @@ import { ProjectComponent } from '../project/project.component';
 import { TaskComponent } from '../task/task.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { HttpClient } from '@angular/common/http';
+import { NotificationService } from '../service/notification.service';
 
 
 @Component({
@@ -24,15 +25,14 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus: any;
   projectList: any;
   // ---------------------------------------------
-  constructor(private projectService: ProjectService,
-      private http:HttpClient
-    ,
+  constructor(private projectService: ProjectService,private http:HttpClient,private noti:NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
+    notifications:any;
 
     ngOnInit(): void {
 
       let val=this.projectService.getProjectName();
-    
+
       this.user.getProjectList().subscribe(
         response=>{
             this.projectList=response;
@@ -53,6 +53,17 @@ export class BoardViewComponent implements OnInit {
           error=>{console.log(error);
           }
         );
+          this.noti.getNotification().subscribe(
+            response=>{
+              this.notifications=response;
+              console.log(this.notifications);
+              console.log(this.notifications.notificationMessage);
+            },
+            error=>{
+              alert("Failed to get notification")
+            }
+          )
+
     
       }
       
