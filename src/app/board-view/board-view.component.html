@@ -75,8 +75,8 @@
         <button mat-button [matMenuTriggerFor]="menu" class="icn"><i class="fa fa-bell"
             style="font-size:18px;"></i></button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let msg of notifications.notificationMessage | keyvalue" (click)="readMsg(msg.key)">{{msg.key}}</button>
-          <button mat-menu-item (click)="readAll()">Read All</button>
+          <button mat-menu-item *ngFor="let msg of notifications.notificationMessage | keyvalue" (click)="readMsg(msg.key)"[ngClass]="seenUnseen(msg.value)">{{msg.key}}</button>
+          <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
         </mat-menu>
         <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
             class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>

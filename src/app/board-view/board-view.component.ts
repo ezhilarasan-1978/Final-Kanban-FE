@@ -345,4 +345,12 @@ export class BoardViewComponent implements OnInit {
     }
     return 'projectButton'
   }
+  seenUnseen(flag:any):string{
+    if(flag==false){
+      return 'notiSeen';
+    }
+    else{
+      return 'notiUnSeen'
+    }
+  }
 }
