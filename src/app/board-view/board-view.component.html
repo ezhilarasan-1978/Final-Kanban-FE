@@ -7,14 +7,14 @@
       <button mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
         Task</button>
 
-      <div class="firstCard">
+      <!-- <div class="firstCard">
         <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
         <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
           <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
             <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project}}</div>
         </div>
-      </div>
-      <!-- <div class="firstCard">
+      </div> -->
+      <div class="firstCard">
         <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
         <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
           <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
@@ -24,7 +24,7 @@
             </button> 
           </div>
         </div>
-      </div> -->
+      </div>
 
     </mat-sidenav>
 
@@ -62,15 +62,15 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="nav-btn">
+            <!-- <div class="nav-btn">
               <label for="nav-check">
                 <span></span>
                 <span></span>
                 <span></span>
               </label>
-            </div>
+            </div> -->
             
-            <div class="nav-links">
+            <div>
               <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
               <button mat-icon-button (click)="sortPriority()"  matTooltip="Sort by Priority" class="icn"><img src="../../assets/Arrow.png"></button>
           </div>
