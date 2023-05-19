@@ -53,25 +53,23 @@ export class BoardViewComponent implements OnInit {
           error=>{console.log(error);
           }
         );
-          this.noti.getNotification().subscribe(
-            response=>{
-              this.notifications=response;
-              console.log(this.notifications);
-              console.log(this.notifications.notificationMessage);
-              console.log(Array.from(this.notifications.notificationMessage));
-              console.log(this.user.getUser());
-              for (let obj of Object.entries(this.notifications.notificationMessage)) {
-                let [msg, flag] = obj as any;
-                console.log(msg);
-                console.log(flag);
-              }
-              
-
-            },
-            error=>{
-              alert("Failed to get notification")
-            }
-          )
+        this.notifications.notificationMessage={
+          'No new Notification':true
+        }
+        console.log(this.notifications);
+        
+        // this.noti.getNotification().subscribe(
+        //   response=>{
+        //     this.notifications=response;
+        //     for (let obj of Object.entries(this.notifications.notificationMessage)) {
+        //       let [msg, flag] = obj as any;            
+        //     }
+        //   },
+        //   error=>{
+        //     alert("Failed to get notification")
+            
+        //   }
+        // )
 
     
       }
@@ -182,6 +180,27 @@ export class BoardViewComponent implements OnInit {
       )
       console.log(arr);
     }
+  }
+  getNotification(){
+    this.noti.getNotification().subscribe(
+      response=>{
+        this.notifications=response;
+        console.log(this.notifications);
+        console.log(this.notifications.notificationMessage);
+        console.log(Array.from(this.notifications.notificationMessage));
+        console.log(this.user.getUser());
+        for (let obj of Object.entries(this.notifications.notificationMessage)) {
+          let [msg, flag] = obj as any;
+          console.log(msg);
+          console.log(flag);
+        }
+        
+
+      },
+      error=>{
+        alert("Failed to get notification")
+      }
+    )
   }
   readAll(){
     this.noti.readAllNotifications().subscribe(

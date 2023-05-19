@@ -72,7 +72,7 @@
             </div> -->
 
       <div>
-        <button mat-button [matMenuTriggerFor]="menu" class="icn"><i class="fa fa-bell"
+        <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()"><i class="fa fa-bell"
             style="font-size:18px;"></i></button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item *ngFor="let msg of notifications.notificationMessage | keyvalue" (click)="readMsg(msg.key)"[ngClass]="seenUnseen(msg.value)">{{msg.key}}</button>
