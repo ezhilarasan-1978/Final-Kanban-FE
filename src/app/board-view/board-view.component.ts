@@ -25,65 +25,66 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus: any;
   projectList: any;
   // ---------------------------------------------
-  constructor(private projectService: ProjectService,private http:HttpClient,private noti:NotificationService,
+  constructor(private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
-    notifications:any;
+  notifications: any={};
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
-      let val=this.projectService.getProjectName();
+    let val = this.projectService.getProjectName();
 
-      this.user.getProjectList().subscribe(
-        response=>{
-            this.projectList=response;
-          
-          if(val === null || typeof val === 'undefined'){
-        
-            val=this.projectList.projectList[0];
-          }
-            this.projectService.setProjectName(val);
-            
-            this.projectService.getProject(val).subscribe(
-            response=>{ 
-              this.projectDetails=response;
-            },
-            error=>console.log("There was error fetching Project Details")    
-          )
-          },
-          error=>{console.log(error);
-          }
-        );
-        this.notifications.notificationMessage={
-          'No new Notification':true
+    this.user.getProjectList().subscribe(
+      response => {
+        this.projectList = response;
+
+        if (val === null || typeof val === 'undefined') {
+
+          val = this.projectList.projectList[0];
         }
-        console.log(this.notifications);
-        
-        // this.noti.getNotification().subscribe(
-        //   response=>{
-        //     this.notifications=response;
-        //     for (let obj of Object.entries(this.notifications.notificationMessage)) {
-        //       let [msg, flag] = obj as any;            
-        //     }
-        //   },
-        //   error=>{
-        //     alert("Failed to get notification")
-            
-        //   }
-        // )
+        this.projectService.setProjectName(val);
 
-    
+        this.projectService.getProject(val).subscribe(
+          response => {
+            this.projectDetails = response;
+          },
+          error => console.log("There was error fetching Project Details")
+        )
+      },
+      error => {
+        console.log(error);
       }
-      
-      showL:boolean=true;
+    );
+    this.notifications.notificationMessage = {
+      'No new Notification': true
+    }
+    console.log(this.notifications);
 
-      showList(){
-        this.showL = !this.showL;
-      }
+    // this.noti.getNotification().subscribe(
+    //   response=>{
+    //     this.notifications=response;
+    //     for (let obj of Object.entries(this.notifications.notificationMessage)) {
+    //       let [msg, flag] = obj as any;            
+    //     }
+    //   },
+    //   error=>{
+    //     alert("Failed to get notification")
+
+    //   }
+    // )
+
+
+  }
+
+  showL: boolean = true;
+
+  showList() {
+    this.showL = !this.showL;
+  }
 
 
   searchText: string = '';
-  clearSearch(){
-    this.searchText=''; 
+  clearSearch() {
+    this.searchText = '';
     this.search();
   }
   search() {
@@ -119,7 +120,7 @@ export class BoardViewComponent implements OnInit {
           return task.name.startsWith(this.searchText)
         })
         console.log(arr);
-        this.projectDetails.columns[name]=arr
+        this.projectDetails.columns[name] = arr
         console.log(this.projectDetails.columns[name]);
       }
     }
@@ -169,55 +170,47 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
-  sortPriority(){
+  sortPriority() {
     for (let col of Object.entries(this.projectDetails.columns)) {
       let [name, arr] = col as any;
       console.log(arr);
-      const order:any = { Urgent: 0, High: 1, Normal: 2, Low: 3, Clear: 4 };
+      const order: any = { Urgent: 0, High: 1, Normal: 2, Low: 3, Clear: 4 };
       console.log(order['Low']);
-      arr = arr.sort((a: any, b: any) => 
-        order[a.priority] - order[b.priority]        
+      arr = arr.sort((a: any, b: any) =>
+        order[a.priority] - order[b.priority]
       )
       console.log(arr);
     }
   }
-  getNotification(){
+  getNotification() {
     this.noti.getNotification().subscribe(
-      response=>{
-        this.notifications=response;
-        console.log(this.notifications);
-        console.log(this.notifications.notificationMessage);
-        console.log(Array.from(this.notifications.notificationMessage));
-        console.log(this.user.getUser());
+      response => {
+        this.notifications = response;
         for (let obj of Object.entries(this.notifications.notificationMessage)) {
           let [msg, flag] = obj as any;
-          console.log(msg);
-          console.log(flag);
         }
-        
-
       },
-      error=>{
+      error => {
         alert("Failed to get notification")
       }
     )
   }
-  readAll(){
+  readAll() {
     this.noti.readAllNotifications().subscribe(
-      response=>{
+      response => {
         console.log("Read all msgs");
       },
-      error=>{
+      error => {
         alert("Read Notifications Failed")
       }
     )
   }
-  readMsg(msg:any){
+  readMsg(msg: any) {
     this.noti.readNotifications(msg).subscribe(
-      response=>{
+      response => {
         console.log("Read msgs");
       },
-      error=>{
+      error => {
         alert("Read Notification Failed")
       }
     )
@@ -259,11 +252,11 @@ export class BoardViewComponent implements OnInit {
     this.currentCardTaskStatus = task.priority;
   }
 
-  deleteProject(project:any) {
+  deleteProject(project: any) {
     this.user.deleteProject(project).subscribe(
-      response => { 
+      response => {
         // this.projectList.projectList=this.projectList.projectList
-        this.openSnackBar("The project was deleted Successfully", "OK") 
+        this.openSnackBar("The project was deleted Successfully", "OK")
         this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.routing.navigate(['/boardView']);
         });
@@ -299,7 +292,7 @@ export class BoardViewComponent implements OnInit {
 
   // ------------------------------------u---------------------------------------
   openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action,{duration:1000});
+    this.snackBar.open(message, action, { duration: 1000 });
     // this.routing.navigate(['/project']);
   }
 
@@ -324,7 +317,7 @@ export class BoardViewComponent implements OnInit {
   isShowing: boolean = false;
 
   @ViewChild('sidenav', { static: true }) sidenav!: MatSidenav;
-   
+
   toggleSidenav() {
     this.sidenav.toggle();
     this.isSidenavOpen = !this.isSidenavOpen;
@@ -358,17 +351,17 @@ export class BoardViewComponent implements OnInit {
       return '';
     }
   }
-  selectedProject(project: string):string{
-    if(this.projectService.projectName==project){
+  selectedProject(project: string): string {
+    if (this.projectService.projectName == project) {
       return 'bold'
     }
     return 'projectButton'
   }
-  seenUnseen(flag:any):string{
-    if(flag==false){
+  seenUnseen(flag: any): string {
+    if (flag == false) {
       return 'notiSeen';
     }
-    else{
+    else {
       return 'notiUnSeen'
     }
   }
