@@ -27,6 +27,7 @@ export class TaskComponent implements OnInit {
 
   public currentDate: Date = new Date();
   createDate: any;
+  createDate1: any;
   deadline: any;
   user: any = localStorage.getItem("currentUser");
 
@@ -42,8 +43,8 @@ export class TaskComponent implements OnInit {
     this.createDate.setMinutes(minutesDiff);
 
     console.log(JSON.stringify(this.createDate));
-    this.createDate = JSON.stringify(this.createDate)
-    this.createDate = this.createDate.slice(1, 11)
+    this.createDate1 = JSON.stringify(this.createDate)
+    this.createDate1= this.createDate.slice(1, 11)
     console.log(this.createDate);
 
   }
@@ -82,8 +83,8 @@ export class TaskComponent implements OnInit {
     this.deadline.setHours(hoursDiff);
     this.deadline.setMinutes(minutesDiff);
 
-    this.deadline = JSON.stringify(this.deadline)
-    this.deadline = this.deadline.slice(1, 11);
+    // this.deadline = JSON.stringify(this.deadline)
+    // this.deadline = this.deadline.slice(1, 11);
 
     const task: any = {
       name: this.taskName?.value,

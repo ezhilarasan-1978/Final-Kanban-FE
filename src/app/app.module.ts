@@ -30,6 +30,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { EditTaskComponent } from './edit-task/edit-task.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     RegisterComponent,
     ProjectComponent,
     BoardViewComponent,
-    TaskComponent
+    TaskComponent,
+    EditTaskComponent
   ],
   imports: [
     BrowserModule,

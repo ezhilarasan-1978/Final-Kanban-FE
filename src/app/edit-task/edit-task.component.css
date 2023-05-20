@@ -1,0 +1,78 @@
+mat-card{
+    width: 40vw;
+    /* margin: auto; */
+    /* height: 50vw; */
+    /* margin-top:0%;
+    margin-bottom: 0%;
+    margin-right: 0px;
+    padding-right: 0px; */
+    /* background-image: linear-gradient(to right bottom, #f5ebf0, #f4edf2, #f2ebee, #f4edf1, #f0ecee, #f3f4f7, #e9edf0, #f0f4f8, #c3d6fa, #9fcef4, #4899f5, #1269f5); */
+    background-color: #cedbe3;
+    background-image: linear-gradient(135deg, #45c3e9 25%, transparent 25%);
+}
+
+mat-form-field {
+    width: 90%;
+}
+
+form {
+    /* height: 30vw; */
+    padding: 10px 10px;
+    text-align: center;
+}
+
+.icons-Assignee{
+    display: flex;
+    flex-direction: row;
+}
+
+.btn {
+    margin-top: 5vw;
+}
+
+mat-error {
+    margin-top: -11px;
+}
+
+h2 {
+    text-align: center;
+    margin-right: 160px;
+    margin-top: 10px;
+}
+
+mat-dialog-actions {
+    cursor: pointer;
+    justify-content: end;
+}
+
+.addButton{
+    display: inline-block;
+    width: 30%;
+    margin:0px 150px;
+}
+.addButton:hover{
+    transform: scale(1.1);
+}
+#close{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* float: right; */
+}
+mat-dialog-actions{
+    float: right;
+}
+.top{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+#assignedby{
+    float: right;
+}
+#prty{
+    display: inline;
+    float: left;
+    margin-left: 20px;
+}
+

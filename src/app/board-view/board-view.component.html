@@ -1,24 +1,14 @@
-<!-- <div class="parent"> -->
 <mat-sidenav-container class="example-container-nav">
   <mat-sidenav #sidenav mode="side" opened id="side-nav">
     <button mat-raised-button (click)="projectWindow()" class="btn"><mat-icon>add_box</mat-icon>Create
       Project</button>
-    <!-- <span id="cust"><mat-icon id="tsk">assignment</mat-icon><mat-icon id="addtsk">add</mat-icon></span>      -->
     <button mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
       Task</button>
-
-    <!-- <div class="firstCard">
-        <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
-        <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
-          <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
-            <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project}}</div>
-        </div>
-      </div> -->
     <div class="firstCard">
       <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
       <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
-          <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project}}
+          <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
           <button class="deleteIcon" (click)="deleteProject(project)" mat-fab color="primary"
             aria-label="Example icon button with a delete icon">
             <mat-icon>delete</mat-icon>
@@ -30,25 +20,6 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <!-- <div *ngIf="projectList.projectList.length==0">Project list is empty create a new one</div>
-      <button mat-icon-button (click)="toggleSidenav()" class="nav"><mat-icon>menu</mat-icon></button>
-      <mat-form-field class="example-form-field" appearance="outline">
-        <span id="icon"><mat-icon>search</mat-icon></span>
-        <input id="search" matInput type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="search()">
-        <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="search()">
-         
-        </button> -->
-    <!-- <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i class="fa fa-sort-alpha-asc"
-          style="font-size:18px;"></i></button>
-      <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
-          src="../../assets/Arrow.png"></button> -->
-
-    <!-- <button mat-icon-button (click)="toggleSidenav()" class="navT"><mat-icon>menu</mat-icon></button> -->
     <div class="nav">
       <input type="checkbox" id="nav-check">
       <div class="nav-header">
@@ -63,14 +34,6 @@
           </mat-form-field>
         </div>
       </div>
-      <!-- <div class="nav-btn">
-              <label for="nav-check">
-                <span></span>
-                <span></span>
-                <span></span>
-              </label>
-            </div> -->
-
       <div>
         <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()"><i class="fa fa-bell"
             style="font-size:18px;"></i></button>
@@ -85,24 +48,6 @@
 
       </div>
     </div>
-
-    <!-- <mat-card class="barCard">
-        <div *ngIf="projectList.projectList.length==0">Project list is empty create a new one</div>
-        <mat-form-field class="example-form-field" appearance="outline">
-          <span id="icon"><mat-icon>search</mat-icon></span>
-          <input id="search"  matInput type="text"  (input)="search()" [(ngModel)]="searchText" placeholder="Search...">
-        
-          <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (keyup)="clearSearch()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-  
-        <div class="filterBar">
-          <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
-          <button mat-icon-button (click)="sortPriority()"  matTooltip="Sort by Priority" class="icn"><img src="../../assets/Arrow.png"></button>
-        </div>
-      </mat-card>  -->
-
     <div cdkDropListGroup class="kanban-main">
       <div *ngFor="let columnName of getColumnNames()" class="example-container">
         <h2>{{columnName}}</h2>
@@ -111,10 +56,10 @@
           <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag
             (cdkDragStarted)="onDragStart(task)">
 
-            <mat-card [ngClass]="getColorClass(task.priority)">
+            <mat-card [ngClass]="getColorClass(task.priority)" (click)="editTask(task)">
               <mat-card-header class="container">
                 <mat-card-title>{{task.name}}</mat-card-title>
-                <small id="createdate" matTooltip="Create date">{{task.createDate}}</small>
+                <small id="createdate" matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
                 <mat-card-subtitle>{{task.content}}</mat-card-subtitle>
                 <div class="box">
                   <div class="icons">
@@ -138,7 +83,7 @@
                     <mat-icon class="picon" *ngIf="task.priority=='Clear' || task.priority==''">flag</mat-icon>
                   </span>
                 </span>
-                <span matTooltip="Due date : {{task.deadline}} ">
+                <span matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
                   <mat-icon id="cal">calendar_today</mat-icon>
                   <small id="deadline">{{load(task.deadline)}}</small>
                 </span>

@@ -12,6 +12,7 @@ import { TaskComponent } from '../task/task.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../service/notification.service';
+import { EditTaskComponent } from '../edit-task/edit-task.component';
 
 
 @Component({
@@ -30,19 +31,16 @@ export class BoardViewComponent implements OnInit {
   notifications: any={};
 
   ngOnInit(): void {
-
+    
     let val = this.projectService.getProjectName();
-
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
-
         if (val === null || typeof val === 'undefined') {
 
           val = this.projectList.projectList[0];
         }
         this.projectService.setProjectName(val);
-
         this.projectService.getProject(val).subscribe(
           response => {
             this.projectDetails = response;
@@ -58,21 +56,6 @@ export class BoardViewComponent implements OnInit {
       'No new Notification': true
     }
     console.log(this.notifications);
-
-    // this.noti.getNotification().subscribe(
-    //   response=>{
-    //     this.notifications=response;
-    //     for (let obj of Object.entries(this.notifications.notificationMessage)) {
-    //       let [msg, flag] = obj as any;            
-    //     }
-    //   },
-    //   error=>{
-    //     alert("Failed to get notification")
-
-    //   }
-    // )
-
-
   }
 
   showL: boolean = true;
@@ -215,6 +198,16 @@ export class BoardViewComponent implements OnInit {
       }
     )
   }
+  dateToString(date:any){
+    let hoursDiff = date.getHours() - date.getTimezoneOffset() / 60;
+    let minutesDiff = (date.getHours() - date.getTimezoneOffset()) % 60;
+    date.setHours(hoursDiff);
+    date.setMinutes(minutesDiff);
+
+    let dateString = JSON.stringify(date)
+    dateString = dateString.slice(1, 11);
+    return dateString;
+  }
 
   getColumnNames() {
     if (this.projectDetails && this.projectDetails.columns) {
@@ -292,7 +285,7 @@ export class BoardViewComponent implements OnInit {
 
   // ------------------------------------u---------------------------------------
   openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, { duration: 1000 });
+    this.snackBar.open(message, action, { duration: 3000 });
     // this.routing.navigate(['/project']);
   }
 
@@ -312,6 +305,10 @@ export class BoardViewComponent implements OnInit {
 
   taskWindow() {
     this.dialog.open(TaskComponent);
+  }
+  editTask(task:any){
+    this.projectService.editTask=task;
+    this.dialog.open(EditTaskComponent);
   }
   // -------------------------
   isShowing: boolean = false;

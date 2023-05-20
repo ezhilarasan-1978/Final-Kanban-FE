@@ -132,7 +132,7 @@ export class ProjectComponent {
 
         if (this.projectForm.valid) {
           const project: Project = {
-            name: this.name.value,
+            name: `${this.name.value}-->${this.user.currentUser}`,
             members: this.members.value,
             columns: Object.fromEntries(columnList.entries())    
           };
@@ -152,7 +152,7 @@ export class ProjectComponent {
             }
           },
           error=>{
-           this.openSnackBar(`Project with name ${project.name} already exist`, "OK"); 
+           this.openSnackBar(`Project with name ${project.name.split("-->")[0]} already exist`, "OK"); 
           }
         )
         this.routes.navigate(['/boardView'], { state: { ProjectName: project.name} } )

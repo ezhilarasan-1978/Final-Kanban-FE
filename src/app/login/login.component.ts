@@ -25,7 +25,7 @@ export class LoginComponent {
 
   ngOnInit() {
     this.loginStatus = this.authService.getLoginStatus();
-    alert(`ngOnInit msg ${this.authService.getLoginStatus()}`);
+    // alert(`ngOnInit msg ${this.authService.getLoginStatus()}`);
     this.loginForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required)

@@ -8,6 +8,7 @@ import { Project } from 'src/assets/Project';
 export class ProjectService {
   
   projectName:any;
+  editTask:any;
 
   setProjectName(name:any){
     this.projectName=name;
