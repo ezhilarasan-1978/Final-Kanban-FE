@@ -1,44 +1,3 @@
-<!-- <body>
-  <mat-card class="loginPanel">
-    <mat-card-header>
-      <mat-card-title>
-        Login
-     </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="loginCustomer()" #formData="ngForm">
-        <mat-form-field appearance="outline">
-          <input matInput placeholder="User Name" formControlName="userName">
-  
-          <div  *ngIf="loginForm.controls.userName.dirty || loginForm.controls.userName.touched">
-            <p class="loginFormErrors" *ngIf="loginForm.get('userName').hasError('required') ">UserName is Required</p>
-            <p class="loginFormErrors" *ngIf="loginForm.get('userName').hasError('pattern') ">Invalid pattern</p>
-          </div>
-        
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <input matInput type="password" placeholder="Password" formControlName="password">
-          <div *ngIf="loginForm.controls.password.dirty||loginForm.controls.password.touched">
-            <p class="loginFormErrors" *ngIf="loginForm.get('password').hasError('required')">Password is required</p>
-          </div>
-        </mat-form-field>
-        <ng-container *ngIf="loginStatus; else loginBlock">
-            <button [disabled]="formData.invalid" mat-raised-button color="accent" type="submit">Login</button>
-          </ng-container>
-          <ng-template #loginBlock>
-            <button mat-raised-button color="warn" type="button" (click)="logout()">Logout</button>
-          </ng-template>
-          <div class="register-Message">
-            <h3>Not a Registerd User ?</h3>
-            <button type="button" class="registerButton" mat-raised-button color="accent" (click)="toRegisterPage()">Register</button>
-          </div>
-  
-      </form>
-    </mat-card-content>
-  </mat-card>
-</body> -->
-
-
 <body>
   <mat-card class="loginPanel">
     <mat-card-header>
@@ -56,20 +15,12 @@
             <mat-icon>warning</mat-icon>UserName is Required
           </p>
         </div>
-        <!-- <mat-form-field appearance="outline">
-          <input matInput type="password" placeholder="Password" formControlName="password">
-        </mat-form-field> -->
-
         
           <mat-form-field appearance="outline">
             <!-- <span id="icon"><i class="fa fa-solid fa-lock fa-bounce"></i></span> -->
             <span id="eyes" (click)="change()"><i class="fa {{eyeIcon}}"></i></span>
             <input matInput [type]="type" placeholder="Password" formControlName="password">
-            <!-- <mat-error *ngIf="password?.invalid && (password?.dirty || password?.touched)">
-              <mat-error *ngIf="password?.errors?.['required']">
-                Password is required
-              </mat-error>
-            </mat-error> -->
+   
           </mat-form-field>
         
 

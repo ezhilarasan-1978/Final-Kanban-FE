@@ -86,7 +86,7 @@ export class ProjectComponent {
         this.findUserName=response;  
         if (this.findUserName) {
 
-          if(this.members.value.length<=6){
+          if(this.members.value.length<6){
             if(!this.members.value.includes(this.memberName.value.trim()))
           {
             this.members.value.push(this.memberName.value.trim());
