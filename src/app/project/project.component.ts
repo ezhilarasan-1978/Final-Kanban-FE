@@ -20,12 +20,6 @@ export class ProjectComponent {
 
   primary:any="accent";
   secondary:any="warn";
-  // availableColors = [
-  //   {name: 'none', color: undefined},
-  //   {name: 'Primary', color: 'primary'},
-  //   {name: 'Accent', color: 'accent'},
-  //   {name: 'Warn', color: 'warn'},
-  // ];
 
   constructor(private snackBar:MatSnackBar ,private routes:Router ,private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
   
@@ -52,6 +46,7 @@ export class ProjectComponent {
     this.columns.value.push("To Be Done");
     this.columns.value.push("Work In Progress");
     this.columns.value.push("Completed");
+    this.members.value.push(this.user.currentUser);
   }
 
 
@@ -90,7 +85,8 @@ export class ProjectComponent {
       response=>{
         this.findUserName=response;  
         if (this.findUserName) {
-          if(this.members.value.length<=5){
+
+          if(this.members.value.length<=6){
             if(!this.members.value.includes(this.memberName.value.trim()))
           {
             this.members.value.push(this.memberName.value.trim());
@@ -98,7 +94,7 @@ export class ProjectComponent {
             this.findUserName=false; 
           }
           }else{
-            this.openSnackBar("Cannot Add more than 5 Employees to a Project", "Ok");
+            this.openSnackBar("Other than you, Cannot Add more than 5 Employees to a Project", "Ok");
           }
         }      
       },
@@ -108,17 +104,17 @@ export class ProjectComponent {
   }
 
   addProject() {
+    // let flag:boolean=false;
 
-    if(this.members.value.length===0){
-      alert(this.user.currentUser)
-      this.members.value.push(this.user.currentUser);
-    }
+    // if(this.members.value.length===0){
+    //   this.members.value.push(this.user.currentUser);
+    //   flag=true; 
+    // }
 
-    if(!this.members.value.includes(this.user.currentUser)){
-      alert(this.user.currentUser)
-      this.members.value.push(this.user.currentUser);
-
-    }
+    // if(!this.members.value.includes(this.user.currentUser)){
+    //   this.members.value.push(this.user.currentUser);
+    //   flag=true;
+    // }
 
     //  ---------------------------------------------------------------------------
       if(this.columns.value.length<2){
@@ -152,7 +148,7 @@ export class ProjectComponent {
             }
           },
           error=>{
-           this.openSnackBar(`Project with name ${project.name.split("-->")[0]} already exist`, "OK"); 
+           this.openSnackBar(`Project with name ${project.name} already exist`, "OK"); 
           }
         )
         this.routes.navigate(['/boardView'], { state: { ProjectName: project.name} } )
@@ -169,4 +165,45 @@ export class ProjectComponent {
       this.routes.navigate(['/boardView'] );
     }
 // ----------------------------
+  
+
+// Delete the members
+
+removeMember(member:any){
+
+  if(this.members.value.includes(member)){
+    let memberIndex= this.members.value.indexOf(member)
+    if(memberIndex!==-1){
+      this.members.value.splice(memberIndex,1);
+    }
   }
+}
+
+removeColumn( column:any){
+  
+  if(this.columns.value.includes(column)&&column!=="To Be Done"&&column!=="Work In Progress"&&column!=="Completed"){
+    let columnIndex= this.columns.value.indexOf(column);
+    if(columnIndex!==-1){
+      this.columns.value.splice(columnIndex, 1);
+    }
+  }
+}
+
+hideCloseButton(column:any){
+  
+  if(column!=="To Be Done"&&column!=="Work In Progress"&&column!=="Completed"){
+    return true;
+  }
+  return false;
+}
+
+hideCloseButtonUser(user:any){
+  if(user==this.user.currentUser){
+    return false
+  }
+  else{
+    return true
+  }
+}
+
+}

@@ -21,9 +21,16 @@
         </div>
 
         <div class="button-row">
-          <button mat-raised-button class="button-option mat-warn" *ngFor="let member of projectForm.get('members').value">
-            {{member}}
-          </button>
+          <div class="dynamicButton" *ngFor="let member of projectForm.get('members').value">
+            <div >
+              <button mat-raised-button class="button-option mat-warn" >
+                {{member}}
+              </button>
+            </div>
+            <span *ngIf="hideCloseButtonUser(member)" class="closeButton-Member-Columns" (click)="removeMember(member)">
+              <mat-icon >close</mat-icon>
+            </span>
+          </div>
         </div>
         
         <mat-form-field appearance="outline">
@@ -33,10 +40,18 @@
           <button mat-raised-button color="primary" type="button" (click)="addColumn()">Add Column</button>
         </div>
 
+
           <div class="button-row">
-            <button color="warn" mat-raised-button class=" button-option mat-primary" *ngFor="let column of projectForm.get('columns').value">
-              {{column}}
-            </button>
+            <div class="dynamicButton"  *ngFor="let column of projectForm.get('columns').value">
+              <div >
+                <button color="warn" mat-raised-button class=" button-option mat-primary">
+                  {{column}}
+                </button>
+              </div>
+              <span *ngIf="hideCloseButton(column)" class="closeButton-Member-Columns" (click)="removeColumn(column)">
+                <mat-icon >close</mat-icon>
+              </span>
+            </div>
           </div>
           
           

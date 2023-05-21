@@ -158,11 +158,11 @@ export class EditTaskComponent implements OnInit {
       this.routing.navigate(['/boardView']);
     });
   }
-  isFormDisabled: boolean = true;
+  isFormDisabled: boolean = false;
   disableForm() {
     console.log('disable');
     
-    if(this.isFormDisabled){
+    if(!this.isFormDisabled){
       this.AddForm.disable()
     }
     else{

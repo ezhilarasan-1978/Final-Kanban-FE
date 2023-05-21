@@ -169,9 +169,9 @@ export class BoardViewComponent implements OnInit {
     this.noti.getNotification().subscribe(
       response => {
         this.notifications = response;
-        for (let obj of Object.entries(this.notifications.notificationMessage)) {
-          let [msg, flag] = obj as any;
-        }
+        // for (let obj of Object.entries(this.notifications.notificationMessage)) {
+        //   let [msg, flag] = obj as any;
+        // }
       },
       error => {
         alert("Failed to get notification")

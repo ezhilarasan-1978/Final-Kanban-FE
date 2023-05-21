@@ -32,9 +32,6 @@ h2{
   margin-bottom: 0px;
   margin-right: 23vw;
 }
-icon{
-/* margin-left: 26px; */
-}
   
  mat-form-field{
   display: inline;
@@ -66,16 +63,24 @@ icon{
   } */
   .button-row {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     margin-top: 10px;
     margin-bottom: 10px;
   }
   
   .button-option {
-    min-width: 0;
+    min-width: 0px;
+
     margin-left: 10px;
+    display: flex;
+    align-items: center;
   }
   
+  .dynamicButton {
+    display: flex;
+    flex-direction: row;
+  }
 
   .btn{
     display: inline-block;
@@ -119,4 +124,28 @@ icon{
       flex-direction: row;
       width: 45vw;
     }
+  }
+
+  .dynamicButton button{
+    z-index: 0;
+  }
+
+  .closeButton-Member-Columns {
+    border: 2px solid #f14e11;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+    height: 25px;
+    border-radius: 50%;
+    width: 25px;
+    background-color: #815de5;
+    margin-left: -18px;
+    z-index: 1;
+  }
+  
+  .closeButton-Member-Columns mat-icon {
+    height: 19px;
+    font-size: 20px;
+    background-color: #815de5;
   }

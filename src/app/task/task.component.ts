@@ -42,11 +42,6 @@ export class TaskComponent implements OnInit {
     this.createDate.setHours(hoursDiff);
     this.createDate.setMinutes(minutesDiff);
 
-    console.log(JSON.stringify(this.createDate));
-    this.createDate1 = JSON.stringify(this.createDate)
-    this.createDate1= this.createDate.slice(1, 11)
-    console.log(this.createDate);
-
   }
 
 
@@ -78,10 +73,12 @@ export class TaskComponent implements OnInit {
   onSubmit() {
     this.deadline = this.dueDate?.value
 
-    let hoursDiff = this.deadline.getHours() - this.deadline.getTimezoneOffset() / 60;
-    let minutesDiff = (this.deadline.getHours() - this.deadline.getTimezoneOffset()) % 60;
-    this.deadline.setHours(hoursDiff);
-    this.deadline.setMinutes(minutesDiff);
+    if(this.AddTask.get('dueDate')?.dirty){
+      let hoursDiff = this.deadline.getHours() - this.deadline.getTimezoneOffset() / 60;
+      let minutesDiff = (this.deadline.getHours() - this.deadline.getTimezoneOffset()) % 60;
+      this.deadline.setHours(hoursDiff);
+      this.deadline.setMinutes(minutesDiff);
+    }
 
     // this.deadline = JSON.stringify(this.deadline)
     // this.deadline = this.deadline.slice(1, 11);

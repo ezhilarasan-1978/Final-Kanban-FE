@@ -128,7 +128,7 @@ h2 {
 }
 
 .cdk-drag-placeholder {
-  opacity: 0.5;
+  opacity: 0;
 }
 
 .cdk-drag-animating {
@@ -411,10 +411,20 @@ body {
   margin-left: -10px;
 }
 .projectButton{
-  width: 155px;
+  width: 200px;
   margin-left: -23px;
 }
 .deleteIcon{
   height: 30px;
   width: 30px;
+}
+
+.content {
+  display: block;
+  overflow: visible;
+  overflow-wrap: break-word;
+  width: 150px;
+  margin-bottom: 0px;
+  margin-bottom: -15px;
+
 }

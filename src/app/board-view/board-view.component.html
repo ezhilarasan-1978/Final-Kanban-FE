@@ -59,8 +59,8 @@
             <mat-card [ngClass]="getColorClass(task.priority)" (click)="editTask(task)">
               <mat-card-header class="container">
                 <mat-card-title>{{task.name}}</mat-card-title>
-                <small id="createdate" matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
-                <mat-card-subtitle>{{task.content}}</mat-card-subtitle>
+                <small *ngIf="task.createDate" id="createdate" matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
+                <mat-card-subtitle ><div class="content">{{task.content}}</div></mat-card-subtitle>
                 <div class="box">
                   <div class="icons">
                     <div *ngFor="let name of task.members" class="icon">
