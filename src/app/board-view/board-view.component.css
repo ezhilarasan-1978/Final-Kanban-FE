@@ -11,12 +11,6 @@
 #search{
   padding-left: 30px;
 }
-.notiSeen{
-  background-color: rgb(255, 108, 223);
-}
-.notiUnSeen{
-  background-color: rgb(239, 255, 8);
-}
 
 .example-container-nav{
   height: 100% ;
@@ -242,7 +236,7 @@ mat-sidenav-content {
 
 }
 .icn{
-  float: right;
+  /* float: right; */
   margin-top: 0px;
 }
 
@@ -349,7 +343,13 @@ body {
 .nav > #nav-check {
   display: none;
 }
-
+.notiSeen, .notiSeen:hover{
+  border-left: 5px solid rgb(235, 94, 94);
+}
+.notiUnSeen, .notiUnSeen:hover{
+  font-weight:bolder;
+  border-left: 5px solid rgb(112, 177, 243);
+}
 @media (max-width:600px) {
   .nav > .nav-btn {
     display: inline-block;
@@ -417,6 +417,7 @@ body {
 .deleteIcon{
   height: 30px;
   width: 30px;
+  margin-bottom: -11px;
 }
 
 .content {

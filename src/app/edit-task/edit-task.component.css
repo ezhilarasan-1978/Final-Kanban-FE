@@ -28,6 +28,19 @@ mat-form-field {
     margin-bottom: -5px;
 }
 
+.forms{
+    margin-bottom: -20px;
+}
+
+.taskTitle{
+    margin-top: -20px;
+    margin-bottom: -5px;
+
+}
+.valid-forms{
+    margin-bottom: -5px;
+}
+
 form {
     /* height: 30vw; */
     padding: 10px 10px;

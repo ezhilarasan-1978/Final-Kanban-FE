@@ -52,9 +52,7 @@ export class BoardViewComponent implements OnInit {
         console.log(error);
       }
     );
-    this.notifications.notificationMessage = {
-      'No new Notification': true
-    }
+    this.getNotification()
     console.log(this.notifications);
   }
 
@@ -165,13 +163,19 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
+  notificationSize:number=0;
   getNotification() {
     this.noti.getNotification().subscribe(
       response => {
         this.notifications = response;
-        // for (let obj of Object.entries(this.notifications.notificationMessage)) {
-        //   let [msg, flag] = obj as any;
-        // }
+        this.notificationSize=this.notifications.notificationMessage;
+        let i=0;
+        for(let msg of Object.entries(this.notifications.notificationMessage) ) {
+          let [noti, flag] = msg as any;
+          if(flag==false)
+          i+=1
+        }
+        this.notificationSize=i;
       },
       error => {
         alert("Failed to get notification")
@@ -182,6 +186,7 @@ export class BoardViewComponent implements OnInit {
     this.noti.readAllNotifications().subscribe(
       response => {
         console.log("Read all msgs");
+        this.getNotification()
       },
       error => {
         alert("Read Notifications Failed")
@@ -192,6 +197,7 @@ export class BoardViewComponent implements OnInit {
     this.noti.readNotifications(msg).subscribe(
       response => {
         console.log("Read msgs");
+        this.getNotification()
       },
       error => {
         alert("Read Notification Failed")
