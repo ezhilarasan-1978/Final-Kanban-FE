@@ -52,21 +52,22 @@ export class RegisterComponent {
       // ------------- Code to register the customer finally-------------------------------------
   responsedata:any;
   registerCustomer() {
-    console.log(this.registerForm.value);
     this.userService.regsiterCustomer(this.registerForm.value).subscribe( response=>{
 
+      this.openSnackBar("Your Account Was Created Successfully Kindly Login Using Credentials", "Ok");
 
       this.routing.navigate(['/login'])
 
-    }, error=> alert(error))
+    }, error=>{
+      this.openSnackBar("Account with the same UserName already exists", "Ok");
+
+    })
 
 
-    this.openSnackBar("Your Account Was Created Successfully Kindly Login Using Credentials", "Ok");
   }
 
   openSnackBar(message: string, action: string) {
     this.matSnackBar.open(message, action);
-   this.routing.navigate(['/loginComponent']);
 
   }
 }

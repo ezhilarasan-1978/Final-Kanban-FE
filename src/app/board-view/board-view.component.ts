@@ -36,7 +36,7 @@ export class BoardViewComponent implements OnInit {
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
-        if (val === null || typeof val === 'undefined') {
+        if ((val === null || typeof val === 'undefined')&&(this.projectList.projectList.length>0)) {
 
           val = this.projectList.projectList[0];
         }
@@ -249,6 +249,7 @@ export class BoardViewComponent implements OnInit {
     this.user.deleteProject(project).subscribe(
       response => {
         // this.projectList.projectList=this.projectList.projectList
+        this.projectService.projectName=null;
         this.openSnackBar("The project was deleted Successfully", "OK")
         this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.routing.navigate(['/boardView']);

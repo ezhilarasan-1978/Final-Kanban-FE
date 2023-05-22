@@ -10,7 +10,6 @@ export class AuthserviceService {
   loginStatus:boolean=false;
 
   getLoginStatus(){
-    alert(`getter msg ${this.loginStatus}`);
     return this.loginStatus;
  
   }

@@ -73,7 +73,7 @@ export class LoginComponent {
     })
   }
   logout(){   
-    alert("logout");
+  
     this.authService.setLogOutStatus();
     this.loginForm.reset();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
