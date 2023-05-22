@@ -131,7 +131,7 @@ h2{
   }
 
   .closeButton-Member-Columns {
-    border: 2px solid #f14e11;
+    border: 2px solid #aa42ff;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -139,7 +139,7 @@ h2{
     height: 25px;
     border-radius: 50%;
     width: 25px;
-    background-color: #815de5;
+    background-color: #fcff33;
     margin-left: -18px;
     z-index: 1;
   }
@@ -147,5 +147,5 @@ h2{
   .closeButton-Member-Columns mat-icon {
     height: 19px;
     font-size: 20px;
-    background-color: #815de5;
+    /* background-color: #815de5; */
   }

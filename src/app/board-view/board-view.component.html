@@ -28,24 +28,24 @@
           <mat-form-field class="example-form-field" appearance="outline">
             <span id="icon"><mat-icon>search</mat-icon></span>
             <input id="search" matInput type="text" (input)="search()" [(ngModel)]="searchText" placeholder="Search...">
-            <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (keyup)="clearSearch()">
+            <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (keyup)="clearSearch()" (click)="clearSearch()">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
         </div>
       </div>
       <div>
-        <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()"><i class="fa fa-bell"
-            style="font-size:18px;"></i></button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let msg of notifications.notificationMessage | keyvalue" (click)="readMsg(msg.key)"[ngClass]="seenUnseen(msg.value)">{{msg.key}}</button>
-          <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
-        </mat-menu>
         <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
-            class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
+          class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
         <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
             src="../../assets/Arrow.png"></button>
-
+            <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()" ><i matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
+                style="font-size:22px;"></i></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item  *ngFor="let msg of notifications.notificationMessage | keyvalue" (click)="readMsg(msg.key)"[ngClass]="seenUnseen(msg.value)">{{msg.key}}</button>
+              <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
+            </mat-menu>
+            
       </div>
     </div>
     <div cdkDropListGroup class="kanban-main">

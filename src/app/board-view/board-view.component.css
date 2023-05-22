@@ -242,7 +242,7 @@ mat-sidenav-content {
 
 }
 .icn{
-  float: right;
+  /* float: right; */
   margin-top: 0px;
 }
 

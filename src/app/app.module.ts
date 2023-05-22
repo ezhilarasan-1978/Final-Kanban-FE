@@ -30,6 +30,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatBadgeModule} from '@angular/material/badge';
 import { EditTaskComponent } from './edit-task/edit-task.component';
 
 
@@ -67,7 +68,8 @@ import { EditTaskComponent } from './edit-task/edit-task.component';
     MatMenuModule,
     MatSelectModule,
     MatExpansionModule,
-    MatGridListModule
+    MatGridListModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
