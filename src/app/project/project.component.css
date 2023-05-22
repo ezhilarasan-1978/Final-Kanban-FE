@@ -14,7 +14,14 @@
   margin-top: -10px;
   width: 39vw;
 }
-
+.icn{
+  background-color: rgb(180, 224, 243);
+  margin-bottom: 5px;
+}
+div{
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
 mat-card{
     width: 40vw;
     max-width: 40vw;
@@ -22,15 +29,15 @@ mat-card{
     position:relative;
     height: fit-content;
     background-color: #e2def0;
-    background-image: linear-gradient(135deg, #815de5 25%, transparent 25%);
+    background-image: linear-gradient(135deg, hsl(256, 85%, 79%) 25%, transparent 25%);
 
   }
 
-
 h2{
+  margin-left: 12vw;
   margin-top: 14px;
   margin-bottom: 0px;
-  margin-right: 23vw;
+  margin-right: 11vw;
 }
   
  mat-form-field{
@@ -45,6 +52,9 @@ h2{
     margin-top: 12px;
   }
 
+  form{
+    padding: 5px;
+  }
   /* .chip{
     margin-top: 5px;
     margin-left: 10px;
@@ -130,22 +140,25 @@ h2{
     z-index: 0;
   }
 
+  
+
   .closeButton-Member-Columns {
-    border: 2px solid #aa42ff;
+    border: 2px solid #4d4b4b;
     cursor: pointer;
     display: flex;
     align-items: center;
+    color:white;
     margin-top: 2px;
-    height: 25px;
+    height: 19px;
     border-radius: 50%;
-    width: 25px;
-    background-color: #fcff33;
+    width: 19px;
+    background-color: #4e4d4e;
     margin-left: -18px;
     z-index: 1;
   }
   
   .closeButton-Member-Columns mat-icon {
-    height: 19px;
-    font-size: 20px;
-    /* background-color: #815de5; */
+    height: 14px;
+    font-size: 14px;
+ 
   }

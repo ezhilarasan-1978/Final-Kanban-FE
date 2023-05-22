@@ -9,10 +9,7 @@
       <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
           <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
-          <button class="deleteIcon" (click)="deleteProject(project)" mat-fab color="primary"
-            aria-label="Example icon button with a delete icon">
-            <mat-icon>delete</mat-icon>
-          </button>
+          <mat-icon  (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
         </div>
       </div>
     </div>
