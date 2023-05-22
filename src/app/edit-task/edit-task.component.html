@@ -1,18 +1,18 @@
 <mat-card>
     <mat-dialog-actions>
-        <h2>Edit Task <mat-icon>edit</mat-icon></h2>
-        <button mat-button mat-dialog-close id="close" matTooltip="Close">
+      <h2>Edit Task     <button mat-button  matTooltip="Edit" (click)="disableForm()">
+        <mat-icon>edit</mat-icon>
+      </button></h2>
+      <div class="close-Button">
+        <button mat-button mat-dialog-close matTooltip="Close">
           <mat-icon>clear</mat-icon>
         </button>
+      </div>
     </mat-dialog-actions>
-    <button mat-button  matTooltip="Edit" (click)="disableForm()">
-      <mat-icon>edit</mat-icon>
-    </button>
   
     <form [formGroup]="AddTask" (ngSubmit)="onSubmit()" >
   
-  
-      <div>
+      <div class="taskTitle">
         <mat-form-field class="block">
           <mat-label>Task Name</mat-label>
           <input matInput formControlName="taskName">
@@ -24,10 +24,10 @@
         </mat-form-field>
       </div>
   
-      <div>
+      <div class="valid-forms">
         <mat-form-field class="input">
           <mat-label>Task Content</mat-label>
-          <textarea matInput formControlName="taskContent" ></textarea>
+          <textarea matInput formControlName="taskContent"></textarea>
           <mat-error *ngIf="taskContent?.invalid && (taskContent?.dirty || taskContent?.touched)">
             <mat-error *ngIf="taskContent?.errors?.['required']">
               Task Content is required
@@ -36,17 +36,17 @@
         </mat-form-field>
       </div>
   
-      <div>
+      <div class="forms">
         <mat-form-field appearance="fill">
           <mat-label>Start Date</mat-label>
           <input matInput [matDatepicker]="picker1" formControlName="startDate" [min]="currentDate"
-            (dateInput)="setDate()" >
+            (dateInput)="setDate()">
           <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
       </div>
   
-      <div>
+      <div class="forms">
         <mat-form-field appearance="fill">
           <mat-label>Due Date</mat-label>
           <input matInput [matDatepicker]="picker2" formControlName="dueDate" [min]="createDate">
@@ -59,9 +59,11 @@
           </mat-error>
   
         </mat-form-field>
+  
+  
       </div>
   
-      <div>
+      <div class="forms">
         <mat-form-field appearance="fill">
           <mat-label>Assigned to</mat-label>
           <mat-select formControlName="members" multiple>

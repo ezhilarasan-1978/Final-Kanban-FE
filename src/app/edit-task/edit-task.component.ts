@@ -52,6 +52,7 @@ export class EditTaskComponent implements OnInit {
         console.log(error);
       }
     );
+    this.AddForm.disable()
   }
   membersList: string[] = [];
   currentTask: any = '';
@@ -162,7 +163,7 @@ export class EditTaskComponent implements OnInit {
   disableForm() {
     console.log('disable');
     
-    if(!this.isFormDisabled){
+    if(this.isFormDisabled){
       this.AddForm.disable()
     }
     else{

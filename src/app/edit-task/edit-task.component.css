@@ -15,6 +15,19 @@ mat-form-field {
     width: 90%;
 }
 
+.forms{
+    margin-bottom: -20px;
+}
+
+.taskTitle{
+    margin-top: -20px;
+    margin-bottom: -5px;
+
+}
+.valid-forms{
+    margin-bottom: -5px;
+}
+
 form {
     /* height: 30vw; */
     padding: 10px 10px;
@@ -34,15 +47,19 @@ mat-error {
     margin-top: -11px;
 }
 
-h2 {
+h2{
     text-align: center;
-    margin-right: 160px;
+    margin-right: 0px;
+    margin-left:-18%;
     margin-top: 10px;
 }
 
 mat-dialog-actions {
-    cursor: pointer;
-    justify-content: end;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
 }
 
 .addButton{
@@ -53,12 +70,7 @@ mat-dialog-actions {
 .addButton:hover{
     transform: scale(1.1);
 }
-#close{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* float: right; */
-}
+
 mat-dialog-actions{
     float: right;
 }
@@ -69,10 +81,38 @@ mat-dialog-actions{
 }
 #assignedby{
     float: right;
+    margin-top: 10px;
 }
 #prty{
     display: inline;
     float: left;
     margin-left: 20px;
+    margin-top: 10px;
 }
 
+
+.close-Button{
+    margin-right: -22%;  
+}
+
+@media only screen and (max-width: 768px) {
+    mat-card{
+        width: 80vw;
+        margin-right: 0px;
+        padding-right: 0px;
+        overflow: hidden;
+    }
+
+    h2{
+        margin-left:-5%;
+    }
+    .close-Button{
+        margin-right: -10%;  
+    }
+    .addButton{
+        margin:auto;
+        margin-top: 10px;
+        width: 150px;
+    }
+
+}

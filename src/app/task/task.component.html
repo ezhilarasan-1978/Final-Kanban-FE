@@ -1,15 +1,17 @@
 <mat-card>
   <mat-dialog-actions>
       <h2>Add Task</h2>
-      <button mat-button mat-dialog-close id="close" matTooltip="Close">
-        <mat-icon>clear</mat-icon>
-      </button>
+      <div class="close-Button">
+        <button mat-button mat-dialog-close matTooltip="Close">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
   </mat-dialog-actions>
 
   <form [formGroup]="AddTask" (ngSubmit)="onSubmit()">
 
 
-    <div>
+    <div class="taskTitle">
       <mat-form-field class="block">
         <mat-label>Task Name</mat-label>
         <input matInput formControlName="taskName">
@@ -21,7 +23,7 @@
       </mat-form-field>
     </div>
 
-    <div>
+    <div class="valid-forms">
       <mat-form-field class="input">
         <mat-label>Task Content</mat-label>
         <textarea matInput formControlName="taskContent"></textarea>
@@ -33,7 +35,7 @@
       </mat-form-field>
     </div>
 
-    <div>
+    <div class="forms">
       <mat-form-field appearance="fill">
         <mat-label>Start Date</mat-label>
         <input matInput [matDatepicker]="picker1" formControlName="startDate" [min]="currentDate"
@@ -43,7 +45,7 @@
       </mat-form-field>
     </div>
 
-    <div>
+    <div class="forms">
       <mat-form-field appearance="fill">
         <mat-label>Due Date</mat-label>
         <input matInput [matDatepicker]="picker2" formControlName="dueDate" [min]="createDate">
@@ -60,7 +62,7 @@
 
     </div>
 
-    <div>
+    <div class="forms">
       <mat-form-field appearance="fill">
         <mat-label>Assigned to</mat-label>
         <mat-select formControlName="members" multiple>
