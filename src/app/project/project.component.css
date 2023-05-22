@@ -44,23 +44,6 @@ h2{
   button{
     margin-top: 12px;
   }
-
-  /* .chip{
-    margin-top: 5px;
-    margin-left: 10px;
-    display: inline-block;
-    width: 38vw;
-    margin-left: 0px;
-  
-  }
-
-  .chipsFormed{
-    float: left;
-  }
-
-  .mat-mdc-chip-set {
-    max-width: 150px;
-  } */
   .button-row {
     display: flex;
     flex-direction: row;
@@ -148,4 +131,171 @@ h2{
     height: 19px;
     font-size: 20px;
     background-color: #815de5;
+  } */
+
+  .cntr{
+    text-align: center;
+    padding-top: 0px;
   }
+  
+  #close{
+    align-content: center;
+  }
+  
+  #clr{
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    margin-top: -10px;
+    width: 39vw;
+  }
+  .icn{
+    background-color: rgb(180, 224, 243);
+    margin-bottom: 5px;
+  }
+  div{
+    margin-top: -5px;
+    margin-bottom: -5px;
+  }
+  mat-card{
+      width: 40vw;
+      max-width: 40vw;
+      margin-right: 0px;
+      position:relative;
+      height: fit-content;
+      background-color: #e2def0;
+      background-image: linear-gradient(135deg, hsl(256, 85%, 79%) 25%, transparent 25%);
+  
+    }
+  
+  h2{
+    margin-left: 12vw;
+    margin-top: 14px;
+    margin-bottom: 0px;
+    margin-right: 11vw;
+  }
+    
+   mat-form-field{
+    display: inline;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+   }
+  
+    button{
+      margin-top: 12px;
+    }
+  
+    form{
+      padding: 5px;
+    }
+    /* .chip{
+      margin-top: 5px;
+      margin-left: 10px;
+      display: inline-block;
+      width: 38vw;
+      margin-left: 0px;
+    
+    }
+  
+    .chipsFormed{
+      float: left;
+    }
+  
+    .mat-mdc-chip-set {
+      max-width: 150px;
+    }
+
+
+    /* .button-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .button-option {
+      min-width: 0px;
+  
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .dynamicButton {
+      display: flex;
+      flex-direction: row;
+    }
+  
+    .btn{
+      display: inline-block;
+      width: 30vw;
+      margin-left: 5vw;
+      margin-bottom: 10px;
+    }
+  
+  
+  
+  
+    @media only screen and (max-width: 768px) {
+      .pageView{
+   
+        flex-direction: column;
+      }
+      mat-card{
+        width: 100vw;
+        max-width: 100vw;
+      }
+    
+      clr{
+        display: flex;
+        flex-direction: row;
+      }
+  
+      h2{
+        margin-right: 0px
+  
+      }
+      .btn{
+          margin-left: 20vw;
+          height: 50px;
+      }
+      icon{
+        margin-right: 0px;
+        }
+      
+      mat-dialog-actions{
+        display: flex;
+        flex-direction: row;
+        width: 45vw;
+      }
+    }
+  
+    .dynamicButton button{
+      z-index: 0;
+    }
+  
+    
+  
+    .closeButton-Member-Columns {
+      border: 2px solid #4d4b4b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color:white;
+      margin-top: 2px;
+      height: 19px;
+      border-radius: 50%;
+      width: 19px;
+      background-color: #4e4d4e;
+      margin-left: -18px;
+      z-index: 1;
+    }
+    
+    .closeButton-Member-Columns mat-icon {
+      height: 14px;
+      font-size: 14px;
+   
+    } */
