@@ -49,9 +49,15 @@
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Due Date</mat-label>
-          <input matInput [matDatepicker]="picker2" formControlName="dueDate" [min]="createDate" >
+          <input matInput [matDatepicker]="picker2" formControlName="dueDate" [min]="createDate">
           <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
+          <mat-error *ngIf="((startDate?.dirty || startDate?.touched) && (dueDate?.dirty ||dueDate?.touched))">
+            <mat-error *ngIf="dueDate?.invalid">
+              Start-Date should be less than Due-Date
+            </mat-error>
+          </mat-error>
+  
         </mat-form-field>
       </div>
   
