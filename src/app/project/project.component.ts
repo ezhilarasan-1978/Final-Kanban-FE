@@ -6,7 +6,8 @@ import { ProjectService } from '../service/project.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -21,7 +22,7 @@ export class ProjectComponent {
   primary:any="accent";
   secondary:any="warn";
 
-  constructor(private snackBar:MatSnackBar ,private routes:Router ,private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
+  constructor(private dialog:MatDialog ,private snackBar:MatSnackBar ,private routes:Router ,private formBuilder: FormBuilder, private user:UserService, private project:ProjectService, private http:HttpClient) { }
   
   currentUserName:any;
   ngOnInit() {
@@ -48,6 +49,25 @@ export class ProjectComponent {
     this.columns.value.push("Completed");
     this.members.value.push(this.user.currentUser);
   }
+
+   canExit(){
+    if(this.projectForm.get('name').dirty){
+      if(this.projectForm.get('members').value.length > 0){
+        return confirm('You sure to leave without creating project');
+      }else{
+        return true;
+      }
+    }else{
+      if (
+        this.projectForm.get('members').value.length > 0 ||
+        this.projectForm.get('columns').value.length > 0
+      ) {
+        return confirm('Are you sure you want to leave without creating the project?');
+      } else {
+        return true;
+      }
+    }
+   }
 
 
   addColumn(){
@@ -205,5 +225,16 @@ hideCloseButtonUser(user:any){
     return true
   }
 }
+
+// -----------------Confirm project box close
+
+confirmWindow(){
+  // this.project.confirmMsg="prj";
+  // this.dialog.open(ConfirmmessageComponent);
+  this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.routes.navigate(['/boardView']);
+  });
+}
+
 
 }

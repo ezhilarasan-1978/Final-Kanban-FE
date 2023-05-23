@@ -20,7 +20,6 @@ export class AuthserviceService {
 
   setLogOutStatus(){
     this.loginStatus = false;
-    alert(this.loginStatus);
   }
 
 }

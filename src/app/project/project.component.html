@@ -2,7 +2,11 @@
   <mat-dialog-actions >
     <h2 >Create Project</h2>
     <div class="close-Button">
-      <button mat-button mat-dialog-close  matTooltip="Close" class="custom-icon">
+      <!-- <button mat-button (click)="confirmWindow()"  matTooltip="Close" class="custom-icon"> -->
+
+      <!-- <button mat-button mat-dialog-close (click)="confirmWindow()"  matTooltip="Close" class="custom-icon"> -->
+        <button mat-button (click)="confirmWindow()"  matTooltip="Close" class="custom-icon">
+
         <mat-icon >clear</mat-icon>
       </button>
     </div>
@@ -37,12 +41,12 @@
               </button>
             </div>
             <span *ngIf="hideCloseButtonUser(member)" class="closeButton-Member-Columns" (click)="removeMember(member)">
-              <mat-icon >close</mat-icon>
+              <mat-icon mat-badge="matBadgeContent" >close</mat-icon>
             </span>
           </div>
         </div>
         
-        <div class="membersCSS">
+        <div class="columnCSS">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Columns" formControlName="columnName">
           </mat-form-field>
@@ -59,13 +63,11 @@
                   {{column}}
                 </button>
               </div>
-              <span *ngIf="hideCloseButton(column)" class="closeButton-Member-Columns" (click)="removeColumn(column)">
-                <mat-icon >close</mat-icon>
+              <span *ngIf="hideCloseButton(column)"  class="closeButton-Member-Columns"  (click)="removeColumn(column)">
+                <mat-icon mat-badge="matBadgeContent">close</mat-icon>
               </span>
             </div>
           </div>
-          
-          
     </form>
     <button class="btn" mat-dialog-close mat-raised-button color="primary" type="button" [disabled]="projectForm.invalid" (click)="addProject()">Create Project</button>
 

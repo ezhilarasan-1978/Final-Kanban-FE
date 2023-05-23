@@ -6,13 +6,14 @@ import { Project, Task } from '../../assets/Project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProjectComponent } from '../project/project.component';
 import { TaskComponent } from '../task/task.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../service/notification.service';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
+import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
 
 
 @Component({
@@ -250,22 +251,26 @@ export class BoardViewComponent implements OnInit {
   onDragStart(task: any) {
     this.currentCardTaskStatus = task.priority;
   }
-
   deleteProject(project: any) {
-    this.user.deleteProject(project).subscribe(
+    this.projectService.confirmMsg="dlt";
+    const dialog = this.dialog.open(ConfirmmessageComponent);
+    dialog.afterClosed().subscribe(result => { 
+     if(this.projectService.confirmdlt){
+      this.user.deleteProject(project).subscribe(
       response => {
         // this.projectList.projectList=this.projectList.projectList
-        this.projectService.projectName=null;
         this.openSnackBar("The project was deleted Successfully", "OK")
         this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.routing.navigate(['/boardView']);
         });
+        this.projectService.confirmdlt=false;
       },
       error => {
-        this.openSnackBar("There wad error deleting the project", "OK")
+        this.openSnackBar("There was error deleting the project", "OK")
       }
     )
-
+   }
+  })
   }
   // -----------------------Delete and Insert task------------------------------
   delete(columnName: any, task: any) {
@@ -311,6 +316,8 @@ export class BoardViewComponent implements OnInit {
   }
 
   taskWindow() {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.position = { top: '-50px' };
     this.dialog.open(TaskComponent);
   }
   editTask(task:any){
@@ -369,4 +376,6 @@ export class BoardViewComponent implements OnInit {
       return 'notiUnSeen'
     }
   }
+
+
 }
