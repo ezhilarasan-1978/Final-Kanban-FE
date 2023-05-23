@@ -1,36 +1,3 @@
-/* mat-card{
-    width: 50vw;
-    max-width: 70vw;
-    margin:auto;
-    margin-top: 6%;
-    position:relative;
-    margin-bottom: 6%;
-}
-
-.example-card {
-    max-width: 80%;
-    margin-bottom: 8px;
-    display: flex;
-    margin:auto;
-    margin-top: 20px;
-  }
-
-  .example-form {
-    min-width: 150px;
-    max-width: 300px;
-    width: 80%;
-  }
-
-  form{
-    display: flex;
-    flex-direction: column;
-  }
-
-  .errorCSS{
-    color:rgb(255, 64, 0); 
-    font-size: 10px;
-  } */
-
 
   mat-card {
     width: 40vw;
@@ -44,12 +11,14 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 0 15% 0 15%;
+
   }
   
   mat-card-title {
     font-size: 1.5rem;
     font-weight: bolder;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    margin-top: -10px;
   }
   
   .example-card {
@@ -93,3 +62,20 @@
     width: 80px;
     margin: auto;
   }
+
+  @media only screen and (max-width: 768px) {
+    mat-card{
+     height: 83%;
+     margin-top: 18%;
+     width: 70%;
+    }
+   
+    mat-card-title {
+     margin-top: -14px;
+   }
+
+   button{
+    margin-bottom: 2px;
+   }
+
+   }

@@ -17,7 +17,14 @@ export class ProjectService {
   getProjectName(){
     return this.projectName;
   }
+// COnfirm message code part 
 
+  confirmMsg:string='';
+  confirmdlt?:boolean;
+
+  closeBoxForProject?:boolean=false;
+
+// -------------------------------------
 
   constructor(private httpClient:HttpClient) {}
   

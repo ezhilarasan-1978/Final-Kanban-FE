@@ -25,11 +25,14 @@ export class HeaderComponent {
     )
   }
 
+
   ngDoCheck(){
     
-  this.loggedUser = this.user.currentUser;
-    if(typeof this.loggedUser!=='undefined'&&this.user.currentUser.length>0){
+  this.loggedUser = this.user.getUser();
+    if(typeof this.loggedUser!=='undefined'&&this.user.getUser().length>0){
       this.currentUser=true;
+    }else{
+      this.currentUser=false;
     }
 
   }

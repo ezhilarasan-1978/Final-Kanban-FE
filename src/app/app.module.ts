@@ -32,6 +32,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge';
 import { EditTaskComponent } from './edit-task/edit-task.component';
+import { ConfirmmessageComponent } from './confirmmessage/confirmmessage.component';
+import { CanDeactivatedTeam } from './service/can-deactivate-guard.guard';
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import { EditTaskComponent } from './edit-task/edit-task.component';
     ProjectComponent,
     BoardViewComponent,
     TaskComponent,
-    EditTaskComponent
+    EditTaskComponent,
+    ConfirmmessageComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,7 @@ import { EditTaskComponent } from './edit-task/edit-task.component';
     MatGridListModule,
     MatBadgeModule
   ],
-  providers: [],
+  providers: [CanDeactivatedTeam],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

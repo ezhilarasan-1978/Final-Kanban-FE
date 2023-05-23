@@ -1,10 +1,12 @@
 mat-card{
     width: 40vw;
    background-color: #cedbe3;
+   background-color: #cedbe3;
     background-image: linear-gradient(135deg, #45c3e9 25%, transparent 25%);
 }
 
 mat-form-field {
+    transform:scale(0.9);
     transform:scale(0.9);
     width: 90%;
 }

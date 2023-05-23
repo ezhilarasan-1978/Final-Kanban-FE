@@ -17,19 +17,29 @@ export class LoginComponent {
 
   loginForm:any|FormGroup;
 
-  loginStatus:boolean=true;
+  loginStatus:any;
 
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   hide = true;
 
   ngOnInit() {
-    this.loginStatus = this.authService.getLoginStatus();
     // alert(`ngOnInit msg ${this.authService.getLoginStatus()}`);
+   if(!this.authService.getLoginStatus()){
     this.loginForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required)
     });
+   }else{
+    this.loginForm = new FormGroup({
+      userName: new FormControl(this.userService.getUser()),
+      password: new FormControl('Password')
+    });
+   }
+  }
+
+  ngDoCheck(){
+    this.loginStatus = this.authService.getLoginStatus();     
   }
 
   speak(){
@@ -75,6 +85,7 @@ export class LoginComponent {
   logout(){   
   
     this.authService.setLogOutStatus();
+    this.userService.resetUser()
     this.loginForm.reset();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/login']);
