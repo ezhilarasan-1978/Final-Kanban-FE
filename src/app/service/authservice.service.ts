@@ -10,6 +10,9 @@ export class AuthserviceService {
   loginStatus:boolean=false;
 
   getLoginStatus(){
+    if(localStorage.getItem("currentUser")){
+      return true;
+    }
     return this.loginStatus;
  
   }
@@ -19,6 +22,7 @@ export class AuthserviceService {
   }
 
   setLogOutStatus(){
+    localStorage.removeItem("currentUser");
     this.loginStatus = false;
   }
 

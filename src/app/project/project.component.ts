@@ -50,24 +50,24 @@ export class ProjectComponent {
     this.members.value.push(this.user.currentUser);
   }
 
-   canExit(){
-    if(this.projectForm.get('name').dirty){
-      if(this.projectForm.get('members').value.length > 0){
-        return confirm('You sure to leave without creating project');
-      }else{
-        return true;
-      }
-    }else{
-      if (
-        this.projectForm.get('members').value.length > 0 ||
-        this.projectForm.get('columns').value.length > 0
-      ) {
-        return confirm('Are you sure you want to leave without creating the project?');
-      } else {
-        return true;
-      }
-    }
-   }
+  //  canExit(){
+  //   if(this.projectForm.get('name').dirty){
+  //     if(this.projectForm.get('members').value.length > 0){
+  //       return confirm('You sure to leave without creating project');
+  //     }else{
+  //       return true;
+  //     }
+  //   }else{
+  //    if (
+  //     this.projectForm.get('members').value.length > 0 ||
+  //     this.projectForm.get('columns').value.length > 0
+  //   ) {
+  //     return confirm('Are you sure you want to leave without creating the project?');
+  //   } else {
+  //     return true;
+  //   }
+  //   }
+  //  }
 
 
   addColumn(){
@@ -229,11 +229,8 @@ hideCloseButtonUser(user:any){
 // -----------------Confirm project box close
 
 confirmWindow(){
-  // this.project.confirmMsg="prj";
-  // this.dialog.open(ConfirmmessageComponent);
-  this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    this.routes.navigate(['/boardView']);
-  });
+  this.project.confirmMsg="prj";
+  this.dialog.open(ConfirmmessageComponent);
 }
 
 

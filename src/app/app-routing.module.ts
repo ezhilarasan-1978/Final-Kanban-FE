@@ -11,10 +11,10 @@ import { CanDeactivatedTeam } from './service/can-deactivate-guard.guard';
 const routes: Routes = [
   {path:'', redirectTo:'/login', pathMatch:'full'},
   {path:'login', component:LoginComponent},
-  {path:'register', component:RegisterComponent},
-  {path:'project', component:ProjectComponent, canDeactivate:[CanDeactivatedTeam]},
-  // {path:'boardView', component:BoardViewComponent, canActivate:[AuthGuardGuard] }
-  {path:'boardView', component:BoardViewComponent }
+  {path:'register', component:RegisterComponent , canDeactivate:[CanDeactivatedTeam]},
+  {path:'project', component:ProjectComponent},
+  {path:'boardView', component:BoardViewComponent, canActivate:[AuthGuardGuard] }
+  // {path:'boardView', component:BoardViewComponent }
 ];
 
 @NgModule({

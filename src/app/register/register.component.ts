@@ -70,4 +70,15 @@ export class RegisterComponent {
     this.matSnackBar.open(message, action);
 
   }
+
+  canExit() {
+    if (this.registerForm.get('name')?.dirty){
+      return confirm('Are you sure you want to leave this page without saving?');
+    } else {
+      return true;
+    }
+  }
+  
+
 }
+
