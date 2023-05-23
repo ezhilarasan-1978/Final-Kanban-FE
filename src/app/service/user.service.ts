@@ -11,10 +11,19 @@ export class UserService {
   currentUser:any;
 
   setUser(name:any){
-    this.currentUser=name;
+   localStorage.setItem("name", name);
+   this.currentUser=localStorage.getItem("name") 
   }
   getUser(){
+    if(localStorage.getItem("name")){
+      return localStorage.getItem("name");
+    }
     return this.currentUser;
+  }
+
+  resetUser(){
+    localStorage.removeItem("name")
+    this.currentUser=undefined;
   }
 
   baseUrl:string ="http://localhost:3033/api/v1/auth";

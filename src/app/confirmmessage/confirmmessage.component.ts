@@ -11,11 +11,10 @@ export class ConfirmmessageComponent {
   confirmMsg = this.prj.confirmMsg;
 
   leave(){
-  location.reload();
+  this.prj.closeBoxForProject=true;
   }
 
   dlt(){
-  
     this.prj.confirmdlt = true;
    }
 }

@@ -22,6 +22,8 @@ export class ProjectService {
   confirmMsg:string='';
   confirmdlt?:boolean;
 
+  closeBoxForProject?:boolean=false;
+
 // -------------------------------------
 
   constructor(private httpClient:HttpClient) {}

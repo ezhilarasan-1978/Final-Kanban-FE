@@ -47,6 +47,7 @@ img {
     height: 50px;
     transform-style: preserve-3d;
     animation: rotate 5s infinite linear;
+    margin-left: -20px;
 }
 
 mat-menu{

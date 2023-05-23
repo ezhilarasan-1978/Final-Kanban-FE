@@ -311,9 +311,21 @@ export class BoardViewComponent implements OnInit {
   unhide(task: any) { this.show = true; }
 
 
+  // ----------------------------
+
+  projectDialog:any;
   projectWindow() {
-    this.dialog.open(ProjectComponent);
+   this.projectDialog=  this.dialog.open(ProjectComponent);
+    this.projectService.closeBoxForProject=false;
   }
+
+  ngDoCheck(){
+    if(this.projectService.closeBoxForProject){
+      this.projectDialog.close();
+    }
+  }
+
+  // ----------------------------------
 
   taskWindow() {
     let dialogConfig = new MatDialogConfig();
@@ -346,7 +358,6 @@ export class BoardViewComponent implements OnInit {
       },
       error => alert("There was error fetching Project Details")
     )
-    // this.routing.navigate(['/boardView'], { state: { ProjectName: project} } )
   }
 
   getColorClass(value: string): string {
