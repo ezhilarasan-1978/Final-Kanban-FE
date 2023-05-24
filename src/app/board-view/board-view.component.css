@@ -107,6 +107,7 @@
   box-sizing: border-box;
   cursor: move;
   font-size: 14px;
+  padding: 20px ;
 }
 
 h2 {

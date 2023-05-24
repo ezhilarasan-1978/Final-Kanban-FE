@@ -3,7 +3,10 @@ mat-card{
    background-color: #cedbe3;
    background-color: #cedbe3;
     background-image: linear-gradient(135deg, #45c3e9 25%, transparent 25%);
+    background-color: #e2def0;
+    background-image: linear-gradient(135deg, hsl(256, 85%, 79%) 25%, transparent 25%);
 }
+
 
 mat-form-field {
     transform:scale(0.9);

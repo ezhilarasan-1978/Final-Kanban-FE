@@ -1,4 +1,4 @@
-body {
+body{
   padding-bottom: 50px;
 }
 
@@ -16,65 +16,6 @@ mat-card {
   border-radius: 0 15% 0 15%;
 }
 
-mat-card-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: -6px;
-}
-
-mat-card-title {
-  font-size: 1.5rem;
-  font-weight: bolder;
-  margin-top: 0px;
-  margin-left: -33%;
-  margin-right: 64px;
-}
-
-.example-card {
-  max-width: 80%;
-  margin-bottom: 8px;
-  display: flex;
-  margin: auto;
-  margin-top: 20px;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 300px;
-  width: 80%;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.errorCSS {
-  color: rgb(255, 64, 0);
-  font-size: 0.8rem;
-  margin: -5px 15px 20px 10px;
-}
-
-mat-icon {
-  margin-right: 8px;
-}
-
-body {
-  display: block;
-  background-image: repeating-linear-gradient(45deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(0deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(135deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(90deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), linear-gradient(90deg, rgb(17, 17, 17), rgb(66, 66, 66));
-  background-size: cover !important;
-  padding-top: 10px;
-}
-
-button {
-  width: 80px;
-  margin: auto;
-}
-
-@media only screen and (max-width: 768px) {
-  body {
-    padding-bottom: 77px;
   }
 
   mat-card-header {
@@ -120,13 +61,18 @@ button {
   mat-icon {
     margin-right: 8px;
   }
-
-  mat-card-title {
-    margin-left: 0px;
+  
+  body {
+    display: block;
+    /* background: url(../../assets/682226.jpg) no-repeat center center fixed; */
+    background-image: repeating-linear-gradient(45deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(0deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(135deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), repeating-linear-gradient(90deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px), linear-gradient(90deg, rgb(17, 17, 17), rgb(66, 66, 66));
+    background-size: cover !important;
+    padding-top: 10px;
   }
-
-  mat-card-header {
-    margin-top: -20px;
+  
+  button {
+    width: 80px;
+    margin: auto;
   }
 }
 
@@ -145,17 +91,28 @@ button {
     transform: scale(0.8);
   }
 
-  mat-card-title {
-    margin-left: 0px;
-
-  }
-
-  mat-card-header {
-    margin-top: -20px;
-  }
-
-  button {
+  @media only screen and (max-width: 768px) {
+    body{
+      padding-bottom: 77px;
+      
+    }
+    mat-card{
+     height: 100%;
+     margin-top: 13%;
+     width: 70%;
+     margin-bottom: 0px;
+     transform: scale(0.8);
+    }
+    mat-card-title {
+      margin-left: 0px;
+  
+    }
+    mat-card-header{
+      margin-top: -20px;
+    }
+  
+   button{
     margin-bottom: 2px;
-  }
+   }
 
-}
+   }

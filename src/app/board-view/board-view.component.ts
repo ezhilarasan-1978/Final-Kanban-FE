@@ -31,8 +31,6 @@ export class BoardViewComponent implements OnInit {
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any = {};
 
-
-
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
@@ -65,7 +63,6 @@ export class BoardViewComponent implements OnInit {
       }
     )
   }
-
 
   showL: boolean = true;
 
@@ -111,7 +108,7 @@ export class BoardViewComponent implements OnInit {
     );
   }
 
-
+      
   drop(event: CdkDragDrop<Task[]>) {
     this.getThePriorityTasks();
     if (event.previousContainer === event.container) {
