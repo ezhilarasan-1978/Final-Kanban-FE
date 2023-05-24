@@ -31,31 +31,59 @@ export class BoardViewComponent implements OnInit {
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any={};
 
-  ngOnInit(): void {
+  // ngOnInit(): void {
     
-    let val = this.projectService.getProjectName();
-    this.user.getProjectList().subscribe(
-      response => {
-        this.projectList = response;
-        if ((val === null || typeof val === 'undefined')&&(this.projectList.projectList.length>0)) {
+  //   let val = this.projectService.getProjectName();
+  //   this.user.getProjectList().subscribe(
+  //     response => {
+  //       this.projectList = response;
+  //       if ((val === null || typeof val === 'undefined')&&(this.projectList.projectList.length>0)) {
 
-          val = this.projectList.projectList[0];
+  //         val = this.projectList.projectList[0];
+  //       }
+  //       this.projectService.setProjectName(val);
+  //       this.projectService.getProject(val).subscribe(
+  //         response => {
+  //           this.projectDetails = response;
+  //         },
+  //         error => console.log("There was error fetching Project Details")
+  //       )
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  //   this.getNotification()
+  //   console.log(this.notifications);
+  // }
+  ngOnInit(): void {
+
+    let val=this.projectService.getProjectName();
+  
+    this.user.getProjectList().subscribe(
+      response=>{
+          this.projectList=response;
+        
+        if(val === null || typeof val === 'undefined'){
+      
+          val=this.projectList.projectList[0];
         }
-        this.projectService.setProjectName(val);
-        this.projectService.getProject(val).subscribe(
-          response => {
-            this.projectDetails = response;
+          this.projectService.setProjectName(val);
+          
+          this.projectService.getProject(val).subscribe(
+          response=>{ 
+            this.projectDetails=response;
+
+            this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
           },
-          error => console.log("There was error fetching Project Details")
+          error=>console.log("There was error fetching Project Details")    
         )
-      },
-      error => {
-        console.log(error);
-      }
-    );
-    this.getNotification()
-    console.log(this.notifications);
-  }
+        },
+        error=>{console.log(error);
+        }
+      );
+  
+    }
 
   showL: boolean = true;
 
@@ -358,11 +386,21 @@ export class BoardViewComponent implements OnInit {
     this.toggleSidenav();
   }
 
+  // boardView(project: string) {
+  //   this.projectService.setProjectName(project);
+  //   this.projectService.getProject(project).subscribe(
+  //     response => {
+  //       this.projectDetails = response;
+  //     },
+  //     error => alert("There was error fetching Project Details")
+  //   )
+  // }
   boardView(project: string) {
     this.projectService.setProjectName(project);
     this.projectService.getProject(project).subscribe(
       response => {
         this.projectDetails = response;
+        this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
       },
       error => alert("There was error fetching Project Details")
     )
