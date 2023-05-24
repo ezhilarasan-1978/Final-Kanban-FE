@@ -1,11 +1,11 @@
-
-#icon{
+#icon {
     color: white;
     margin-top: -5px;
-    font-size:26px;
+    font-size: 26px;
     margin-left: 10px;
 }
-.logoutIcon{
+
+.logoutIcon {
     margin-right: 20px;
 }
 
@@ -39,7 +39,7 @@ nav {
     margin: 0 15px;
     margin-left: -67px;
     font-size: 2rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 img {
@@ -50,7 +50,7 @@ img {
     margin-left: -20px;
 }
 
-mat-menu{
+mat-menu {
     margin-right: 0px;
 }
 
@@ -63,12 +63,12 @@ mat-menu{
     }
 }
 
-
 @media only screen and (max-width: 768px) {
     .navbar-brand {
         margin: 0 15px;
         margin-left: -15px;
         font-size: 2rem;
+
     }   
     
     img{
@@ -80,3 +80,4 @@ mat-menu{
     margin-top: 17px;
     font-size: 27px;
 }
+

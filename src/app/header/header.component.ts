@@ -10,19 +10,17 @@ import { ProjectService } from '../service/project.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private user:UserService, private breakPoint:BreakpointObserver, private routing:Router, private authentication: AuthserviceService, 
-    private project:ProjectService){}
+  constructor(private user: UserService, private breakPoint: BreakpointObserver, private routing: Router, private authentication: AuthserviceService,
+    private project: ProjectService) { }
 
-  loggedUser:string='';
-  currentUser:boolean=false;
-  DeskTopView:boolean=false;
+  loggedUser: string = '';
+  currentUser: boolean = false;
+  DeskTopView: boolean = false;
 
-
-  ngOnInit(){
+  ngOnInit() {
     this.breakPoint.observe([Breakpoints.Handset]).subscribe(
-
-      result=>{
-        this.DeskTopView=!result.matches;
+      result => {
+        this.DeskTopView = !result.matches;
       }
     )
   }
@@ -36,17 +34,13 @@ export class HeaderComponent {
 
     }else{
       this.currentUser=false;
-    }
-
   }
 
-  logOut(){
+  logOut() {
     this.authentication.setLogOutStatus();
     this.user.setUser('')
-    this.currentUser=false;
+    this.currentUser = false;
     this.project.setProjectName(undefined);
     this.routing.navigate([`/login`])
   }
 }
-
-

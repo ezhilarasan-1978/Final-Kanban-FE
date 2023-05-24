@@ -9,7 +9,7 @@
       <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
           <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
-          <mat-icon  (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
+          <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
         </div>
       </div>
     </div>
@@ -25,7 +25,8 @@
           <mat-form-field class="example-form-field" appearance="outline">
             <span id="icon"><mat-icon>search</mat-icon></span>
             <input id="search" matInput type="text" (input)="search()" [(ngModel)]="searchText" placeholder="Search...">
-            <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (keyup)="clearSearch()" (click)="clearSearch()">
+            <button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (keyup)="clearSearch()"
+              (click)="clearSearch()">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
@@ -33,9 +34,10 @@
       </div>
       <div>
         <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
-          class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
+            class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
         <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
             src="../../assets/Arrow.png"></button>
+
             <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()" ><i matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
                 style="font-size:22px;"></i></button>
                 <mat-menu #menu="matMenu">
@@ -47,7 +49,7 @@
                     </button>
                   </div>
                 </mat-menu>
-            
+     
       </div>
     </div>
     <div cdkDropListGroup class="kanban-main">
@@ -61,8 +63,11 @@
             <mat-card [ngClass]="getColorClass(task.priority)" (click)="editTask(task)">
               <mat-card-header class="container">
                 <mat-card-title>{{task.name}}</mat-card-title>
-                <small *ngIf="task.createDate" id="createdate" matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
-                <mat-card-subtitle ><div class="content">{{task.content}}</div></mat-card-subtitle>
+                <small *ngIf="task.createDate" id="createdate"
+                  matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
+                <mat-card-subtitle>
+                  <div class="content">{{task.content}}</div>
+                </mat-card-subtitle>
                 <div class="box">
                   <div class="icons">
                     <div *ngFor="let name of task.members" class="icon">
