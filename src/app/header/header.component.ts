@@ -36,6 +36,8 @@ export class HeaderComponent {
       this.currentUser=false;
   }
 
+}
+
   logOut() {
     this.authentication.setLogOutStatus();
     this.user.setUser('')
