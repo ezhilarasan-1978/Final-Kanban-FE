@@ -68,10 +68,16 @@ mat-menu {
         margin: 0 15px;
         margin-left: -15px;
         font-size: 2rem;
+
+    }   
+    
+    img{
+        margin-left: 0px;
     }
 }
 
-.noteIcon {
+.noteIcon{
     margin-top: 17px;
     font-size: 27px;
 }
+

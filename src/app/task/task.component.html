@@ -56,10 +56,7 @@
             Start-Date should be less than Due-Date
           </mat-error>
         </mat-error>
-
       </mat-form-field>
-
-
     </div>
 
     <div class="forms">
@@ -69,7 +66,8 @@
           <mat-select-trigger>
             {{members?.value|| ''}}
           </mat-select-trigger>
-          <mat-option *ngFor="let member of projectMembers" [value]="member">{{member}}</mat-option>
+          <mat-option *ngFor="let member of frequencyMethod()" [value]="member">{{member}}</mat-option>
+          <!-- <mat-option *ngFor="let member of projectMembers" [value]="member">{{member}}</mat-option> -->
         </mat-select>
       </mat-form-field>
     </div>

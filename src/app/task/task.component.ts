@@ -20,7 +20,9 @@ export class TaskComponent implements OnInit {
   constructor(private fb: FormBuilder, private routing: Router, private projectService: ProjectService) { }
   ngOnInit(): void {
     this.setPriority("Clear");
-    this.projectService.getProject(this.projectService.projectName).subscribe(data => { this.project = data; this.projectMembers = this.project.members });
+    this.projectService.getProject(this.projectService.projectName).subscribe(data => {
+       this.project = data; this.projectMembers = this.project.members 
+      });
 
   }
   membersList: string[] = [];
@@ -42,6 +44,50 @@ export class TaskComponent implements OnInit {
     this.createDate.setHours(hoursDiff);
     this.createDate.setMinutes(minutesDiff);
 
+  }
+
+fetchedProjectDetails:any;
+  frequencyMethod(){
+    if (this.projectService.projectDetails.length==0){
+      return this.projectMembers;
+    }
+    if (!this.projectService.projectDetails == null || typeof this.projectService.projectDetails !== "undefined") {
+          this.fetchedProjectDetails=this.projectService.projectDetails;
+          let memberArray:any=[]; 
+        for(let i=0; i<this.fetchedProjectDetails.length;i++){
+          for(let j=0; j<this.fetchedProjectDetails[i].members.length;j++){
+            memberArray.push(this.fetchedProjectDetails[i].members[j]);
+          }
+        }
+
+        for (let i = 0; i < this.projectMembers.length; i++) {
+          if (!memberArray.includes(this.projectMembers[i])) {
+            memberArray.push(this.projectMembers[i]);
+          }
+        }
+
+        let occurrenceOfMembers:any ={};
+
+        for(let i=0;i<memberArray.length;i++){
+          let memberName=memberArray[i]
+
+          if(occurrenceOfMembers[memberName]){
+            occurrenceOfMembers[memberName]++;
+          }else{
+            occurrenceOfMembers[memberName]=1
+          }
+        }
+        
+        let availableMembersArray:any=[];
+        for(let key in occurrenceOfMembers){
+          if(occurrenceOfMembers[key]<3){
+            availableMembersArray.push(key)
+          }
+        }
+
+        return availableMembersArray;
+     }
+ 
   }
 
 

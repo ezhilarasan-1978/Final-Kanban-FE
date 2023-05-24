@@ -10,6 +10,12 @@ export class ProjectService {
   projectName:any;
   editTask:any;
 
+  projectDetails:any;
+
+  setProjectDetails(project:any){
+    this.projectDetails=project;
+  }
+
   setProjectName(name:any){
     this.projectName=name;
   }
