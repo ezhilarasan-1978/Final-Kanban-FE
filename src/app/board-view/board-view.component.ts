@@ -266,7 +266,7 @@ export class BoardViewComponent implements OnInit {
      if(this.projectService.confirmdlt){
       this.user.deleteProject(project).subscribe(
       response => {
-        // this.projectList.projectList=this.projectList.projectList
+        this.projectService.projectName=null;  
         this.openSnackBar("The project was deleted Successfully", "OK")
         this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.routing.navigate(['/boardView']);
