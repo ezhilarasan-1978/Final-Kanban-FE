@@ -350,6 +350,10 @@ body {
   font-weight:bolder;
   border-left: 5px solid rgb(112, 177, 243);
 }
+.notification{
+  max-height: 300px;
+  overflow-y: auto;
+}
 @media (max-width:600px) {
   .nav > .nav-btn {
     display: inline-block;
