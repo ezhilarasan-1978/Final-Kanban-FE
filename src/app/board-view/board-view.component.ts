@@ -82,7 +82,7 @@ export class BoardViewComponent implements OnInit {
         error=>{console.log(error);
         }
       );
-  
+      this.getNotification()
     }
 
   showL: boolean = true;
