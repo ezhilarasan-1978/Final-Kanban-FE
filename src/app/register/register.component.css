@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 50px;
+}
+
 mat-card {
   width: 40vw;
   max-width: 70vw;
@@ -69,17 +73,28 @@ button {
 }
 
 @media only screen and (max-width: 768px) {
+  body {
+    padding-bottom: 77px;
+  }
+
   mat-card {
-    height: 83%;
-    margin-top: 18%;
+    height: 100%;
+    margin-top: 13%;
     width: 70%;
+    margin-bottom: 0px;
+    transform: scale(0.8);
   }
 
   mat-card-title {
-    margin-top: -14px;
+    margin-left: 0px;
+  }
+
+  mat-card-header {
+    margin-top: -20px;
   }
 
   button {
     margin-bottom: 2px;
   }
+
 }

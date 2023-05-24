@@ -36,7 +36,7 @@ export class UserService {
     return this.httpClient.post(this.baseUrl+"/login", loginData);
   }
   regsiterCustomer(userData:any){
-    return this.httpClient.post('http://localhost:8085/api/v1/user/register', userData );
+    return this.httpClient.post(this.baseurl2+'register', userData );
     // return this.httpClient.post('http://localhost:8007/api/v1/user/register', userData );
   }
 
