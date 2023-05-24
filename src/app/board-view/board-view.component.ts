@@ -69,44 +69,38 @@ export class BoardViewComponent implements OnInit {
     this.searchText = '';
     this.search();
   }
-  search() {
-    if (this.searchText == '') {
-      let val = this.projectService.getProjectName();
-      this.user.getProjectList().subscribe(
-        response => {
-          this.projectList = response;
-          if (val == null) {
-            console.log("test");
-            val = this.projectList.projectList[0];
-            console.log(val);
-          }
-          this.projectService.setProjectName(val);
-          this.projectService.getProject(val).subscribe(
-            response => {
-              this.projectDetails = response;
-            },
-            error => alert("There was error fetching Project Details")
-          )
-        },
-        error => {
-          console.log(error);
-        }
-      );
 
-    }
-    else {
-      for (let col of Object.entries(this.projectDetails.columns)) {
-        let [name, arr] = col as any;
-        console.log(name);
-        arr = arr.filter((task: Task) => {
-          return task.name.startsWith(this.searchText)
-        })
-        console.log(arr);
-        this.projectDetails.columns[name] = arr
-        console.log(this.projectDetails.columns[name]);
+  search() {
+    let val = this.projectService.getProjectName();
+    this.user.getProjectList().subscribe(
+      response => {
+        this.projectList = response;
+        if (val == null) {
+          console.log("test");
+          val = this.projectList.projectList[0];
+          console.log(val);
+        }
+        this.projectService.setProjectName(val);
+        this.projectService.getProject(val).subscribe(
+          response => {
+            this.projectDetails = response;
+            for (let col of Object.entries(this.projectDetails.columns)) {
+              let [name, arr] = col as any;
+              console.log(name);
+              arr = arr.filter((task: Task) => {
+                return task.name.startsWith(this.searchText)
+              })
+              console.log(arr);
+              this.projectDetails.columns[name] = arr
+            }
+          },
+          error => alert("There was error fetching Project Details")
+        )
+      },
+      error => {
+        console.log(error);
       }
-    }
-    console.log(this.projectDetails.columns);
+    );
   }
 
 
@@ -164,25 +158,39 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
-  notificationSize:number=0;
+  
+  notificationSize: number = 0;
+  notificationArray:any;
   getNotification() {
     this.noti.getNotification().subscribe(
       response => {
         this.notifications = response;
-        this.notificationSize=this.notifications.notificationMessage;
-        let i=0;
-        for(let msg of Object.entries(this.notifications.notificationMessage) ) {
+        this.notificationSize = this.notifications.notificationMessage;
+        let i = 0;
+        for (let msg of Object.entries(this.notifications.notificationMessage)) {
           let [noti, flag] = msg as any;
-          if(flag==false)
-          i+=1
+          if (flag == false)
+            i += 1
         }
-        this.notificationSize=i;
+        this.notificationSize = i;
+        const notiArray=Object.entries(this.notifications.notificationMessage);
+        notiArray.sort((key, value) => {
+          if (key[1] === value[1]) {
+            return 0;
+          } else if (key[1] === false) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        this.notificationArray=notiArray;
       },
       error => {
         alert("Failed to get notification")
       }
     )
   }
+
   readAll() {
     this.noti.readAllNotifications().subscribe(
       response => {

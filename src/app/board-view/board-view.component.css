@@ -429,3 +429,8 @@ body {
   margin-bottom: -15px;
 
 }
+
+.notification{
+  max-height: 300px;
+  overflow-y: auto;
+}

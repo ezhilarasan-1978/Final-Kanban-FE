@@ -1,7 +1,12 @@
   <body>
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Register</mat-card-title>
+      
+          <mat-card-title>Register</mat-card-title>
+    
+        <div>
+          <button mat-button routerLink="/login" color="primary">LogIn</button>
+        </div>
       </mat-card-header>
       <mat-card-content>
         <form [formGroup]="registerForm" #formData="ngForm" (ngSubmit)="registerCustomer()">
@@ -41,9 +46,10 @@
               <mat-icon>warning</mat-icon>Confirm Password is Required
             </mat-error>
           </mat-form-field>
-          <mat-error class="errorCSS" *ngIf="registerForm?.errors?.['PasswordError']">
+          <mat-error class="errorCSS" *ngIf="registerForm?.errors?.['PasswordError'] && registerForm.get('Cpassword')?.dirty">
             <mat-icon>warning</mat-icon>Password and Confirm Password Should Match
           </mat-error>
+          
           <button mat-raised-button [disabled]="formData.invalid" color="primary" type="submit">Register</button>
         </form>
       </mat-card-content>

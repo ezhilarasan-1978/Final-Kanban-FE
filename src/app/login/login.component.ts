@@ -103,6 +103,10 @@ export class LoginComponent {
   // Route to register page
 
   toRegisterPage(){
+    this.authService.setLogOutStatus();
+    this.userService.resetUser()
+    this.loginForm.reset();
+    this.project.setProjectName(undefined);
    this.router.navigate(['/register']); 
   }
 }
