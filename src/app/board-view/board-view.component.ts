@@ -32,7 +32,7 @@ export class BoardViewComponent implements OnInit {
   notifications: any = {};
 
 
- 
+
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
@@ -40,33 +40,32 @@ export class BoardViewComponent implements OnInit {
       response => {
         this.projectList = response;
         if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
-
-    let val=this.projectService.getProjectName();
-  
-    this.user.getProjectList().subscribe(
-      response=>{
-          this.projectList=response;
-        
-        if(val === null || typeof val === 'undefined'){
-      
-          val=this.projectList.projectList[0];
+          let val = this.projectService.getProjectName();
+          this.user.getProjectList().subscribe(
+            response => {
+              this.projectList = response;
+              if (val === null || typeof val === 'undefined') {
+                val = this.projectList.projectList[0];
+              }
+              this.projectService.setProjectName(val);
+              this.projectService.getProject(val).subscribe(
+                response => {
+                  this.projectDetails = response;
+                  this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
+                  this.getNotification();
+                },
+                error => console.log("There was error fetching Project Details")
+              )
+            },
+            error => {
+              console.log(error);
+            }
+          );
         }
-          this.projectService.setProjectName(val);
-          
-          this.projectService.getProject(val).subscribe(
-          response=>{ 
-            this.projectDetails=response;
+      }
+    )
+  }
 
-            this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
-          },
-          error=>console.log("There was error fetching Project Details")    
-        )
-        },
-        error=>{console.log(error);
-        }
-      );
-  
-    }
 
   showL: boolean = true;
 
@@ -118,7 +117,6 @@ export class BoardViewComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-
       if (event.container.id === "cdk-drop-list-1" && !this.getNumberOfTaskInWIP()) {
         this.openSnackBar("WIP limit reached", "OK")
         return;
@@ -127,7 +125,6 @@ export class BoardViewComponent implements OnInit {
         this.openSnackBar("Only Priority task can be added", "OK")
         return;
       }
-
       transferArrayItem(
         event.previousContainer.data,
         event.container.data as Task[],
@@ -177,9 +174,9 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
-        
+
   notificationSize: number = 0;
-  notificationArray:any;
+  notificationArray: any;
   getNotification() {
     this.noti.getNotification().subscribe(
       response => {
@@ -192,7 +189,7 @@ export class BoardViewComponent implements OnInit {
             i += 1
         }
         this.notificationSize = i;
-        const notiArray=Object.entries(this.notifications.notificationMessage);
+        const notiArray = Object.entries(this.notifications.notificationMessage);
         notiArray.sort((key, value) => {
           if (key[1] === value[1]) {
             return 0;
@@ -202,7 +199,7 @@ export class BoardViewComponent implements OnInit {
             return 1;
           }
         });
-        this.notificationArray=notiArray;
+        this.notificationArray = notiArray;
       },
       error => {
         alert("Failed to get notification")
@@ -267,10 +264,10 @@ export class BoardViewComponent implements OnInit {
       }
     }
     if (urgent > 5 && this.currentCardTaskStatus != "Urgent") {
-       
+
       return true;
     } else {
-    
+
       return false;
     }
   }
@@ -285,7 +282,7 @@ export class BoardViewComponent implements OnInit {
       if (this.projectService.confirmdlt) {
         this.user.deleteProject(project).subscribe(
           response => {
-            this.projectService.projectName=null;
+            this.projectService.projectName = null;
             this.openSnackBar("The project was deleted Successfully", "OK")
             this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
               this.routing.navigate(['/boardView']);

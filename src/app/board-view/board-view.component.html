@@ -38,23 +38,24 @@
         <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
             src="../../assets/Arrow.png"></button>
 
-            <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()" ><i matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
-                style="font-size:22px;"></i></button>
-                <mat-menu #menu="matMenu">
-                  <div class="notification">
-                    <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
-                    <button mat-menu-item *ngFor="let msg of notificationArray"
-                      (click)="readMsg(msg[0])" [ngClass]="seenUnseen(msg[1])">
-                      <p>{{msg[0]}}</p>
-                    </button>
-                  </div>
-                </mat-menu>
-     
+        <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()"><i
+            matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
+            style="font-size:22px;"></i></button>
+        <mat-menu #menu="matMenu">
+          <div class="notification">
+            <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
+            <button mat-menu-item *ngFor="let msg of notificationArray" (click)="readMsg(msg[0])"
+              [ngClass]="seenUnseen(msg[1])">
+              <p>{{msg[0]}}</p>
+            </button>
+          </div>
+        </mat-menu>
+
       </div>
     </div>
     <div cdkDropListGroup class="kanban-main">
       <div *ngFor="let columnName of getColumnNames()" class="example-container">
-        <h2>{{columnName}}</h2>
+        <h2 contenteditable="">{{columnName}}</h2>
         <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)" class="example-list"
           (cdkDropListDropped)="drop($event)">
           <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag

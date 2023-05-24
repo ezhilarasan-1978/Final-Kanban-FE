@@ -26,14 +26,15 @@ export class HeaderComponent {
   }
 
 
-  ngDoCheck(){
-    
-  this.loggedUser = this.user.getUser();
-    if(typeof this.loggedUser!=='undefined'&&this.user.getUser().length>0){
-      this.currentUser=true;
+  ngDoCheck() {
 
-    }else{
-      this.currentUser=false;
+    this.loggedUser = this.user.getUser();
+    if (typeof this.loggedUser !== 'undefined' && this.user.getUser().length > 0) {
+      this.currentUser = true;
+
+    } else {
+      this.currentUser = false;
+    }
   }
 
   logOut() {
