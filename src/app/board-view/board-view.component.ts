@@ -137,6 +137,16 @@ export class BoardViewComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+
+      if (event.container.id === "cdk-drop-list-1" && !this.getNumberOfTaskInWIP()) {
+        this.openSnackBar("WIP limit reached", "OK")
+        return;
+      }
+      if (event.container.id === "cdk-drop-list-1" && this.getThePriorityTasks()) {
+        this.openSnackBar("Only Priority task can be added", "OK")
+        return;
+      }
+
       transferArrayItem(
         event.previousContainer.data,
         event.container.data as Task[],
@@ -276,10 +286,10 @@ export class BoardViewComponent implements OnInit {
       }
     }
     if (urgent > 5 && this.currentCardTaskStatus != "Urgent") {
-      urgent = 0;
+       
       return true;
     } else {
-      urgent = 0;
+    
       return false;
     }
   }
