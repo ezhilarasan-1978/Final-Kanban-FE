@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthserviceService } from '../service/authservice.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../service/user.service';
+import { ProjectService } from '../service/project.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ import { UserService } from '../service/user.service';
 export class LoginComponent {
   constructor(private router:Router ,private authService: AuthserviceService,  
     private userService:UserService,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar
+    ,private project:ProjectService
+    ) { }
 
   loginForm:any|FormGroup;
 
@@ -87,6 +90,7 @@ export class LoginComponent {
     this.authService.setLogOutStatus();
     this.userService.resetUser()
     this.loginForm.reset();
+    this.project.setProjectName(undefined);
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/login']);
   })
