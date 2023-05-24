@@ -29,15 +29,15 @@ export class BoardViewComponent implements OnInit {
   // ---------------------------------------------
   constructor(private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
-  notifications: any={};
+  notifications: any = {};
 
   ngOnInit(): void {
-    
+
     let val = this.projectService.getProjectName();
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
-        if ((val === null || typeof val === 'undefined')&&(this.projectList.projectList.length>0)) {
+        if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
 
           val = this.projectList.projectList[0];
         }
@@ -62,51 +62,42 @@ export class BoardViewComponent implements OnInit {
   showList() {
     this.showL = !this.showL;
   }
-
-
   searchText: string = '';
   clearSearch() {
     this.searchText = '';
     this.search();
   }
   search() {
-    if (this.searchText == '') {
-      let val = this.projectService.getProjectName();
-      this.user.getProjectList().subscribe(
-        response => {
-          this.projectList = response;
-          if (val == null) {
-            console.log("test");
-            val = this.projectList.projectList[0];
-            console.log(val);
-          }
-          this.projectService.setProjectName(val);
-          this.projectService.getProject(val).subscribe(
-            response => {
-              this.projectDetails = response;
-            },
-            error => alert("There was error fetching Project Details")
-          )
-        },
-        error => {
-          console.log(error);
+    let val = this.projectService.getProjectName();
+    this.user.getProjectList().subscribe(
+      response => {
+        this.projectList = response;
+        if (val == null) {
+          console.log("test");
+          val = this.projectList.projectList[0];
+          console.log(val);
         }
-      );
-
-    }
-    else {
-      for (let col of Object.entries(this.projectDetails.columns)) {
-        let [name, arr] = col as any;
-        console.log(name);
-        arr = arr.filter((task: Task) => {
-          return task.name.startsWith(this.searchText)
-        })
-        console.log(arr);
-        this.projectDetails.columns[name] = arr
-        console.log(this.projectDetails.columns[name]);
+        this.projectService.setProjectName(val);
+        this.projectService.getProject(val).subscribe(
+          response => {
+            this.projectDetails = response;
+            for (let col of Object.entries(this.projectDetails.columns)) {
+              let [name, arr] = col as any;
+              console.log(name);
+              arr = arr.filter((task: Task) => {
+                return task.name.startsWith(this.searchText)
+              })
+              console.log(arr);
+              this.projectDetails.columns[name] = arr
+            }
+          },
+          error => alert("There was error fetching Project Details")
+        )
+      },
+      error => {
+        console.log(error);
       }
-    }
-    console.log(this.projectDetails.columns);
+    );
   }
 
 
@@ -164,19 +155,31 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
-  notificationSize:number=0;
+  notificationSize: number = 0;
+  notificationArray:any;
   getNotification() {
     this.noti.getNotification().subscribe(
       response => {
         this.notifications = response;
-        this.notificationSize=this.notifications.notificationMessage;
-        let i=0;
-        for(let msg of Object.entries(this.notifications.notificationMessage) ) {
+        this.notificationSize = this.notifications.notificationMessage;
+        let i = 0;
+        for (let msg of Object.entries(this.notifications.notificationMessage)) {
           let [noti, flag] = msg as any;
-          if(flag==false)
-          i+=1
+          if (flag == false)
+            i += 1
         }
-        this.notificationSize=i;
+        this.notificationSize = i;
+        const notiArray=Object.entries(this.notifications.notificationMessage);
+        notiArray.sort((key, value) => {
+          if (key[1] === value[1]) {
+            return 0;
+          } else if (key[1] === false) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        this.notificationArray=notiArray;
       },
       error => {
         alert("Failed to get notification")
@@ -205,7 +208,7 @@ export class BoardViewComponent implements OnInit {
       }
     )
   }
-  dateToString(date:any){
+  dateToString(date: any) {
     let hoursDiff = date.getHours() - date.getTimezoneOffset() / 60;
     let minutesDiff = (date.getHours() - date.getTimezoneOffset()) % 60;
     date.setHours(hoursDiff);
@@ -252,25 +255,25 @@ export class BoardViewComponent implements OnInit {
     this.currentCardTaskStatus = task.priority;
   }
   deleteProject(project: any) {
-    this.projectService.confirmMsg="dlt";
+    this.projectService.confirmMsg = "dlt";
     const dialog = this.dialog.open(ConfirmmessageComponent);
-    dialog.afterClosed().subscribe(result => { 
-     if(this.projectService.confirmdlt){
-      this.user.deleteProject(project).subscribe(
-      response => {
-        // this.projectList.projectList=this.projectList.projectList
-        this.openSnackBar("The project was deleted Successfully", "OK")
-        this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.routing.navigate(['/boardView']);
-        });
-        this.projectService.confirmdlt=false;
-      },
-      error => {
-        this.openSnackBar("There was error deleting the project", "OK")
+    dialog.afterClosed().subscribe(result => {
+      if (this.projectService.confirmdlt) {
+        this.user.deleteProject(project).subscribe(
+          response => {
+            this.projectService.projectName=null;
+            this.openSnackBar("The project was deleted Successfully", "OK")
+            this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.routing.navigate(['/boardView']);
+            });
+            this.projectService.confirmdlt = false;
+          },
+          error => {
+            this.openSnackBar("There was error deleting the project", "OK")
+          }
+        )
       }
-    )
-   }
-  })
+    })
   }
   // -----------------------Delete and Insert task------------------------------
   delete(columnName: any, task: any) {
@@ -313,14 +316,14 @@ export class BoardViewComponent implements OnInit {
 
   // ----------------------------
 
-  projectDialog:any;
+  projectDialog: any;
   projectWindow() {
-   this.projectDialog=  this.dialog.open(ProjectComponent);
-    this.projectService.closeBoxForProject=false;
+    this.projectDialog = this.dialog.open(ProjectComponent);
+    this.projectService.closeBoxForProject = false;
   }
 
-  ngDoCheck(){
-    if(this.projectService.closeBoxForProject){
+  ngDoCheck() {
+    if (this.projectService.closeBoxForProject) {
       this.projectDialog.close();
     }
   }
@@ -332,8 +335,8 @@ export class BoardViewComponent implements OnInit {
     dialogConfig.position = { top: '-50px' };
     this.dialog.open(TaskComponent);
   }
-  editTask(task:any){
-    this.projectService.editTask=task;
+  editTask(task: any) {
+    this.projectService.editTask = task;
     this.dialog.open(EditTaskComponent);
   }
   // -------------------------

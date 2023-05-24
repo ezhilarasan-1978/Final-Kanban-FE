@@ -10,12 +10,12 @@ export class NotificationService {
   constructor(private httpClient: HttpClient, private user: UserService) { }
 
   getNotification() {
-    return this.httpClient.get('http://localhost:8090/api/v1/notifications/' + localStorage.getItem('currentUser'));
+    return this.httpClient.get('http://localhost:8085/api/v1/notifications/' + localStorage.getItem('currentUser'));
   }
   readAllNotifications(){
-    return this.httpClient.get('http://localhost:8090/api/v1/notifications/allRead/' + localStorage.getItem('currentUser'));
+    return this.httpClient.get('http://localhost:8085/api/v1/notifications/allRead/' + localStorage.getItem('currentUser'));
   }
   readNotifications(msg:any){
-    return this.httpClient.get(`http://localhost:8090/api/v1/notifications/read/${localStorage.getItem('currentUser')}/${msg}`);
+    return this.httpClient.get(`http://localhost:8085/api/v1/notifications/read/${localStorage.getItem('currentUser')}/${msg}`);
   }
 }

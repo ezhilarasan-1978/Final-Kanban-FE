@@ -26,26 +26,24 @@ export class UserService {
     this.currentUser=undefined;
   }
 
-  baseUrl:string ="http://localhost:3033/api/v1/auth";
-  baseurl2:string="http://localhost:8007/api/v1/user/";
+  // baseUrl:string ="http://localhost:3033/api/v1/auth";
+  // baseurl2:string="http://localhost:8007/api/v1/user/";
+  baseUrl:string ="http://localhost:8085/api/v1/auth";
+  baseurl2:string="http://localhost:8085/api/v1/user/";
 
 
   loginUser(loginData:any){
     return this.httpClient.post(this.baseUrl+"/login", loginData);
   }
   regsiterCustomer(userData:any){
-    return this.httpClient.post('http://localhost:8007/api/v1/user/register', userData );
+    return this.httpClient.post('http://localhost:8085/api/v1/user/register', userData );
+    // return this.httpClient.post('http://localhost:8007/api/v1/user/register', userData );
   }
 
   findUserCustomer(name:string){
     return this.httpClient.get(this.baseUrl+"/findUser/"+`${name}`);
   }
 
-  // getProjectList(){
-  //   const headers = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("jwt")}` })
-
-  //   return this.httpClient.get(this.baseurl2+"projectList", {headers})
-  // }
   getProjectList(){
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("jwt")}` })
 
