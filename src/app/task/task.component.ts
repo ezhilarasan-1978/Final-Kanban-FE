@@ -125,10 +125,7 @@ fetchedProjectDetails:any;
       this.deadline.setHours(hoursDiff);
       this.deadline.setMinutes(minutesDiff);
     }
-
-    // this.deadline = JSON.stringify(this.deadline)
-    // this.deadline = this.deadline.slice(1, 11);
-
+    
     const task: any = {
       name: this.taskName?.value,
       content: this.taskContent?.value,

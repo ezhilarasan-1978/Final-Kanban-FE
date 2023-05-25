@@ -16,7 +16,6 @@ mat-card {
   border-radius: 0 15% 0 15%;
 }
 
-  }
 
   mat-card-header {
     display: flex;
@@ -74,7 +73,7 @@ mat-card {
     width: 80px;
     margin: auto;
   }
-}
+
 
 
 @media only screen and (max-width: 768px) {
@@ -116,3 +115,4 @@ mat-card {
    }
 
    }
+  }

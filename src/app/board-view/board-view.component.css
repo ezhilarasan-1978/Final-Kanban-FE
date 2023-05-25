@@ -439,3 +439,11 @@ body {
   max-height: 300px;
   overflow-y: auto;
 }
+#delCol{
+  display: none;
+  margin-left: 5px;
+}
+.example-container:hover #delCol{
+  display: initial;
+  cursor: pointer;
+}

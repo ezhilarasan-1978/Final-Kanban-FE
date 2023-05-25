@@ -9,7 +9,7 @@
         </div>
       </mat-card-header>
       <mat-card-content>
-        <form [formGroup]="registerForm" #formData="ngForm" (ngSubmit)="registerCustomer()">
+        <form [formGroup]="registerForm" #formData="ngForm" (ngSubmit)="registerCustomer()" spellcheck="false">
           <mat-form-field appearance="outline">
             <input matInput type="text" placeholder="Name" formControlName="name">
             <mat-error class="error" *ngIf="getName?.errors?.['required']">

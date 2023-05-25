@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../service/notification.service';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -34,11 +35,13 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
+    alert(val)
+    
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
         if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
-          let val = this.projectService.getProjectName();
+          // let val = this.projectService.getProjectName();
           this.user.getProjectList().subscribe(
             response => {
               this.projectList = response;
@@ -62,6 +65,7 @@ export class BoardViewComponent implements OnInit {
         }
       }
     )
+    this.getNotification();
   }
 
   showL: boolean = true;
@@ -108,7 +112,7 @@ export class BoardViewComponent implements OnInit {
     );
   }
 
-      
+
   drop(event: CdkDragDrop<Task[]>) {
     this.getThePriorityTasks();
     if (event.previousContainer === event.container) {
@@ -419,5 +423,97 @@ export class BoardViewComponent implements OnInit {
     }
   }
 
+  download() {
+    const element = document.getElementsByClassName('kanban-main')[0] as HTMLElement;
+    if (element) {
+      html2canvas(element).then((canvas) => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL();
+        link.download = 'screenshot.png';
+        link.click();
+      });
+    } else {
+      console.error('Element not found');
+    }
+  }
+
+  changeColumnName(event: any, columnName: any) {
+    for (let col of Object.entries(this.projectDetails.columns)) {
+      let [name, arr] = col as any;
+      console.log(name);
+
+      if (name == columnName && name !== 'To Be Done' && name !== 'Work In Progress' && name !== 'Completed') {
+        const newName = event.target.innerText;
+        delete this.projectDetails.columns[columnName];
+        this.projectDetails.columns[newName] = arr;
+        this.projectService.updateProject(this.projectDetails).subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            alert("There was error updating the project");
+            console.log(error);
+          }
+        )
+      }
+    }
+    console.log(this.projectDetails.columns);
+  }
+  addColumn() {
+    let i = 0;
+    for (let col of Object.entries(this.projectDetails.columns)) {
+      let [name, arr] = col as any;
+      if(name=='New Column'){
+        this.openSnackBar("Column with same name exists", "Ok")  
+      }
+      i += 1;
+    }
+    console.log(i);
+    if (i < 6) {
+      this.projectDetails.columns['New Column'] = [];
+      this.projectService.updateProject(this.projectDetails).subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          alert("There was error updating the project");
+          console.log(error);
+        }
+      ) 
+    }
+    else{
+      this.openSnackBar("Cannot add any more Columns", "Ok")  
+    }
+  }
+  deleteColumn(columnName: any) {
+    let arr=this.projectDetails.columns[columnName]
+    if (arr.length>0) {
+      this.openSnackBar("Cannot delete Columns with Tasks", "Ok")  
+    }
+    else {
+      delete this.projectDetails.columns[columnName];
+    }
+    this.projectService.updateProject(this.projectDetails).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        alert("There was error updating the project");
+        console.log(error);
+      }
+    )
+  }
+  canEditCol:boolean=false
+  columnNameChangeable(columnName: any) {
+    if (columnName == 'To Be Done' || columnName == 'Work In Progress' || columnName == 'Completed') {
+      return false;
+    }
+    else{
+      return this.canEditCol;
+    }
+  }
+  editableCol(){
+    this.canEditCol=!this.canEditCol;
+  }
 
 }
