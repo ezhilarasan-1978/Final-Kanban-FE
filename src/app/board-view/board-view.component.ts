@@ -40,7 +40,7 @@ export class BoardViewComponent implements OnInit {
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
-        if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
+        // if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
           // let val = this.projectService.getProjectName();
           this.user.getProjectList().subscribe(
             response => {
@@ -63,7 +63,7 @@ export class BoardViewComponent implements OnInit {
             }
           );
         }
-      }
+      // }
     )
     this.getNotification();
   }
