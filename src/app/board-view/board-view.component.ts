@@ -514,10 +514,6 @@ export class BoardViewComponent implements OnInit {
   }
   taskArchive:boolean=false;
   getTaskStatus(status:any){
-    const test = document.getElementById('test');
-      if(test){
-        test.style.border='10px solid black'
-      }
     if(status=='Archived'){
       return this.taskArchive;
     }
