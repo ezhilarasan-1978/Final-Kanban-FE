@@ -35,7 +35,7 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
-    alert(val)
+  
 
     this.user.getProjectList().subscribe(
       response => {
