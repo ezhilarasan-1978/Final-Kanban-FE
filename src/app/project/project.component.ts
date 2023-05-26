@@ -29,7 +29,7 @@ export class ProjectComponent {
     this.user.getUser();
 
     this.projectForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required,Validators.pattern(/^[a-zA-Z]/)]],
       members: [[]],
       memberName: [''],
       columns: [[]],

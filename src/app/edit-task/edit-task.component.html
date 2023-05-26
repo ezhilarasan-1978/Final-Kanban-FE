@@ -20,6 +20,9 @@
             <mat-error *ngIf="taskName?.errors?.['required']">
               Task name is required
             </mat-error>
+            <mat-error *ngIf="taskName?.hasError('pattern')">
+              Task name should start with a character.
+            </mat-error>
           </mat-error>
         </mat-form-field>
       </div>
@@ -31,6 +34,9 @@
           <mat-error *ngIf="taskContent?.invalid && (taskContent?.dirty || taskContent?.touched)">
             <mat-error *ngIf="taskContent?.errors?.['required']">
               Task Content is required
+            </mat-error>
+            <mat-error *ngIf="taskContent?.hasError('pattern')">
+              Task content should start with a character.
             </mat-error>
           </mat-error>
         </mat-form-field>
