@@ -36,33 +36,33 @@ export class BoardViewComponent implements OnInit {
 
     let val = this.projectService.getProjectName();
     alert(val)
-    
+
     this.user.getProjectList().subscribe(
       response => {
         this.projectList = response;
         // if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
-          // let val = this.projectService.getProjectName();
-          this.user.getProjectList().subscribe(
-            response => {
-              this.projectList = response;
-              if (val === null || typeof val === 'undefined') {
-                val = this.projectList.projectList[0];
-              }
-              this.projectService.setProjectName(val);
-              this.projectService.getProject(val).subscribe(
-                response => {
-                  this.projectDetails = response;
-                  this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
-                  this.getNotification();
-                },
-                error => console.log("There was error fetching Project Details")
-              )
-            },
-            error => {
-              console.log(error);
+        // let val = this.projectService.getProjectName();
+        this.user.getProjectList().subscribe(
+          response => {
+            this.projectList = response;
+            if (val === null || typeof val === 'undefined') {
+              val = this.projectList.projectList[0];
             }
-          );
-        }
+            this.projectService.setProjectName(val);
+            this.projectService.getProject(val).subscribe(
+              response => {
+                this.projectDetails = response;
+                this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
+                this.getNotification();
+              },
+              error => console.log("There was error fetching Project Details")
+            )
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
       // }
     )
     this.getNotification();
@@ -112,17 +112,26 @@ export class BoardViewComponent implements OnInit {
     );
   }
 
+  getKey(data: any) {
+    for (let col of Object.entries(this.projectDetails.columns)) {
+      let [name, arr] = col as any;
+      if (arr == data) {
+        return name
+      }
+    }
+  }
 
   drop(event: CdkDragDrop<Task[]>) {
     this.getThePriorityTasks();
+
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      if (event.container.id === "cdk-drop-list-1" && !this.getNumberOfTaskInWIP()) {
+      if (this.getKey(event.container.data) == 'Work In Progress' && !this.getNumberOfTaskInWIP()) {
         this.openSnackBar("WIP limit reached", "OK")
         return;
       }
-      if (event.container.id === "cdk-drop-list-1" && this.getThePriorityTasks()) {
+      if (this.getKey(event.container.data) == 'Work In Progress' && this.getThePriorityTasks()) {
         this.openSnackBar("Only Priority task can be added", "OK")
         return;
       }
@@ -249,6 +258,10 @@ export class BoardViewComponent implements OnInit {
   }
 
   getColumnTasks(columnName: string) {
+    for(let i=0;i<this.projectDetails.columns[columnName].length;i++){
+      this.projectDetails.columns[columnName][i].status=columnName;
+    }
+    
     return this.projectDetails.columns[columnName];
   }
   // ------------------------------methods for manipulation of content drag and drop
@@ -264,7 +277,7 @@ export class BoardViewComponent implements OnInit {
         urgent++;
       }
     }
-    if (urgent > 5 && this.currentCardTaskStatus != "Urgent") {
+    if (urgent > 2 && this.currentCardTaskStatus != "Urgent") {
 
       return true;
     } else {
@@ -297,27 +310,42 @@ export class BoardViewComponent implements OnInit {
       }
     })
   }
-  // -----------------------Delete and Insert task------------------------------
-  delete(columnName: any, task: any) {
-    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
-      if (this.projectDetails.columns[columnName][i].name == task.name) {
-        this.projectDetails.columns[columnName].splice(i, 1);
-        this.openSnackBar("The task was deleted successfully", "OK")
 
-        break;
+  delete(columnName: any, task: any) {
+    console.log(this.user.currentUser);
+    console.log(task.assignee);
+
+    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+      if (this.user.currentUser !== task.assignee) {
+        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
+          this.projectDetails.columns[columnName][i].status = 'Archived'
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was deleted successfully", "OK")
+          break;
+        }
+        else {
+          this.openSnackBar("Task can only be removed from COmpleted ", "OK")
+        }
+      } else {
+        if (this.projectDetails.columns[columnName][i].name == task.name) {
+          this.projectDetails.columns[columnName][i].status = 'Archived'
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was deleted successfully", "OK")
+          break;
+        }
       }
     }
-    this.projectService.updateProject(this.projectDetails).subscribe(
+    // this.projectService.updateProject(this.projectDetails).subscribe(
 
-      response => {
-        console.log(response);
-      },
-      error => {
-        alert("There was error updating the project");
-        console.log(error);
+    //   response => {
+    //     console.log(response);
+    //   },
+    //   error => {
+    //     alert("There was error updating the project");
+    //     console.log(error);
 
-      }
-    )
+    //   }
+    // )
   }
 
   // ------------------------------------u---------------------------------------
@@ -436,6 +464,29 @@ export class BoardViewComponent implements OnInit {
       console.error('Element not found');
     }
   }
+  shareBoard() {
+
+    const ss = document.getElementsByClassName('kanban-main')[0] as HTMLElement;
+    if (ss) {
+      html2canvas(ss).then(canvas => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], 'workflo_screenshot.png', { type: blob?.type })
+            if (navigator.share) {
+              navigator.share({
+                title: 'Workflo.com share',
+                files: [file],
+              })
+            }
+          }
+        }, 'image/png');
+      });
+    }
+    else {
+      alert("No element")
+    }
+
+  }
 
   changeColumnName(event: any, columnName: any) {
     for (let col of Object.entries(this.projectDetails.columns)) {
@@ -463,8 +514,8 @@ export class BoardViewComponent implements OnInit {
     let i = 0;
     for (let col of Object.entries(this.projectDetails.columns)) {
       let [name, arr] = col as any;
-      if(name=='New Column'){
-        this.openSnackBar("Column with same name exists", "Ok")  
+      if (name == 'New Column') {
+        this.openSnackBar("Column with same name exists", "Ok")
       }
       i += 1;
     }
@@ -479,16 +530,16 @@ export class BoardViewComponent implements OnInit {
           alert("There was error updating the project");
           console.log(error);
         }
-      ) 
+      )
     }
-    else{
-      this.openSnackBar("Cannot add any more Columns", "Ok")  
+    else {
+      this.openSnackBar("Cannot add any more Columns", "Ok")
     }
   }
   deleteColumn(columnName: any) {
-    let arr=this.projectDetails.columns[columnName]
-    if (arr.length>0) {
-      this.openSnackBar("Cannot delete Columns with Tasks", "Ok")  
+    let arr = this.projectDetails.columns[columnName]
+    if (arr.length > 0) {
+      this.openSnackBar("Cannot delete Columns with Tasks", "Ok")
     }
     else {
       delete this.projectDetails.columns[columnName];
@@ -503,17 +554,17 @@ export class BoardViewComponent implements OnInit {
       }
     )
   }
-  canEditCol:boolean=false
+  canEditCol: boolean = false
   columnNameChangeable(columnName: any) {
     if (columnName == 'To Be Done' || columnName == 'Work In Progress' || columnName == 'Completed') {
       return false;
     }
-    else{
+    else {
       return this.canEditCol;
     }
   }
-  editableCol(){
-    this.canEditCol=!this.canEditCol;
+  editableCol() {
+    this.canEditCol = !this.canEditCol;
   }
 
 }

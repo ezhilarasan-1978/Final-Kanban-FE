@@ -54,6 +54,7 @@
         <button mat-button class="icn" (click)="download()"><i class="fa fa-download"
             style="font-size:22px;"></i></button>
         <button mat-button class="icn" (click)="addColumn()"><i class="fa fa-plus" style="font-size:22px;"></i></button>
+        <button mat-button class="icn" (click)="shareBoard()"><i class="fa fa-share" style="font-size:22px;"></i></button>
 
       </div>
     </div>
@@ -76,8 +77,8 @@
           <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag
             (cdkDragStarted)="onDragStart(task)">
 
-            <mat-card [ngClass]="getColorClass(task.priority)" (click)="editTask(task)">
-              <mat-card-header class="container">
+            <mat-card [ngClass]="getColorClass(task.priority)">
+              <mat-card-header class="container" (click)="editTask(task)">
                 <mat-card-title>{{task.name}}</mat-card-title>
                 <small *ngIf="task.createDate" id="createdate"
                   matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>

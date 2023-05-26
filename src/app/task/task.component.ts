@@ -133,6 +133,7 @@ fetchedProjectDetails:any;
       createDate: this.createDate,
       deadline: this.deadline,
       assignee: this.user,
+      status:'Not Archived',
       members: this.members?.value
     };
     this.projectService.addNewTask(task).subscribe(
