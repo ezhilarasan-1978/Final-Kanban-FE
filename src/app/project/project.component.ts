@@ -52,9 +52,12 @@ export class ProjectComponent {
   }
 
   addColumn() {
+   
     if (!this.columns.value.includes(this.columnName.value.trim()) && this.columnName.value.trim().length > 0) {
-      this.columns.value.push(this.columnName.value.trim());
-      this.columnName.setValue('');
+      if(this.columns.value.length<6){
+        this.columns.value.push(this.columnName.value.trim());
+        this.columnName.setValue('');
+      }
     } else {
       this.openSnackBar("Empty or Duplicate Columns Not Allowed", "Ok");
     }
