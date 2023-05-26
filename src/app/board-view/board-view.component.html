@@ -54,7 +54,7 @@
         <button mat-button class="icn" (click)="download()"><i class="fa fa-download"
             style="font-size:22px;"></i></button>
         <button mat-button class="icn" (click)="addColumn()"><i class="fa fa-plus" style="font-size:22px;"></i></button>
-
+        <button mat-button class="icn" (click)="shareBoard()"><i class="fa fa-share" style="font-size:22px;"></i></button>
       </div>
     </div>
     <div cdkDropListGroup class="kanban-main">
@@ -71,7 +71,7 @@
               *ngIf="columnName !== 'To Be Done' && columnName !== 'Work In Progress' && columnName !== 'Completed' "
             (click)="deleteColumn(columnName)">delete</mat-icon>
         </div>
-        <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)" class="example-list"
+        <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)"  class="example-list"
           (cdkDropListDropped)="drop($event)">
           <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag
             (cdkDragStarted)="onDragStart(task)">
@@ -115,7 +115,7 @@
                   <small id="assigne">{{loadA(task.assignee)}}</small>
                 </span>
 
-                <mat-icon id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
+                <mat-icon id="delete" *ngIf="columnName=='Completed'" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
 
               </mat-card-actions>
             </mat-card>
