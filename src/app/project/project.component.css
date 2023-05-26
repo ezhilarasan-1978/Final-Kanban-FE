@@ -7,9 +7,12 @@ mat-card{
     position:relative;
     height: fit-content;
     background-color: #e2def0;
-    background-image: linear-gradient(135deg, #815de5 25%, transparent 25%);
+    background-image: linear-gradient(135deg, hsl(256, 86%, 84%) 25%, transparent 25%);
   }
 
+mat-error {
+    margin-top: -11px;
+}
 
 h2{
   margin-top: 14px;

@@ -34,7 +34,7 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
-    alert(val)
+  
 
     this.user.getProjectList().subscribe(
       response => {
@@ -134,6 +134,21 @@ export class BoardViewComponent implements OnInit {
         this.openSnackBar("Only Priority task can be added", "OK")
         return;
       }
+      if(event.previousContainer.data[0].status=="To Be Done"&&this.getKey(event.container.data) == 'Completed'){
+        this.openSnackBar("Can't Move directly from To Be Done to completed","OK")
+        return;
+      }
+      if(event.previousContainer.data[0].status!==null&&this.getKey(event.container.data) == 'To Be Done'){
+        this.openSnackBar("Not Allowed","OK")
+        return;
+      }
+      let initial=this.getColumnIndex(event.previousContainer.data[0].status);
+      let final=this.getColumnIndex(this.getKey(event.container.data));
+
+      if ((final-initial>=2) || (initial-final>=2)) {
+        this.openSnackBar("Kindly don't skip any step", "OK");
+        return;
+      }
       transferArrayItem(
         event.previousContainer.data,
         event.container.data as Task[],
@@ -154,6 +169,14 @@ export class BoardViewComponent implements OnInit {
     )
   }
 
+  getColumnIndex(columnName:any){
+
+    if (this.projectDetails && this.projectDetails.columns) {
+      let arrayData =Object.keys(this.projectDetails.columns);
+      return arrayData.indexOf(columnName);
+    }
+    return 0;
+  }
   sortName() {
     for (let col of Object.entries(this.projectDetails.columns)) {
       let [name, arr] = col as any;
@@ -257,10 +280,12 @@ export class BoardViewComponent implements OnInit {
   }
 
   getColumnTasks(columnName: string) {
-    for(let i=0;i<this.projectDetails.columns[columnName].length;i++){
-      this.projectDetails.columns[columnName][i].status=columnName;
-    }
     
+      for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+        if(this.projectDetails.columns[columnName][i].status!=='Archived'){
+        this.projectDetails.columns[columnName][i].status = columnName;
+      }
+    }
     return this.projectDetails.columns[columnName];
   }
   // ------------------------------methods for manipulation of content drag and drop
@@ -311,9 +336,8 @@ export class BoardViewComponent implements OnInit {
   }
 
   delete(columnName: any, task: any) {
-    console.log(this.user.currentUser);
-    console.log(task.assignee);
 
+    alert(task.status)
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
         if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
@@ -334,7 +358,8 @@ export class BoardViewComponent implements OnInit {
         }
       }
     }
-    // this.projectService.updateProject(this.projectDetails).subscribe(
+    alert(task.status)
+    this.projectService.updateProject(this.projectDetails).subscribe(
 
     //   response => {
     //     console.log(response);
@@ -485,6 +510,16 @@ export class BoardViewComponent implements OnInit {
       alert("No element")
     }
 
+  }
+  taskArchive:boolean=false;
+  getTaskStatus(status:any){
+    if(status=='Archived'){
+      return this.taskArchive;
+    }
+    return !this.taskArchive;
+  }
+  toggleArchive(){
+    this.taskArchive=!this.taskArchive
   }
 
   changeColumnName(event: any, columnName: any) {
