@@ -92,8 +92,8 @@ fetchedProjectDetails:any;
 
 
   AddTask = this.fb.group({
-    taskName: ['', Validators.required],
-    taskContent: ['', Validators.required],
+    taskName: ['', [Validators.required,Validators.pattern( /^[a-zA-Z]/)]],
+    taskContent: ['',[Validators.required,Validators.pattern( /^[a-zA-Z]/)]],
     taskPriority: [''],
     startDate: [''],
     dueDate: [''],
