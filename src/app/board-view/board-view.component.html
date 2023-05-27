@@ -4,6 +4,7 @@
   <mat-sidenav #sidenav mode="side" opened id="side-nav">
     <button mat-raised-button (click)="projectWindow()" class="btn"><mat-icon>add_box</mat-icon>Create
       Project</button>
+      
     <button mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
       Task</button>
     <div class="firstCard">
@@ -12,7 +13,7 @@
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
           <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
           <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
-          <mat-icon *ngIf="this.editEnable" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
+          <mat-icon *ngIf="editEnable(project)" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
         </div>
       </div>
     </div>
@@ -40,7 +41,7 @@
         </div>
       </div>
       <div>
-        <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
+        <!-- <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
             class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
         <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
             src="../../assets/Arrow.png"></button>
@@ -63,7 +64,34 @@
         <button mat-button class="icn" (click)="shareBoard()"><i class="fa fa-share"
             style="font-size:22px;"></i></button>
         <button mat-button class="icn" (click)="toggleArchive()"><i class="fa fa-folder-open"
-            style="font-size:22px;"></i></button>
+            style="font-size:22px;"></i></button> -->
+            <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
+              class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
+          <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
+              src="../../assets/Arrow.png"></button>
+  
+          <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()"><i
+              matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
+              style="font-size:22px;" matTooltip="Notification"></i></button>
+          <mat-menu #menu="matMenu">
+            <div class="notification">
+              <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
+              <button mat-menu-item *ngFor="let msg of notificationArray" (click)="readMsg(msg[0])"
+                [ngClass]="seenUnseen(msg[1])">
+                <p>{{msg[0]}}</p>
+              </button>
+            </div>
+          </mat-menu>
+          <button mat-button class="icn" (click)="download()" matTooltip="Download Board"><i class="fa fa-download"
+              style="font-size:22px;"></i></button>
+          <button mat-button class="icn" (click)="addColumn()" matTooltip="Add new Column"><i class="fa fa-plus"
+              style="font-size:22px;"></i></button>
+          <button mat-button class="icn" (click)="shareBoard()" matTooltip="Share Board"><i class="fa fa-share"
+              style="font-size:22px;"></i></button>
+          <button *ngIf="!taskArchive" mat-button class="icn" (click)="toggleArchive()" matTooltip="Open Archive"><i
+              class="fa fa-folder-open" style="font-size:22px;"></i></button>
+          <button *ngIf="taskArchive" mat-button class="icn" (click)="toggleArchive()" matTooltip="Close Archive"><i
+              class="fa fa-folder" style="font-size:22px;"></i></button>
 
       </div>
     </div>
@@ -125,8 +153,15 @@
                     <small id="assigne">{{loadA(task.assignee)}}</small>
                   </span>
 
-                  <mat-icon id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
-                  <mat-icon id="delete" matTooltip="UnDelete Task" (click)="delete(columnName,task)">delete</mat-icon>
+                  <!-- <mat-icon id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
+                  <mat-icon id="delete" matTooltip="UnDelete Task" (click)="delete(columnName,task)">delete</mat-icon> -->
+                  <mat-icon
+                    *ngIf="(!taskArchive && currentUser == task.assignee)||(!taskArchive && columnName=='Completed')"
+                    id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
+                  <mat-icon
+                    *ngIf="(taskArchive && currentUser == task.assignee)||(taskArchive && columnName=='Completed')"
+                    id="delete" matTooltip="Restore Task"
+                    (click)="restore(columnName,task)">restore_from_trash</mat-icon>
 
                 </mat-card-actions>
               </mat-card>

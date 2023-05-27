@@ -27,11 +27,15 @@ export class ProjectComponent {
   currentUserName: any;
 
   projectDetails:any; //This for editing the project
+
+  edit:any;
   ngOnInit() {
+    // this.tempArrayForEdit=null;
+    this.edit=false;
 
     if( this.project.editProject==true){
       this.projectDetails= this.project.getProjectDetailsForProjectEdit();
-
+      this.edit=true;
       
       
       this.projectForm = this.formBuilder.group({
@@ -166,17 +170,20 @@ getProjectNameForEdit(name:string){
           columns: Object.fromEntries(columnList.entries())
         };
 
+
+        
         if(this.project.editProject){
     
           this.project.editProjectData(this.projectDetails.name, project).subscribe(
             response=> {console.log(response) 
 
-                        
-             console.log("_______________________________________________");
-             console.log(this.tempArrayForEdit);
+            console.log("------------------------------------------------");
+            console.log(this.tempArrayForEdit.length);
+            
+            
              for(let i=0;i<this.tempArrayForEdit.length;i++){
                
-              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit.value[i]}/${project.name}`).subscribe(
+              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
                 response => {
                   this.openSnackBar("Project updated Successfully", "OK");
                   this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {

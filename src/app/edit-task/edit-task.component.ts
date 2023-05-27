@@ -32,6 +32,7 @@ export class EditTaskComponent implements OnInit {
     })
     this.currentDate=this.currentTask.createDate;
     let val = this.projectService.getProjectName();
+    this.createDate=this.currentDate;
 
     this.user1.getProjectList().subscribe(
       (response: any) => {

@@ -32,11 +32,9 @@ export class BoardViewComponent implements OnInit {
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any = {};
 
-  editEnable:boolean=false; //work only if the project last name matches with the current user Name
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
-  
 
     this.user.getProjectList().subscribe(
       response => {
@@ -55,13 +53,7 @@ export class BoardViewComponent implements OnInit {
                 this.projectDetails = response;
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
                 this.getNotification();
-   
-                if(this.projectDetails.name.split("-->")[1]===this.user.getUser()){
-                  this.editEnable=true;
-                }else{
-                  this.editEnable=false;
-                }
-                
+                 
               },
               error => console.log("There was error fetching Project Details")
             )
@@ -616,6 +608,39 @@ export class BoardViewComponent implements OnInit {
   }
   editableCol() {
     this.canEditCol = !this.canEditCol;
+  }
+
+
+  //---------edit Enable button
+
+  editEnable(projectName:any){
+    if(projectName.split("-->")[1]===this.user.getUser()){
+      return true;
+    }
+    return false;
+  }
+
+  // -----------------------------------Restore the task from the archives 
+
+  currentUser=this.user.currentUser;
+  restore(columnName: any, task: any) {
+    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+      if (this.user.currentUser !== task.assignee) {
+        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      } else {
+        if (this.projectDetails.columns[columnName][i].name == task.name) {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      }
+    }
   }
 
 }
