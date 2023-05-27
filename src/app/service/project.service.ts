@@ -12,7 +12,7 @@ export class ProjectService {
 
   projectDetails:any;
 
-  setProjectDetails(project:any){
+  setProjectDetails(project:any){//Sets the column details for work in progress
     this.projectDetails=project;
   }
 
@@ -30,7 +30,19 @@ export class ProjectService {
 
   closeBoxForProject?:boolean=false;
 
-// -------------------------------------
+// ___________CODE for the use in edit project-----------------------------
+  editProject:boolean=false;
+
+  private allProjectDetails:any;
+  setProjectDetailsForProjectEdit(projectDetails:any){
+    this.allProjectDetails=projectDetails;
+  }
+
+  getProjectDetailsForProjectEdit(){
+    return this.allProjectDetails;
+  }
+
+  // ___________CODE for the use in edit project ENDS HERE___________
 
   constructor(private httpClient:HttpClient) {}
   
@@ -52,4 +64,9 @@ export class ProjectService {
     // let name="Corrected Code"
     return this.httpClient.put(this.baseurl+`task/${this.projectName}`, task)
   }
+
+  // _______method for the edit project
+    editProjectData(name:any, project:any){
+      return this.httpClient.put(this.baseurl+`editProject/${name}`, project)
+    }
 }

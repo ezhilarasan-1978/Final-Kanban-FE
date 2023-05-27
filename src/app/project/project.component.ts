@@ -17,7 +17,7 @@ export class ProjectComponent {
 
   projectForm: any | FormGroup;
 
-  projectList: any;
+  // projectList: any;
 
   primary: any = "accent";
   secondary: any = "warn";
@@ -25,8 +25,30 @@ export class ProjectComponent {
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private routes: Router, private formBuilder: FormBuilder, private user: UserService, private project: ProjectService, private http: HttpClient) { }
 
   currentUserName: any;
+
+  projectDetails:any; //This for editing the project
+
+  edit:any;
   ngOnInit() {
-    this.user.getUser();
+    // this.tempArrayForEdit=null;
+    this.edit=false;
+
+    if( this.project.editProject==true){
+      this.projectDetails= this.project.getProjectDetailsForProjectEdit();
+      this.edit=true;
+      
+      
+      this.projectForm = this.formBuilder.group({
+        name: [ { value: this.getProjectNameForEdit(this.projectDetails.name), disabled: true }, [Validators.required,Validators.pattern(/^[a-zA-Z]/)]],
+        members: [this.projectDetails.members],
+        memberName: [''],
+        columns: [this.getColumnNames()],
+        columnName: ['']
+      });
+
+
+    }else{
+      this.user.getUser();
 
     this.projectForm = this.formBuilder.group({
       name: ['', [Validators.required,Validators.pattern(/^[a-zA-Z]/)]],
@@ -36,20 +58,27 @@ export class ProjectComponent {
       columnName: ['']
     });
 
-    this.user.getProjectList().subscribe(
-      response => {
-        this.projectList = response;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-
     this.columns.value.push("To Be Done");
     this.columns.value.push("Work In Progress");
     this.columns.value.push("Completed");
     this.members.value.push(this.user.currentUser);
+    }
+    
   }
+
+// Method to get the column names from the edit project details data
+getColumnNames() {
+  if (this.projectDetails && this.projectDetails.columns) {
+    return Object.keys(this.projectDetails.columns);
+  }
+  return [];
+}
+
+getProjectNameForEdit(name:string){
+  return name.split("-->")[0];
+}
+
+// ____________________________________________________
 
   addColumn() {
    
@@ -57,6 +86,8 @@ export class ProjectComponent {
       if(this.columns.value.length<6){
         this.columns.value.push(this.columnName.value.trim());
         this.columnName.setValue('');
+
+
       }
     } else {
       this.openSnackBar("Empty or Duplicate Columns Not Allowed", "Ok");
@@ -84,6 +115,9 @@ export class ProjectComponent {
   }
 
   findUserName: any;
+
+  tempArrayForEdit:string[]|any=[];
+
   addMember() {
     this.user.findUserCustomer(this.memberName.value.trim()).subscribe(
       response => {
@@ -93,9 +127,20 @@ export class ProjectComponent {
           if (this.members.value.length < 6) {
             if (!this.members.value.includes(this.memberName.value.trim())) {
               this.members.value.push(this.memberName.value.trim());
-              this.memberName.setValue('');
               this.findUserName = false;
+
+              
+              if(this.project.editProject){
+                  
+                this.tempArrayForEdit.push(this.memberName.value.trim())
+            
+              }
+              this.memberName.setValue('');
+
+            }else{
+              this.openSnackBar("Cannot Add Duplicate or Null members ", "OK")
             }
+ 
           } else {
             this.openSnackBar("Other than you, Cannot Add more than 5 Employees to a Project", "Ok");
           }
@@ -108,18 +153,6 @@ export class ProjectComponent {
   }
 
   addProject() {
-    // let flag:boolean=false;
-
-    // if(this.members.value.length===0){
-    //   this.members.value.push(this.user.currentUser);
-    //   flag=true; 
-    // }
-
-    // if(!this.members.value.includes(this.user.currentUser)){
-    //   this.members.value.push(this.user.currentUser);
-    //   flag=true;
-    // }
-
     //  ---------------------------------------------------------------------------
     if (this.columns.value.length < 2) {
       this.openSnackBar("There must be atleast 2 columns", "Got-It")
@@ -136,7 +169,38 @@ export class ProjectComponent {
           members: this.members.value,
           columns: Object.fromEntries(columnList.entries())
         };
-        this.project.addNewProject(project).subscribe(
+
+
+        
+        if(this.project.editProject){
+    
+          this.project.editProjectData(this.projectDetails.name, project).subscribe(
+            response=> {console.log(response) 
+
+            console.log("------------------------------------------------");
+            console.log(this.tempArrayForEdit.length);
+            
+            
+             for(let i=0;i<this.tempArrayForEdit.length;i++){
+               
+              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
+                response => {
+                  this.openSnackBar("Project updated Successfully", "OK");
+                  this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                    this.routes.navigate(['/boardView']);
+                  });
+                }
+              )
+            }
+            
+            },
+            error=>{console.log(error)}
+          )
+
+
+        }else{
+      
+          this.project.addNewProject(project).subscribe(
 
           response => {
             console.log(response);
@@ -156,6 +220,7 @@ export class ProjectComponent {
             this.openSnackBar(`Project with name ${project.name} already exist`, "OK");
           }
         )
+      }
         this.routes.navigate(['/boardView'], { state: { ProjectName: project.name } })
       }
     }

@@ -54,6 +54,7 @@ export class BoardViewComponent implements OnInit {
                 this.projectDetails = response;
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
                 this.getNotification();
+                 
               },
               error => console.log("There was error fetching Project Details")
             )
@@ -63,7 +64,6 @@ export class BoardViewComponent implements OnInit {
           }
         );
       }
-      // }
     )
     this.getNotification();
   }
@@ -337,6 +337,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   delete(columnName: any, task: any) {
+
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
         if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
@@ -357,6 +358,7 @@ export class BoardViewComponent implements OnInit {
         }
       }
     }
+
     this.projectService.updateProject(this.projectDetails).subscribe(
       response => {
         console.log(response);
@@ -407,6 +409,7 @@ export class BoardViewComponent implements OnInit {
 
   projectDialog: any;
   projectWindow() {
+    this.projectService.editProject=false;
     this.projectDialog = this.dialog.open(ProjectComponent);
     this.projectService.closeBoxForProject = false;
   }
@@ -416,6 +419,14 @@ export class BoardViewComponent implements OnInit {
       this.projectDialog.close();
     }
   }
+
+    // Edit project 
+    editProject(project:any){
+      this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
+      this.projectService.editProject=true;
+      this.projectDialog = this.dialog.open(ProjectComponent);
+      this.projectService.closeBoxForProject = false;
+    }
 
   // ----------------------------------
 
@@ -615,6 +626,39 @@ export class BoardViewComponent implements OnInit {
   }
   editableCol() {
     this.canEditCol = !this.canEditCol;
+  }
+
+
+  //---------edit Enable button
+
+  editEnable(projectName:any){
+    if(projectName.split("-->")[1]===this.user.getUser()){
+      return true;
+    }
+    return false;
+  }
+
+  // -----------------------------------Restore the task from the archives 
+
+  currentUser=this.user.currentUser;
+  restore(columnName: any, task: any) {
+    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+      if (this.user.currentUser !== task.assignee) {
+        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      } else {
+        if (this.projectDetails.columns[columnName][i].name == task.name) {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      }
+    }
   }
 
 }
