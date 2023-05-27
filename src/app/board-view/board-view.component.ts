@@ -35,7 +35,7 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
-  
+
 
     this.user.getProjectList().subscribe(
       response => {
@@ -135,18 +135,18 @@ export class BoardViewComponent implements OnInit {
         this.openSnackBar("Only Priority task can be added", "OK")
         return;
       }
-      if(event.previousContainer.data[0].status=="To Be Done"&&this.getKey(event.container.data) == 'Completed'){
-        this.openSnackBar("Can't Move directly from To Be Done to completed","OK")
+      if (event.previousContainer.data[0].status == "To Be Done" && this.getKey(event.container.data) == 'Completed') {
+        this.openSnackBar("Can't Move directly from To Be Done to completed", "OK")
         return;
       }
-      if(event.previousContainer.data[0].status!==null&&this.getKey(event.container.data) == 'To Be Done'){
-        this.openSnackBar("Not Allowed","OK")
+      if (event.previousContainer.data[0].status !== null && this.getKey(event.container.data) == 'To Be Done') {
+        this.openSnackBar("Not Allowed", "OK")
         return;
       }
-      let initial=this.getColumnIndex(event.previousContainer.data[0].status);
-      let final=this.getColumnIndex(this.getKey(event.container.data));
+      let initial = this.getColumnIndex(event.previousContainer.data[0].status);
+      let final = this.getColumnIndex(this.getKey(event.container.data));
 
-      if ((final-initial>=2) || (initial-final>=2)) {
+      if ((final - initial >= 2) || (initial - final >= 2)) {
         this.openSnackBar("Kindly don't skip any step", "OK");
         return;
       }
@@ -170,10 +170,10 @@ export class BoardViewComponent implements OnInit {
     )
   }
 
-  getColumnIndex(columnName:any){
+  getColumnIndex(columnName: any) {
 
     if (this.projectDetails && this.projectDetails.columns) {
-      let arrayData =Object.keys(this.projectDetails.columns);
+      let arrayData = Object.keys(this.projectDetails.columns);
       return arrayData.indexOf(columnName);
     }
     return 0;
@@ -281,9 +281,9 @@ export class BoardViewComponent implements OnInit {
   }
 
   getColumnTasks(columnName: string) {
-    
-      for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
-        if(this.projectDetails.columns[columnName][i].status!=='Archived'){
+
+    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+      if (this.projectDetails.columns[columnName][i].status !== 'Archived') {
         this.projectDetails.columns[columnName][i].status = columnName;
       }
     }
@@ -337,8 +337,6 @@ export class BoardViewComponent implements OnInit {
   }
 
   delete(columnName: any, task: any) {
-
-    alert(task.status)
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
         if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
@@ -359,18 +357,34 @@ export class BoardViewComponent implements OnInit {
         }
       }
     }
-    alert(task.status)
     this.projectService.updateProject(this.projectDetails).subscribe(
-
       response => {
         console.log(response);
       },
       error => {
         alert("There was error updating the project");
-        console.log(error);
-
       }
     )
+  }
+  currentUser=this.user.currentUser;
+  restore(columnName: any, task: any) {
+    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+      if (this.user.currentUser !== task.assignee) {
+        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      } else {
+        if (this.projectDetails.columns[columnName][i].name == task.name) {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      }
+    }
   }
 
   // ------------------------------------u---------------------------------------
@@ -512,15 +526,16 @@ export class BoardViewComponent implements OnInit {
     }
 
   }
-  taskArchive:boolean=false;
-  getTaskStatus(status:any){
-    if(status=='Archived'){
+  taskArchive: boolean = false;
+  getTaskStatus(status: any) {
+    if (status == 'Archived') {
       return this.taskArchive;
     }
     return !this.taskArchive;
   }
-  toggleArchive(){
-    this.taskArchive=!this.taskArchive
+
+  toggleArchive() {
+    this.taskArchive = !this.taskArchive
   }
 
   changeColumnName(event: any, columnName: any) {
