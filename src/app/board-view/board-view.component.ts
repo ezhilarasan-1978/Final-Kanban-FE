@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -31,6 +32,7 @@ export class BoardViewComponent implements OnInit {
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any = {};
 
+  editEnable:boolean=false; //work only if the project last name matches with the current user Name
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
@@ -53,6 +55,13 @@ export class BoardViewComponent implements OnInit {
                 this.projectDetails = response;
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
                 this.getNotification();
+   
+                if(this.projectDetails.name.split("-->")[1]===this.user.getUser()){
+                  this.editEnable=true;
+                }else{
+                  this.editEnable=false;
+                }
+                
               },
               error => console.log("There was error fetching Project Details")
             )
@@ -62,7 +71,6 @@ export class BoardViewComponent implements OnInit {
           }
         );
       }
-      // }
     )
     this.getNotification();
   }
@@ -337,7 +345,7 @@ export class BoardViewComponent implements OnInit {
 
   delete(columnName: any, task: any) {
 
-    alert(task.status)
+   
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
         if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
@@ -358,18 +366,18 @@ export class BoardViewComponent implements OnInit {
         }
       }
     }
-    alert(task.status)
+
     this.projectService.updateProject(this.projectDetails).subscribe(
 
-    //   response => {
-    //     console.log(response);
-    //   },
-    //   error => {
-    //     alert("There was error updating the project");
-    //     console.log(error);
+      response => {
+        console.log(response);
+      },
+      error => {
+        alert("There was error updating the project");
+        console.log(error);
 
-    //   }
-    // )
+      }
+    )
   }
 
   // ------------------------------------u---------------------------------------
@@ -392,6 +400,7 @@ export class BoardViewComponent implements OnInit {
 
   projectDialog: any;
   projectWindow() {
+    this.projectService.editProject=false;
     this.projectDialog = this.dialog.open(ProjectComponent);
     this.projectService.closeBoxForProject = false;
   }
@@ -401,6 +410,14 @@ export class BoardViewComponent implements OnInit {
       this.projectDialog.close();
     }
   }
+
+    // Edit project 
+    editProject(project:any){
+      this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
+      this.projectService.editProject=true;
+      this.projectDialog = this.dialog.open(ProjectComponent);
+      this.projectService.closeBoxForProject = false;
+    }
 
   // ----------------------------------
 

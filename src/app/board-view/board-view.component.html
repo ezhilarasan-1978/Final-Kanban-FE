@@ -12,6 +12,7 @@
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
           <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
           <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
+          <mat-icon *ngIf="this.editEnable" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
         </div>
       </div>
     </div>
