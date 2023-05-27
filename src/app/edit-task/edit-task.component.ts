@@ -31,6 +31,7 @@ export class EditTaskComponent implements OnInit {
       members: [this.currentTask.members]
     })
     this.currentDate=this.currentTask.createDate;
+    this.createDate=this.currentDate;
     let val = this.projectService.getProjectName();
     this.createDate=this.currentDate;
 

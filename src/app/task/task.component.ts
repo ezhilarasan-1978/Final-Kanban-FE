@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit {
     this.projectService.getProject(this.projectService.projectName).subscribe(data => {
        this.project = data; this.projectMembers = this.project.members 
       });
-
+      this.createDate=this.currentDate;
   }
   membersList: string[] = [];
 
