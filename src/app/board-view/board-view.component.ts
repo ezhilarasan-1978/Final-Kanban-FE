@@ -638,27 +638,6 @@ export class BoardViewComponent implements OnInit {
     return false;
   }
 
-  // -----------------------------------Restore the task from the archives 
-
-  currentUser=this.user.currentUser;
-  restore(columnName: any, task: any) {
-    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
-      if (this.user.currentUser !== task.assignee) {
-        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
-          this.projectDetails.columns[columnName][i].status = columnName
-          // this.projectDetails.columns[columnName].splice(i, 1);
-          this.openSnackBar("The task was Restored successfully", "OK")
-          break;
-        }
-      } else {
-        if (this.projectDetails.columns[columnName][i].name == task.name) {
-          this.projectDetails.columns[columnName][i].status = columnName
-          // this.projectDetails.columns[columnName].splice(i, 1);
-          this.openSnackBar("The task was Restored successfully", "OK")
-          break;
-        }
-      }
-    }
-  }
+  
 
 }
