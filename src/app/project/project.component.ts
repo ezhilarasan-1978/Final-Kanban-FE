@@ -137,6 +137,7 @@ getProjectNameForEdit(name:string){
                   const index = this.deletedMember.indexOf(this.memberName.value.trim());
                   if (index > -1) {
                     this.deletedMember.splice(index, 1);
+                    alert("added member to delete array"+this.memberName.value.trim())
                   }
                 }
             
@@ -188,31 +189,66 @@ getProjectNameForEdit(name:string){
               this.user.removeProjectOfMember(project.name, this.deletedMember[i]).subscribe(
                 response=>{
                   console.log(`____________This is response after deleting project name from the member of ${this.deletedMember[i]} ____________________`);
-                  console.log(response);                  
+                  console.log(response);
+                  
+                  // ----
+                  if (this.tempArrayForEdit.length > 0) {
+                    this.project.editProjectData(this.projectDetails.name, project).subscribe(
+                      response => {
+                        let completedRequests = 0; // Counter variable for completed requests
+                  
+                        for (let i = 0; i < this.tempArrayForEdit.length; i++) {
+                          this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
+                            response => {
+                              this.openSnackBar("Project updated Successfully", "OK");
+                              this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                                this.routes.navigate(['/boardView']);
+                              });
+                  
+                              // Increment the completed requests counter
+                              completedRequests++;
+                  
+                              // Check if all requests have completed
+                              if (completedRequests === this.tempArrayForEdit.length) {
+                                this.tempArrayForEdit = null; // Execute after all requests complete
+                              }
+                            }
+                          );
+                        }
+                      },
+                      error => {
+                        console.log(error);
+                      }
+                    );
+                  }
+                  
+                  // ---
                 }
                                 
               )
             }
-           }  
-
-           if(this.tempArrayForEdit.length>0){
-            this.project.editProjectData(this.projectDetails.name, project).subscribe(
-              response=> {console.log(response) 
-                for(let i=0;i<this.tempArrayForEdit.length;i++){
-                 
-                  this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
-                    response => {
-                      this.openSnackBar("Project updated Successfully", "OK");
-                      this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                        this.routes.navigate(['/boardView']);
-                      });
-                    }
-                  )
-                }
-              },
-              error=>{console.log(error)}
-            )
-    
+           }  else{
+            if(this.tempArrayForEdit.length>0){
+              this.project.editProjectData(this.projectDetails.name, project).subscribe(
+                response=> {console.log(response) 
+                  for(let i=0;i<this.tempArrayForEdit.length;i++){
+                   
+                    this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
+                      response => {
+                        this.openSnackBar("Project updated Successfully", "OK");
+                        this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                          this.routes.navigate(['/boardView']);
+                        });
+                      }
+                    )
+                  }
+                },
+                error=>{console.log(error)}
+              )
+      
+             }
+  
+  
            }
 // ____________________________________NORML WOKRING_________________________________
 
@@ -262,15 +298,45 @@ getProjectNameForEdit(name:string){
   // Delete the members
   deletedMember:string[]|any=[];
   removeMember(member: any) {
-
-    if (this.members.value.includes(member)) {
+    let originalMember:any;
+      
+      if (this.members.value.includes(member)) {
       let memberIndex = this.members.value.indexOf(member)
       if (memberIndex !== -1) {
         this.members.value.splice(memberIndex, 1);
-        this.deletedMember.push(member);
+
+        
+        this.project.getProject(this.projectDetails.name).subscribe(
+          response=>{
+            console.log("erespnse");
+            
+            console.log(response)
+            originalMember=response
+            console.log("Member before puhsing to delte array "+originalMember.members);
+            if(originalMember.members.includes(member)){
+              this.deletedMember.push(member);
+              console.log("This is the project details array that is oriinal one +" +this.deletedMember);    
+            }
+    
+            if(this.tempArrayForEdit.includes(member)){
+              const index = this.tempArrayForEdit.indexOf(member);
+              if (index > -1) {
+                alert("removed member to delete array"+member)
+                this.tempArrayForEdit.splice(index, 1);
+              }
+            }
+          },
+            
+            error=>{         
+              console.log(error);
+            }
+        )
+
+       
       }
 
     }
+    console.log(this.deletedMember)
   }
 
   removeColumn(column: any) {
