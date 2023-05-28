@@ -144,17 +144,19 @@
                       <mat-icon class="picon" *ngIf="task.priority=='Clear' || task.priority==''">flag</mat-icon>
                     </span>
                   </span>
-                  <span matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
+                  <!-- <span matTooltip="Due date: {{ task.deadline.slice(0, 10) }}">
                     <mat-icon id="cal">calendar_today</mat-icon>
+                    <small id="deadline">{{ task.deadline.slice(0, 10) }}</small>
+                  </span> -->
+                  <span  matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
+                    <mat-icon [style.background-color]="getSpanBackgroundColor(task.deadline)" id="cal">calendar_today</mat-icon>
                     <small id="deadline">{{load(task.deadline)}}</small>
                   </span>
+
                   <span matTooltip="Assigned by {{task.assignee}}">
                     <mat-icon id="iconA">brightness_1</mat-icon>
                     <small id="assigne">{{loadA(task.assignee)}}</small>
                   </span>
-
-                  <!-- <mat-icon id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
-                  <mat-icon id="delete" matTooltip="UnDelete Task" (click)="delete(columnName,task)">delete</mat-icon> -->
                   <mat-icon
                     *ngIf="(!taskArchive && currentUser == task.assignee)||(!taskArchive && columnName=='Completed')"
                     id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>

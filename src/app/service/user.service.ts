@@ -59,4 +59,8 @@ export class UserService {
   getAllUsers(){
     return this.httpClient.get(this.baseUrl+ '/registeredUsers');
   }
+
+  removeProjectOfMember(projectName:any, name:any){
+    return this.httpClient.get(this.baseurl2+`/removeProject/${projectName}/${name}`)
+  }
 }

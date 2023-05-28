@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Project, Task } from '../../assets/Project';
@@ -28,7 +28,7 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus: any;
   projectList: any;
   // ---------------------------------------------
-  constructor(private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
+  constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any = {};
 
@@ -142,6 +142,7 @@ export class BoardViewComponent implements OnInit {
         this.openSnackBar("Not Allowed","OK")
         return;
       }
+     
       let initial=this.getColumnIndex(event.previousContainer.data[0].status);
       let final=this.getColumnIndex(this.getKey(event.container.data));
 
@@ -343,6 +344,7 @@ export class BoardViewComponent implements OnInit {
         if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
           this.projectDetails.columns[columnName][i].status = 'Archived'
           // this.projectDetails.columns[columnName].splice(i, 1);
+
           this.openSnackBar("The task was deleted successfully", "OK")
           break;
         }
@@ -641,6 +643,23 @@ export class BoardViewComponent implements OnInit {
         }
       }
     }
+  }
+
+// -------------
+  getSpanBackgroundColor(deadline :any){
+    let color:string;
+    color='transparent';
+    const date=new Date()
+    if (deadline.slice(8, 10) === date.getDate()) {
+      color = 'red';
+    } else {
+      setTimeout(() => {
+        color = 'transparent';
+        this.cdr.detectChanges(); // Trigger change detection
+      }, 500);
+    }
+
+    return color;
   }
 
 }

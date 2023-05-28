@@ -192,6 +192,16 @@ getProjectNameForEdit(name:string){
                 }
               )
             }
+
+            for(let i =0; i<this.deletedMember.length;i++){
+              this.user.removeProjectOfMember(project.name, this.deletedMember[i]).subscribe(
+                response=>{
+                  console.log("_____________This is response after deleting project name from the member of ____________________");
+                  console.log(response);                  
+                }
+                                
+              )
+            }
             
             },
             error=>{console.log(error)}
@@ -214,6 +224,10 @@ getProjectNameForEdit(name:string){
               this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                 this.routes.navigate(['/boardView']);
               });
+            }
+
+            for(let i=0; i<this.deletedMember.length;i++){
+
             }
           },
           error => {
@@ -238,14 +252,16 @@ getProjectNameForEdit(name:string){
 
 
   // Delete the members
-
+  deletedMember:string[]|any=[];
   removeMember(member: any) {
 
     if (this.members.value.includes(member)) {
       let memberIndex = this.members.value.indexOf(member)
       if (memberIndex !== -1) {
         this.members.value.splice(memberIndex, 1);
+        this.deletedMember.push(member);
       }
+
     }
   }
 
