@@ -190,67 +190,15 @@ getProjectNameForEdit(name:string){
                 response=>{
                   console.log(`____________This is response after deleting project name from the member of ${this.deletedMember[i]} ____________________`);
                   console.log(response);
-                  
-                  // ----
-                  if (this.tempArrayForEdit.length > 0) {
-                    this.project.editProjectData(this.projectDetails.name, project).subscribe(
-                      response => {
-                        let completedRequests = 0; // Counter variable for completed requests
-                  
-                        for (let i = 0; i < this.tempArrayForEdit.length; i++) {
-                          this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
-                            response => {
-                              this.openSnackBar("Project updated Successfully", "OK");
-                              this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                                this.routes.navigate(['/boardView']);
-                              });
-                  
-                              // Increment the completed requests counter
-                              completedRequests++;
-                  
-                              // Check if all requests have completed
-                              if (completedRequests === this.tempArrayForEdit.length) {
-                                this.tempArrayForEdit = null; // Execute after all requests complete
-                              }
-                            }
-                          );
-                        }
-                      },
-                      error => {
-                        console.log(error);
-                      }
-                    );
-                  }
-                  
-                  // ---
-                }
-                                
+                  this.editProjectMethod(project);
+                }                                
               )
             }
            }  else{
-            if(this.tempArrayForEdit.length>0){
-              this.project.editProjectData(this.projectDetails.name, project).subscribe(
-                response=> {console.log(response) 
-                  for(let i=0;i<this.tempArrayForEdit.length;i++){
-                   
-                    this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
-                      response => {
-                        this.openSnackBar("Project updated Successfully", "OK");
-                        this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                          this.routes.navigate(['/boardView']);
-                        });
-                      }
-                    )
-                  }
-                },
-                error=>{console.log(error)}
-              )
-      
-             }
-  
-  
+              this.editProjectMethod(project);
            }
-// ____________________________________NORML WOKRING_________________________________
+           
+          // ____________________________________NORML WOKRING_________________________________
 
         }else{
       
@@ -377,6 +325,41 @@ getProjectNameForEdit(name:string){
     if (this.project.closeBoxForProject) {
       this.dialogOpen.close();
     }
+  }
+
+  editProjectMethod(project:any){
+       // ----
+       if (this.tempArrayForEdit.length > 0) {
+        this.project.editProjectData(this.projectDetails.name, project).subscribe(
+          response => {
+            let completedRequests = 0; // Counter variable for completed requests
+      
+            for (let i = 0; i < this.tempArrayForEdit.length; i++) {
+              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
+                response => {
+                  this.openSnackBar("Project updated Successfully", "OK");
+                  this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                    this.routes.navigate(['/boardView']);
+                  });
+      
+                  // Increment the completed requests counter
+                  completedRequests++;
+      
+                  // Check if all requests have completed
+                  if (completedRequests === this.tempArrayForEdit.length) {
+                    this.tempArrayForEdit = null; // Execute after all requests complete
+                  }
+                }
+              );
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+      
+      // ---
   }
 
 }

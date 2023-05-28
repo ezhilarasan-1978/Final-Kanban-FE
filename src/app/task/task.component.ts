@@ -52,16 +52,20 @@ fetchedProjectDetails:any;
       return this.projectMembers;
     }
     if (!this.projectService.projectDetails == null || typeof this.projectService.projectDetails !== "undefined") {
-          this.fetchedProjectDetails=this.projectService.projectDetails;
+
+         this.fetchedProjectDetails=this.projectService.projectDetails;
           let memberArray:any=[]; 
         for(let i=0; i<this.fetchedProjectDetails.length;i++){
           for(let j=0; j<this.fetchedProjectDetails[i].members.length;j++){
-            memberArray.push(this.fetchedProjectDetails[i].members[j]);
+            if(this.projectMembers.includes(this.fetchedProjectDetails[i].members[j])){
+              memberArray.push(this.fetchedProjectDetails[i].members[j]);
+            }
+
           }
         }
 
         for (let i = 0; i < this.projectMembers.length; i++) {
-          if (!memberArray.includes(this.projectMembers[i])) {
+          if (!memberArray.includes(this.projectMembers[i])&&this.projectMembers.includes(this.projectMembers[i])) {
             memberArray.push(this.projectMembers[i]);
           }
         }
