@@ -26,7 +26,7 @@ export class BoardViewComponent implements OnInit {
   isSidenavOpen: boolean = true;
   projectDetails: any | Project;
   currentCardTaskStatus: any;
-  projectList: any;
+  projectList: any=[];
   // ---------------------------------------------
   constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }

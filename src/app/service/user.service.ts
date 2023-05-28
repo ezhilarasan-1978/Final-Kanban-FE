@@ -61,6 +61,6 @@ export class UserService {
   }
 
   removeProjectOfMember(projectName:any, name:any){
-    return this.httpClient.get(this.baseurl2+`/removeProject/${projectName}/${name}`)
+    return this.httpClient.get(this.baseurl2+`removeProjectFromMember/${projectName}/${name}`)
   }
 }

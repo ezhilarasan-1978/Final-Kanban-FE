@@ -131,8 +131,14 @@ getProjectNameForEdit(name:string){
 
               
               if(this.project.editProject){
-                  
+
                 this.tempArrayForEdit.push(this.memberName.value.trim())
+                if(this.deletedMember.includes(this.memberName.value.trim())){
+                  const index = this.deletedMember.indexOf(this.memberName.value.trim());
+                  if (index > -1) {
+                    this.deletedMember.splice(index, 1);
+                  }
+                }
             
               }
               this.memberName.setValue('');
@@ -173,40 +179,42 @@ getProjectNameForEdit(name:string){
 
         
         if(this.project.editProject){
-    
-          this.project.editProjectData(this.projectDetails.name, project).subscribe(
-            response=> {console.log(response) 
 
-            console.log("------------------------------------------------");
-            console.log(this.tempArrayForEdit.length);
-            
-            
-             for(let i=0;i<this.tempArrayForEdit.length;i++){
-               
-              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
-                response => {
-                  this.openSnackBar("Project updated Successfully", "OK");
-                  this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                    this.routes.navigate(['/boardView']);
-                  });
-                }
-              )
-            }
 
+          if(this.deletedMember.length>0){
+              
             for(let i =0; i<this.deletedMember.length;i++){
+          
               this.user.removeProjectOfMember(project.name, this.deletedMember[i]).subscribe(
                 response=>{
-                  console.log("_____________This is response after deleting project name from the member of ____________________");
+                  console.log(`____________This is response after deleting project name from the member of ${this.deletedMember[i]} ____________________`);
                   console.log(response);                  
                 }
                                 
               )
             }
-            
-            },
-            error=>{console.log(error)}
-          )
+           }  
 
+           if(this.tempArrayForEdit.length>0){
+            this.project.editProjectData(this.projectDetails.name, project).subscribe(
+              response=> {console.log(response) 
+                for(let i=0;i<this.tempArrayForEdit.length;i++){
+                 
+                  this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
+                    response => {
+                      this.openSnackBar("Project updated Successfully", "OK");
+                      this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                        this.routes.navigate(['/boardView']);
+                      });
+                    }
+                  )
+                }
+              },
+              error=>{console.log(error)}
+            )
+    
+           }
+// ____________________________________NORML WOKRING_________________________________
 
         }else{
       
