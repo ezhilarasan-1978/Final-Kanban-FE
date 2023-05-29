@@ -60,6 +60,10 @@ mat-card {
   mat-icon {
     margin-right: 8px;
   }
+
+  #pswd {
+    margin-bottom: 16px;
+  }
   
   body {
     display: block;

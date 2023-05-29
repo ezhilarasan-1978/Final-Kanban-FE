@@ -10,18 +10,21 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
+
 export class RegisterComponent {
   constructor(private userService:UserService, private fb:FormBuilder
     , private matSnackBar:MatSnackBar, private routing: Router
     ) { }
 
     phonePattern = /^[7-9]\d{9}$/;
-    emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]$/;
+    emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z.-]+\.[a-zA-Z]{2,4}$/;
+    passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
     registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
       phone: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
-      password: ['' ,[Validators.required,Validators.minLength(8)]],
+      password: ['' ,[Validators.required,Validators.pattern(this.passwordPattern)]],
       Cpassword: ['', Validators.required],
       name:['', Validators.required],
       projectList: new FormArray([])
@@ -71,13 +74,7 @@ export class RegisterComponent {
 
   }
 
-  // canExit() {
-  //   if (this.registerForm.get('name')?.dirty){
-  //     return confirm('Are you sure you want to leave this page without saving?');
-  //   } else {
-  //     return true;
-  //   }
-  // }
+
   
   canExit() {
     if (this.registerForm.dirty && this.registerForm.invalid) {

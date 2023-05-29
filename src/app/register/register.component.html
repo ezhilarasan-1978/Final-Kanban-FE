@@ -1,59 +1,59 @@
-  <body>
-    <mat-card>
-      <mat-card-header>
-      
-          <mat-card-title>Register</mat-card-title>
+<body>
+  <mat-card>
+    <mat-card-header>
     
-        <div>
-          <button mat-button routerLink="/login" color="primary">LogIn</button>
-        </div>
-      </mat-card-header>
-      <mat-card-content>
-        <form [formGroup]="registerForm" #formData="ngForm" (ngSubmit)="registerCustomer()" spellcheck="false">
-          <mat-form-field appearance="outline">
-            <input matInput type="text" placeholder="Name" formControlName="name">
-            <mat-error class="error" *ngIf="getName?.errors?.['required']">
-              <mat-icon>warning</mat-icon>Name is Required
-            </mat-error>
-          </mat-form-field>
+        <mat-card-title>Register</mat-card-title>
   
-          <mat-form-field appearance="outline">
-            <input matInput placeholder="Email" formControlName="email">
-            <mat-error *ngIf="getEmail?.hasError('required')"><mat-icon>warning</mat-icon>Email is required</mat-error>
-            <mat-error *ngIf="getEmail?.hasError('pattern')"><mat-icon>warning</mat-icon>Please enter a valid email
-              address</mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <input matInput type="number" placeholder="Phone Number" formControlName="phone">
-            <mat-error *ngIf="getPhone?.hasError('required')"><mat-icon>warning</mat-icon>Phone number is
-              required</mat-error>
-            <mat-error *ngIf="getPhone?.hasError('pattern')"><mat-icon>warning</mat-icon>Invalid phone number</mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <input matInput type="password" placeholder="Password" formControlName="password">
-            <mat-error class="error" *ngIf="getPassword?.errors?.['required']"><mat-icon>warning</mat-icon>
-              Password is Required
-            </mat-error>
-            <mat-error class="error" *ngIf="getPassword?.errors?.['minlength']"><mat-icon>warning</mat-icon>
-              Password must have atleast 8 characters
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <input matInput type="password" placeholder="Confirm Password" formControlName="Cpassword">
-            <mat-error class="error" *ngIf="getCPassword?.errors?.['required']">
-              <mat-icon>warning</mat-icon>Confirm Password is Required
-            </mat-error>
-          </mat-form-field>
-          <mat-error class="errorCSS" *ngIf="registerForm?.errors?.['PasswordError'] && registerForm.get('Cpassword')?.dirty">
-            <mat-icon>warning</mat-icon>Password and Confirm Password Should Match
+      <div>
+        <button mat-button routerLink="/login" color="primary">LogIn</button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registerForm" #formData="ngForm" (ngSubmit)="registerCustomer()" spellcheck="false">
+        <mat-form-field appearance="outline">
+          <input matInput type="text" placeholder="Name" formControlName="name">
+          <mat-error class="error" *ngIf="getName?.errors?.['required']">
+            <mat-icon>warning</mat-icon>Name is Required
           </mat-error>
-          
-          <button mat-raised-button [disabled]="formData.invalid" color="primary" type="submit">Register</button>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </body>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="getEmail?.hasError('required')"><mat-icon>warning</mat-icon>Email is required</mat-error>
+          <mat-error *ngIf="getEmail?.hasError('pattern')"><mat-icon>warning</mat-icon>Please enter a valid email
+            address</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput type="number" placeholder="Phone Number" formControlName="phone">
+          <mat-error *ngIf="getPhone?.hasError('required')"><mat-icon>warning</mat-icon>Phone number is
+            required</mat-error>
+          <mat-error *ngIf="getPhone?.hasError('pattern')"><mat-icon>warning</mat-icon>Invalid phone number</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" id="pswd">
+          <input matInput type="password" placeholder="Password" formControlName="password">
+          <mat-error class="error" *ngIf="getPassword?.errors?.['required']"><mat-icon>warning</mat-icon>
+            Password is Required
+          </mat-error>
+          <mat-error class="error" *ngIf="getPassword?.errors?.['pattern']"><mat-icon>warning</mat-icon>
+            Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter and one number.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput type="password" placeholder="Confirm Password" formControlName="Cpassword">
+          <mat-error class="error" *ngIf="getCPassword?.errors?.['required']">
+            <mat-icon>warning</mat-icon>Confirm Password is Required
+          </mat-error>
+        </mat-form-field>
+        <mat-error class="errorCSS" *ngIf="registerForm?.errors?.['PasswordError'] && registerForm.get('Cpassword')?.dirty">
+          <mat-icon>warning</mat-icon>Password and Confirm Password Should Match
+        </mat-error>
+        
+        <button mat-raised-button [disabled]="formData.invalid" color="primary" type="submit">Register</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</body>
 
 

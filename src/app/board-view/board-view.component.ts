@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Project, Task } from '../../assets/Project';
+import { Project, Task } from 'src/assets/Project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
@@ -159,6 +159,10 @@ export class BoardViewComponent implements OnInit {
 
       if ((final-initial>=2) || (initial-final>=2)) {
         this.openSnackBar("Kindly don't skip any step", "OK");
+        alert(event.previousContainer.data[0].status)
+        alert(final+" "+initial)
+        final=0;
+        initial=0;
         return;
       }
       transferArrayItem(
@@ -242,7 +246,7 @@ export class BoardViewComponent implements OnInit {
           } else {
             return 1;
           }
-        });
+        }); 
         this.notificationArray = notiArray;
       },
       error => {
