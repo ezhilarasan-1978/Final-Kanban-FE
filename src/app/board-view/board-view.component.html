@@ -41,11 +41,13 @@
         </div>
       </div>
       <div>
-        
+     
             <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
               class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
           <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
               src="../../assets/Arrow.png"></button>
+           <button mat-icon-button (click)="sortDeadline()" matTooltip="Sort by Deadline" class="icn"><i
+                class="fa fa-calendar" style="font-size:18px;"></i></button>           
   
           <button mat-button [matMenuTriggerFor]="menu" class="icn" (click)="getNotification()"><i
               matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
@@ -69,14 +71,7 @@
               class="fa fa-folder-open" style="font-size:22px;"></i></button>
           <button *ngIf="taskArchive" mat-button class="icn" (click)="toggleArchive()" matTooltip="Close Archive"><i
               class="fa fa-folder" style="font-size:22px;"></i></button>
-
-        <button mat-button class="icn" (click)="shareBoard()" matTooltip="Share Board"><i class="fa fa-share"
-            style="font-size:22px;"></i></button>
-        <button *ngIf="!taskArchive" mat-button class="icn" (click)="toggleArchive()" matTooltip="Open Archive"><i
-            class="fa fa-folder-open" style="font-size:22px;"></i></button>
-        <button *ngIf="taskArchive" mat-button class="icn" (click)="toggleArchive()" matTooltip="Close Archive"><i
-            class="fa fa-folder" style="font-size:22px;"></i></button>
-
+            
 
       </div>
     </div>
@@ -94,14 +89,20 @@
             *ngIf="columnName !== 'To Be Done' && columnName !== 'Work In Progress' && columnName !== 'Completed' "
             (click)="deleteColumn(columnName)">delete</mat-icon>
         </div>
+
         <div cdkDropList [cdkDropListData]="getColumnTasks(columnName)"  class="example-list"
           (cdkDropListDropped)="drop($event)">
           <div class="example-box" *ngFor="let task of getColumnTasks(columnName)" cdkDrag
             (cdkDragStarted)="onDragStart(task)">
             <div *ngIf="getTaskStatus(task.status)" id="test">
               <mat-card [ngClass]="getColorClass(task.priority)">
+                <div class="blink">
+                  <mat-icon  *ngIf="getSpanBackgroundColor(task.deadline, task)">warning</mat-icon>
+                </div>
                 <mat-card-header class="container" (click)="editTask(task)">
                   <mat-card-title>{{task.name}}</mat-card-title>
+                  
+                
                   <small *ngIf="task.createDate" id="createdate"
                     matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
                   <mat-card-subtitle>
@@ -115,7 +116,7 @@
                     </div>
                   </div>
                 </mat-card-header>
-
+               
                 <mat-card-actions class="change">
                   <span>
                     <span mat-icon-button id="priority" matTooltip="Priority : {{task.priority}}">
@@ -129,15 +130,19 @@
                       <mat-icon class="picon" *ngIf="task.priority=='Clear' || task.priority==''">flag</mat-icon>
                     </span>
                   </span>
-                  <span matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
+                  <!-- <span matTooltip="Due date: {{ task.deadline.slice(0, 10) }}">
                     <mat-icon id="cal">calendar_today</mat-icon>
+                    <small id="deadline">{{ task.deadline.slice(0, 10) }}</small>
+                  </span> -->
+                  <span  matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
+                    <mat-icon  id="cal">calendar_today</mat-icon>
                     <small id="deadline">{{load(task.deadline)}}</small>
                   </span>
+
                   <span matTooltip="Assigned by {{task.assignee}}">
                     <mat-icon id="iconA">brightness_1</mat-icon>
                     <small id="assigne">{{loadA(task.assignee)}}</small>
                   </span>
-         
                   <mat-icon
                     *ngIf="(!taskArchive && currentUser == task.assignee)||(!taskArchive && columnName=='Completed')"
                     id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
@@ -147,6 +152,7 @@
                     (click)="restore(columnName,task)">restore_from_trash</mat-icon>
 
                 </mat-card-actions>
+  
               </mat-card>
             </div>
           </div>

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Project, Task } from '../../assets/Project';
@@ -26,16 +26,15 @@ export class BoardViewComponent implements OnInit {
   isSidenavOpen: boolean = true;
   projectDetails: any | Project;
   currentCardTaskStatus: any;
-  projectList: any;
+  projectList: any=[];
   // ---------------------------------------------
-  constructor(private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
+  constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any = {};
 
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
-
 
     this.user.getProjectList().subscribe(
       response => {
@@ -53,6 +52,7 @@ export class BoardViewComponent implements OnInit {
               response => {
                 this.projectDetails = response;
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
+                this.projectService.setProjectDetailsTBD(this.projectDetails.columns["To Be Done"])
                 this.getNotification();
                  
               },
@@ -135,18 +135,19 @@ export class BoardViewComponent implements OnInit {
         this.openSnackBar("Only Priority task can be added", "OK")
         return;
       }
-      if (event.previousContainer.data[0].status == "To Be Done" && this.getKey(event.container.data) == 'Completed') {
-        this.openSnackBar("Can't Move directly from To Be Done to completed", "OK")
+      if(event.previousContainer.data[0].status=="To Be Done"&&this.getKey(event.container.data) == 'Completed'){
+        this.openSnackBar("Can't Move directly from To Be Done to completed","OK")
         return;
       }
-      if (event.previousContainer.data[0].status !== null && this.getKey(event.container.data) == 'To Be Done') {
-        this.openSnackBar("Not Allowed", "OK")
+      if(event.previousContainer.data[0].status!==null&&this.getKey(event.container.data) == 'To Be Done'){
+        this.openSnackBar("Not Allowed","OK")
         return;
       }
-      let initial = this.getColumnIndex(event.previousContainer.data[0].status);
-      let final = this.getColumnIndex(this.getKey(event.container.data));
+     
+      let initial=this.getColumnIndex(event.previousContainer.data[0].status);
+      let final=this.getColumnIndex(this.getKey(event.container.data));
 
-      if ((final - initial >= 2) || (initial - final >= 2)) {
+      if ((final-initial>=2) || (initial-final>=2)) {
         this.openSnackBar("Kindly don't skip any step", "OK");
         return;
       }
@@ -170,10 +171,10 @@ export class BoardViewComponent implements OnInit {
     )
   }
 
-  getColumnIndex(columnName: any) {
+  getColumnIndex(columnName:any){
 
     if (this.projectDetails && this.projectDetails.columns) {
-      let arrayData = Object.keys(this.projectDetails.columns);
+      let arrayData =Object.keys(this.projectDetails.columns);
       return arrayData.indexOf(columnName);
     }
     return 0;
@@ -281,9 +282,9 @@ export class BoardViewComponent implements OnInit {
   }
 
   getColumnTasks(columnName: string) {
-
-    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
-      if (this.projectDetails.columns[columnName][i].status !== 'Archived') {
+    
+      for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+        if(this.projectDetails.columns[columnName][i].status!=='Archived'){
         this.projectDetails.columns[columnName][i].status = columnName;
       }
     }
@@ -338,11 +339,13 @@ export class BoardViewComponent implements OnInit {
 
   delete(columnName: any, task: any) {
 
+   
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
         if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
           this.projectDetails.columns[columnName][i].status = 'Archived'
           // this.projectDetails.columns[columnName].splice(i, 1);
+
           this.openSnackBar("The task was deleted successfully", "OK")
           break;
         }
@@ -360,33 +363,16 @@ export class BoardViewComponent implements OnInit {
     }
 
     this.projectService.updateProject(this.projectDetails).subscribe(
+
       response => {
         console.log(response);
       },
       error => {
         alert("There was error updating the project");
+        console.log(error);
+
       }
     )
-  }
-  currentUser=this.user.currentUser;
-  restore(columnName: any, task: any) {
-    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
-      if (this.user.currentUser !== task.assignee) {
-        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
-          this.projectDetails.columns[columnName][i].status = columnName
-          // this.projectDetails.columns[columnName].splice(i, 1);
-          this.openSnackBar("The task was Restored successfully", "OK")
-          break;
-        }
-      } else {
-        if (this.projectDetails.columns[columnName][i].name == task.name) {
-          this.projectDetails.columns[columnName][i].status = columnName
-          // this.projectDetails.columns[columnName].splice(i, 1);
-          this.openSnackBar("The task was Restored successfully", "OK")
-          break;
-        }
-      }
-    }
   }
 
   // ------------------------------------u---------------------------------------
@@ -537,16 +523,15 @@ export class BoardViewComponent implements OnInit {
     }
 
   }
-  taskArchive: boolean = false;
-  getTaskStatus(status: any) {
-    if (status == 'Archived') {
+  taskArchive:boolean=false;
+  getTaskStatus(status:any){
+    if(status=='Archived'){
       return this.taskArchive;
     }
     return !this.taskArchive;
   }
-
-  toggleArchive() {
-    this.taskArchive = !this.taskArchive
+  toggleArchive(){
+    this.taskArchive=!this.taskArchive
   }
 
   changeColumnName(event: any, columnName: any) {
@@ -640,4 +625,39 @@ export class BoardViewComponent implements OnInit {
 
   
 
+// -------------
+  getSpanBackgroundColor(deadline :any, task:any){
+    let color:string;
+    const date=new Date()
+  
+    if (deadline.slice(8, 10)==date.getDate()&& task.status!=="Completed") {
+    
+      return true;
+    } 
+    return false;
+  }
+// ---------------
+
+sortDeadline() {
+  for (let col of Object.entries(this.projectDetails.columns)) {
+    let [name, arr] = col as any;
+    arr = arr.sort((a: any, b: any) => {
+      let fa = a.deadline, fb = b.deadline;
+
+      if(fa == '' && fb !==''){
+        return 1;
+      }
+      if(fa !== '' && fb ==''){
+        return -1;
+      }
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    })
+  }
+}
 }

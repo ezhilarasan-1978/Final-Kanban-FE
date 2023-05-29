@@ -16,6 +16,11 @@ export class ProjectService {
     this.projectDetails=project;
   }
 
+  projectDetailsTBD:any;
+  setProjectDetailsTBD(project:any){
+    this.projectDetailsTBD=project;
+  }
+
   setProjectName(name:any){
     this.projectName=name;
   }

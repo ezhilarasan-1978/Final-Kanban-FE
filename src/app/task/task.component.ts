@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProjectService } from '../service/project.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task',
@@ -17,7 +17,7 @@ export class TaskComponent implements OnInit {
 
   project: any;
 
-  constructor(private fb: FormBuilder, private routing: Router, private projectService: ProjectService) { }
+  constructor(private fb: FormBuilder, private routing: Router, private projectService: ProjectService, private snackBar:MatSnackBar ) { }
   ngOnInit(): void {
     this.setPriority("Clear");
     this.projectService.getProject(this.projectService.projectName).subscribe(data => {
@@ -52,16 +52,20 @@ fetchedProjectDetails:any;
       return this.projectMembers;
     }
     if (!this.projectService.projectDetails == null || typeof this.projectService.projectDetails !== "undefined") {
-          this.fetchedProjectDetails=this.projectService.projectDetails;
+
+         this.fetchedProjectDetails=this.projectService.projectDetails;
           let memberArray:any=[]; 
         for(let i=0; i<this.fetchedProjectDetails.length;i++){
           for(let j=0; j<this.fetchedProjectDetails[i].members.length;j++){
-            memberArray.push(this.fetchedProjectDetails[i].members[j]);
+            if(this.projectMembers.includes(this.fetchedProjectDetails[i].members[j])){
+              memberArray.push(this.fetchedProjectDetails[i].members[j]);
+            }
+
           }
         }
 
         for (let i = 0; i < this.projectMembers.length; i++) {
-          if (!memberArray.includes(this.projectMembers[i])) {
+          if (!memberArray.includes(this.projectMembers[i])&&this.projectMembers.includes(this.projectMembers[i])) {
             memberArray.push(this.projectMembers[i]);
           }
         }
@@ -136,12 +140,21 @@ fetchedProjectDetails:any;
       status:'Not Archived',
       members: this.members?.value
     };
-    this.projectService.addNewTask(task).subscribe(
-      repsonse => {
-        console.log(repsonse)
-      },
-      error => console.log(error)
-    );
+
+    if(this.projectService.projectDetailsTBD.length<10){
+      this.projectService.addNewTask(task).subscribe(
+        repsonse => {
+          console.log(repsonse)
+        },
+        error => {
+          console.log(error)
+        this.openSnackBar("Cannot add task with the same name ", "OK")
+        }
+      );
+  
+    }else{
+      this.openSnackBar("Cannot Add More than 8 task in To-BE-Done", "OK")
+    }
     this.onClose()
   }
 
@@ -149,5 +162,9 @@ fetchedProjectDetails:any;
     this.routing.navigateByUrl('/', { skipLocationChange: true }).then(() => {
     this.routing.navigate(['/boardView']);
     });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action);
   }
 }
