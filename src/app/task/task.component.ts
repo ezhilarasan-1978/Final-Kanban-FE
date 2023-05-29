@@ -146,7 +146,10 @@ fetchedProjectDetails:any;
         repsonse => {
           console.log(repsonse)
         },
-        error => console.log(error)
+        error => {
+          console.log(error)
+        this.openSnackBar("Cannot add task with the same name ", "OK")
+        }
       );
   
     }else{

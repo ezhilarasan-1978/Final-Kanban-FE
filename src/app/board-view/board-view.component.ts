@@ -647,11 +647,11 @@ export class BoardViewComponent implements OnInit {
   }
 
 // -------------
-  getSpanBackgroundColor(deadline :any){
+  getSpanBackgroundColor(deadline :any, task:any){
     let color:string;
     const date=new Date()
   
-    if (deadline.slice(8, 10)==date.getDate()) {
+    if (deadline.slice(8, 10)==date.getDate()&& task.status!=="Completed") {
     
       return true;
     } 
