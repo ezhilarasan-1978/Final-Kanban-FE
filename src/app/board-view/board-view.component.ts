@@ -54,7 +54,7 @@ export class BoardViewComponent implements OnInit {
                 this.projectDetails = response;
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
                 this.getNotification();
-                 
+
               },
               error => console.log("There was error fetching Project Details")
             )
@@ -205,6 +205,27 @@ export class BoardViewComponent implements OnInit {
         order[a.priority] - order[b.priority]
       )
       console.log(arr);
+    }
+  }
+  sortDeadline() {
+    for (let col of Object.entries(this.projectDetails.columns)) {
+      let [name, arr] = col as any;
+      arr = arr.sort((a: any, b: any) => {
+        let fa = a.deadline, fb = b.deadline;
+        if(fa == '' && fb !==''){
+          return 1;
+        }
+        if(fa !== '' && fb ==''){
+          return -1;
+        }
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })
     }
   }
 
@@ -368,7 +389,7 @@ export class BoardViewComponent implements OnInit {
       }
     )
   }
-  currentUser=this.user.currentUser;
+  currentUser = this.user.currentUser;
   restore(columnName: any, task: any) {
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
@@ -409,7 +430,7 @@ export class BoardViewComponent implements OnInit {
 
   projectDialog: any;
   projectWindow() {
-    this.projectService.editProject=false;
+    this.projectService.editProject = false;
     this.projectDialog = this.dialog.open(ProjectComponent);
     this.projectService.closeBoxForProject = false;
   }
@@ -420,13 +441,13 @@ export class BoardViewComponent implements OnInit {
     }
   }
 
-    // Edit project 
-    editProject(project:any){
-      this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
-      this.projectService.editProject=true;
-      this.projectDialog = this.dialog.open(ProjectComponent);
-      this.projectService.closeBoxForProject = false;
-    }
+  // Edit project 
+  editProject(project: any) {
+    this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
+    this.projectService.editProject = true;
+    this.projectDialog = this.dialog.open(ProjectComponent);
+    this.projectService.closeBoxForProject = false;
+  }
 
   // ----------------------------------
 
@@ -631,13 +652,13 @@ export class BoardViewComponent implements OnInit {
 
   //---------edit Enable button
 
-  editEnable(projectName:any){
-    if(projectName.split("-->")[1]===this.user.getUser()){
+  editEnable(projectName: any) {
+    if (projectName.split("-->")[1] === this.user.getUser()) {
       return true;
     }
     return false;
   }
 
-  
+
 
 }
