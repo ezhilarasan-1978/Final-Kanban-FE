@@ -50,17 +50,17 @@
           </div>
         </div>
         
-        <div class="columnCSS">
+        <div class="columnCSS" *ngIf="!edit">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Columns" formControlName="columnName">
           </mat-form-field>
         </div>
-          <div class="cntr">
+          <div class="cntr" *ngIf="!edit">
           <button mat-raised-button color="primary" type="button" (click)="addColumn()">Add Column</button>
         </div>
 
 
-          <div class="button-row">
+          <div class="button-row" *ngIf="!edit">
             <div class="dynamicButton"  *ngFor="let column of projectForm.get('columns').value">
               <div >
                 <button color="primary" mat-raised-button class="button-option icn">
