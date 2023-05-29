@@ -649,9 +649,16 @@ export class BoardViewComponent implements OnInit {
 // -------------
   getSpanBackgroundColor(deadline :any, task:any){
     let color:string;
-    const date=new Date()
-  
-    if (deadline.slice(8, 10)==date.getDate()&& task.status!=="Completed") {
+   
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
+    
+    const dateString = `${year}-${month}-${day}`;
+
+    dateString.slice(0, 10)
+    if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed") {
     
       return true;
     } 

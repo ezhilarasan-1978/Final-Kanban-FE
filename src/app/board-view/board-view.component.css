@@ -457,8 +457,9 @@ body {
   font-weight: bold;
   font-family: sans-serif;
   z-index: 5;
-  margin-left: 6px;
-  margin-bottom: -10px
+  margin-left: 18px;
+  margin-bottom: -10px;
+  cursor: pointer;
 }
 @keyframes blinker {
   50% {
@@ -476,4 +477,18 @@ body {
 
 mat-card-header{
   margin-left: -10px;
+}
+
+.icon-row-one{
+  
+  font-size: 5px;
+  margin-top: 20px;
+  margin-bottom: -23px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.editTaskICON{
+  cursor: pointer;
 }
