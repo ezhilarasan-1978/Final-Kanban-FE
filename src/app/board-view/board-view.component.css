@@ -492,3 +492,12 @@ mat-card-header{
 .editTaskICON{
   cursor: pointer;
 }
+
+.placeholder {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}

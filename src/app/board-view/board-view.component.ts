@@ -15,6 +15,7 @@ import { NotificationService } from '../service/notification.service';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
 import html2canvas from 'html2canvas';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -28,11 +29,20 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus: any;
   projectList: any=[];
   // ---------------------------------------------
-  constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
+  constructor( private breakPoint:BreakpointObserver,private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
   notifications: any = {};
 
+
+  DeskTopView: boolean = false;
+  
   ngOnInit(): void {
+
+    this.breakPoint.observe([Breakpoints.Handset]).subscribe(
+      result => {
+        this.DeskTopView = !result.matches;
+      }
+    )
 
     let val = this.projectService.getProjectName();
 
@@ -687,5 +697,8 @@ sortDeadline() {
       return 0;
     })
   }
+}
+  getTaskVisibility(status: string): boolean {
+  return (status === 'Archived') ? this.taskArchive : !this.taskArchive;
 }
 }
