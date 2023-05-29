@@ -52,6 +52,7 @@ export class BoardViewComponent implements OnInit {
               response => {
                 this.projectDetails = response;
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
+                this.projectService.setProjectDetailsTBD(this.projectDetails.columns["To Be Done"])
                 this.getNotification();
                  
               },
@@ -648,18 +649,36 @@ export class BoardViewComponent implements OnInit {
 // -------------
   getSpanBackgroundColor(deadline :any){
     let color:string;
-    color='transparent';
     const date=new Date()
-    if (deadline.slice(8, 10) === date.getDate()) {
-      color = 'red';
-    } else {
-      setTimeout(() => {
-        color = 'transparent';
-        this.cdr.detectChanges(); // Trigger change detection
-      }, 500);
-    }
-
-    return color;
+  
+    if (deadline.slice(8, 10)==date.getDate()) {
+    
+      return true;
+    } 
+    return false;
   }
+// ---------------
 
+sortDeadline() {
+  for (let col of Object.entries(this.projectDetails.columns)) {
+    let [name, arr] = col as any;
+    arr = arr.sort((a: any, b: any) => {
+      let fa = a.deadline, fb = b.deadline;
+
+      if(fa == '' && fb !==''){
+        return 1;
+      }
+      if(fa !== '' && fb ==''){
+        return -1;
+      }
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    })
+  }
+}
 }
