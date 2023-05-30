@@ -29,6 +29,8 @@ export class BoardViewComponent implements OnInit {
   projectDetails: any | Project;
   currentCardTaskStatus: any;
   projectList: any=[];
+
+  showAddTask:boolean=true;
   // ---------------------------------------------
   constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog,private breakPoint:BreakpointObserver) { }
@@ -37,14 +39,18 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
 
     let val = this.projectService.getProjectName();
-      
+
     this.user.getProjectList().subscribe(
       response => {
         if(response){
           this.projectList = response;
+      
           if (val === null || typeof val === 'undefined') {
             val = this.projectList.projectList[0];
           }
+          if(this.projectList==""||this.projectList.length===0||typeof this.projectList==='undefined'||val==null){
+            this.showAddTask=false;
+          } 
           this.projectService.setProjectName(val);
           this.projectService.getProject(val).subscribe(
             response => {
@@ -59,7 +65,7 @@ export class BoardViewComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
+        this.showAddTask==false;
       }
     );
     
@@ -70,6 +76,8 @@ export class BoardViewComponent implements OnInit {
     )
 
     this.getNotification();
+  
+ 
   }
 
 
@@ -463,7 +471,6 @@ export class BoardViewComponent implements OnInit {
   editProject(project: any) {
     this.projectService.getProject(project).subscribe(
       response=>{
-          alert(JSON.stringify(response))
         this.projectService.setProjectDetailsForProjectEdit(response);
         this.projectService.editProject = true;
         this.projectDialog = this.dialog.open(ProjectComponent);

@@ -5,7 +5,7 @@
     <button mat-raised-button (click)="projectWindow()" class="btn"><mat-icon>add_box</mat-icon>Create
       Project</button>
 
-    <button mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
+    <button *ngIf="showAddTask" mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
       Task</button>
     <div class="firstCard">
       <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>

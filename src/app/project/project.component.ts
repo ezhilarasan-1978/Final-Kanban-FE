@@ -137,7 +137,6 @@ getProjectNameForEdit(name:string){
                   const index = this.deletedMember.indexOf(this.memberName.value.trim());
                   if (index > -1) {
                     this.deletedMember.splice(index, 1);
-                    alert("added member to delete array"+this.memberName.value.trim())
                   }
                 }
             
@@ -271,7 +270,6 @@ getProjectNameForEdit(name:string){
             if(this.tempArrayForEdit.includes(member)){
               const index = this.tempArrayForEdit.indexOf(member);
               if (index > -1) {
-                alert("removed member to delete array"+member)
                 this.tempArrayForEdit.splice(index, 1);
               }
             }
