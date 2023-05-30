@@ -201,26 +201,28 @@ getProjectNameForEdit(name:string){
           // ____________________________________NORML WOKRING_________________________________
 
         }else{
-      
           this.project.addNewProject(project).subscribe(
 
           response => {
             console.log(response);
             for (let i = 0; i < this.members.value.length; i++) {
 
-              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`).subscribe(
+              this.http.get(`http://localhost:8085/api/v1/user/updateProject/${this.members.value[i]}/${project.name}`).subscribe(
 
-                response => console.log(response));
+                response => {console.log(response); 
 
-              this.openSnackBar("Project added Successfuly", "OK");
-              this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.routes.navigate(['/boardView']);
-              });
+                  if((i===(this.members.value.length-1)&&response)){
+                   
+                    this.openSnackBar("Project added Successfuly", "OK");
+                    this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                      this.routes.navigate(['/boardView']);
+                    });
+                  }
+                } );
+                
             }
+           
 
-            for(let i=0; i<this.deletedMember.length;i++){
-
-            }
           },
           error => {
             this.openSnackBar(`Project with name ${project.name} already exist`, "OK");
@@ -335,19 +337,14 @@ getProjectNameForEdit(name:string){
             let completedRequests = 0; // Counter variable for completed requests
       
             for (let i = 0; i < this.tempArrayForEdit.length; i++) {
-              this.http.get(`http://localhost:8007/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
+              this.http.get(`http://localhost:8085/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
                 response => {
-                  this.openSnackBar("Project updated Successfully", "OK");
-                  this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                    this.routes.navigate(['/boardView']);
-                  });
-      
-                  // Increment the completed requests counter
-                  completedRequests++;
-      
-                  // Check if all requests have completed
-                  if (completedRequests === this.tempArrayForEdit.length) {
-                    this.tempArrayForEdit = null; // Execute after all requests complete
+                   
+                  if((i===(this.members.value.length-1)&&response)){
+                    this.openSnackBar("Project updated Successfully", "OK");
+                    this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                      this.routes.navigate(['/boardView']);
+                    });
                   }
                 }
               );

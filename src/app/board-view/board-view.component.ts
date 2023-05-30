@@ -34,45 +34,44 @@ export class BoardViewComponent implements OnInit {
   notifications: any = {};
 
   ngOnInit(): void {
+
+    let val = this.projectService.getProjectName();
+      
+    this.user.getProjectList().subscribe(
+      response => {
+        if(response){
+          this.projectList = response;
+          if (val === null || typeof val === 'undefined') {
+            val = this.projectList.projectList[0];
+          }
+          this.projectService.setProjectName(val);
+          this.projectService.getProject(val).subscribe(
+            response => {
+              this.projectDetails = response;
+              this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
+              this.projectService.setProjectDetailsTBD(this.projectDetails.columns["To Be Done"])
+              this.getNotification();
+  
+            },
+            error => console.log("There was error fetching Project Details")
+          )
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    
     this.breakPoint.observe([Breakpoints.Handset]).subscribe(
       result => {
         this.DeskTopView = !result.matches;
       }
     )
 
-    let val = this.projectService.getProjectName();
-
-    this.user.getProjectList().subscribe(
-      response => {
-        this.projectList = response;
-        // if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
-        // let val = this.projectService.getProjectName();
-        this.user.getProjectList().subscribe(
-          response => {
-            this.projectList = response;
-            if (val === null || typeof val === 'undefined') {
-              val = this.projectList.projectList[0];
-            }
-            this.projectService.setProjectName(val);
-            this.projectService.getProject(val).subscribe(
-              response => {
-                this.projectDetails = response;
-                this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
-                this.projectService.setProjectDetailsTBD(this.projectDetails.columns["To Be Done"])
-                this.getNotification();
-
-              },
-              error => console.log("There was error fetching Project Details")
-            )
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      }
-    )
     this.getNotification();
   }
+
+
 
   showL: boolean = true;
   DeskTopView: boolean = false;
@@ -689,7 +688,11 @@ export class BoardViewComponent implements OnInit {
     const dateString = `${year}-${month}-${day}`;
 
     dateString.slice(0, 10)
-    if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed") {
+    if(deadline==''){
+      return '';
+    }
+    if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed"
+    ) {
       return 'warning';
     } 
     return '';
