@@ -1,10 +1,10 @@
 <nav class="mat-toolbar mat-primary header">
   <div class="container">
       <a class="navbar-brand" routerLink="/homepage">
-        <img src="../../assets/WorkFloLogo1-removebg-preview.png" alt="/assets/Kanban-icon.png">
+        <img class="logo" src="../../assets/WorkFloLogo1-removebg-preview.png" alt="/assets/Kanban-icon.png">
       </a>
 
-      <div *ngIf="DeskTopView" id="icon">        
+      <div *ngIf="DeskTopView" id="icon" class="detailPanel">        
         <div *ngIf="currentUser">
           <span *ngIf="!isBoardViewVisible" (click)="openBoardView()" matTooltip="Board-View"><i class="material-icons logoutIcon">note</i></span>
 
