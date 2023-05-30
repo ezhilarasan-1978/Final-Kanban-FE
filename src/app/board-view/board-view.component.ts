@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { ProjectService } from '../service/project.service';
 import { CdkDragDrop, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Project, Task } from 'src/assets/Project';
+import { Project, Task } from '../../assets/Project';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
@@ -29,15 +29,11 @@ export class BoardViewComponent implements OnInit {
   currentCardTaskStatus: any;
   projectList: any=[];
   // ---------------------------------------------
-  constructor( private breakPoint:BreakpointObserver,private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
-    private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
+  constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
+    private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog,private breakPoint:BreakpointObserver) { }
   notifications: any = {};
 
-
-  DeskTopView: boolean = false;
-  
   ngOnInit(): void {
-
     this.breakPoint.observe([Breakpoints.Handset]).subscribe(
       result => {
         this.DeskTopView = !result.matches;
@@ -64,7 +60,7 @@ export class BoardViewComponent implements OnInit {
                 this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
                 this.projectService.setProjectDetailsTBD(this.projectDetails.columns["To Be Done"])
                 this.getNotification();
-                 
+
               },
               error => console.log("There was error fetching Project Details")
             )
@@ -79,6 +75,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   showL: boolean = true;
+  DeskTopView: boolean = false;
 
   showList() {
     this.showL = !this.showL;
@@ -159,10 +156,7 @@ export class BoardViewComponent implements OnInit {
 
       if ((final-initial>=2) || (initial-final>=2)) {
         this.openSnackBar("Kindly don't skip any step", "OK");
-        alert(event.previousContainer.data[0].status)
-        alert(final+" "+initial)
-        final=0;
-        initial=0;
+        console.log(event.previousContainer.data[0])
         return;
       }
       transferArrayItem(
@@ -173,7 +167,7 @@ export class BoardViewComponent implements OnInit {
       );
     }
     console.log(this.projectDetails);
-
+    console.log(event.previousContainer.data[0])
     this.projectService.updateProject(this.projectDetails).subscribe(
       response => {
         console.log(response);
@@ -222,6 +216,27 @@ export class BoardViewComponent implements OnInit {
       console.log(arr);
     }
   }
+  sortDeadline() {
+    for (let col of Object.entries(this.projectDetails.columns)) {
+      let [name, arr] = col as any;
+      arr = arr.sort((a: any, b: any) => {
+        let fa = a.deadline, fb = b.deadline;
+        if(fa == '' && fb !==''){
+          return 1;
+        }
+        if(fa !== '' && fb ==''){
+          return -1;
+        }
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })
+    }
+  }
 
   notificationSize: number = 0;
   notificationArray: any;
@@ -246,7 +261,7 @@ export class BoardViewComponent implements OnInit {
           } else {
             return 1;
           }
-        }); 
+        });
         this.notificationArray = notiArray;
       },
       error => {
@@ -306,8 +321,13 @@ export class BoardViewComponent implements OnInit {
   }
   // ------------------------------methods for manipulation of content drag and drop
   getNumberOfTaskInWIP(): boolean {
-    let num = this.projectDetails.columns["Work In Progress"].length
-    return num <= 4;
+    let count=0;
+    for(let i=0;i<this.projectDetails.columns["Work In Progress"].length;i++){
+      if(this.projectDetails.columns["Work In Progress"][i].status!='Archived'){
+        count++;
+      }
+    }
+    return count <= 4;
   }
 
   getThePriorityTasks() {
@@ -352,7 +372,6 @@ export class BoardViewComponent implements OnInit {
   }
 
   delete(columnName: any, task: any) {
-
    
     for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
       if (this.user.currentUser !== task.assignee) {
@@ -388,6 +407,26 @@ export class BoardViewComponent implements OnInit {
       }
     )
   }
+  currentUser = this.user.currentUser;
+  restore(columnName: any, task: any) {
+    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
+      if (this.user.currentUser !== task.assignee) {
+        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      } else {
+        if (this.projectDetails.columns[columnName][i].name == task.name) {
+          this.projectDetails.columns[columnName][i].status = columnName
+          // this.projectDetails.columns[columnName].splice(i, 1);
+          this.openSnackBar("The task was Restored successfully", "OK")
+          break;
+        }
+      }
+    }
+  }
 
   // ------------------------------------u---------------------------------------
   openSnackBar(message: string, action: string) {
@@ -409,7 +448,7 @@ export class BoardViewComponent implements OnInit {
 
   projectDialog: any;
   projectWindow() {
-    this.projectService.editProject=false;
+    this.projectService.editProject = false;
     this.projectDialog = this.dialog.open(ProjectComponent);
     this.projectService.closeBoxForProject = false;
   }
@@ -420,13 +459,13 @@ export class BoardViewComponent implements OnInit {
     }
   }
 
-    // Edit project 
-    editProject(project:any){
-      this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
-      this.projectService.editProject=true;
-      this.projectDialog = this.dialog.open(ProjectComponent);
-      this.projectService.closeBoxForProject = false;
-    }
+  // Edit project 
+  editProject(project: any) {
+    this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
+    this.projectService.editProject = true;
+    this.projectDialog = this.dialog.open(ProjectComponent);
+    this.projectService.closeBoxForProject = false;
+  }
 
   // ----------------------------------
 
@@ -544,6 +583,10 @@ export class BoardViewComponent implements OnInit {
     }
     return !this.taskArchive;
   }
+  getTaskVisibility(status: string): boolean {
+    return (status === 'Archived') ? this.taskArchive : !this.taskArchive;
+  }
+
   toggleArchive(){
     this.taskArchive=!this.taskArchive
   }
@@ -630,79 +673,26 @@ export class BoardViewComponent implements OnInit {
 
   //---------edit Enable button
 
-  editEnable(projectName:any){
-    if(projectName.split("-->")[1]===this.user.getUser()){
+  editEnable(projectName: any) {
+    if (projectName.split("-->")[1] === this.user.getUser()) {
       return true;
     }
     return false;
   }
 
-  // -----------------------------------Restore the task from the archives 
-
-  currentUser=this.user.currentUser;
-  restore(columnName: any, task: any) {
-    for (let i = 0; i < this.projectDetails.columns[columnName].length; i++) {
-      if (this.user.currentUser !== task.assignee) {
-        if (this.projectDetails.columns[columnName][i].name == task.name && columnName == 'Completed') {
-          this.projectDetails.columns[columnName][i].status = columnName
-          // this.projectDetails.columns[columnName].splice(i, 1);
-          this.openSnackBar("The task was Restored successfully", "OK")
-          break;
-        }
-      } else {
-        if (this.projectDetails.columns[columnName][i].name == task.name) {
-          this.projectDetails.columns[columnName][i].status = columnName
-          // this.projectDetails.columns[columnName].splice(i, 1);
-          this.openSnackBar("The task was Restored successfully", "OK")
-          break;
-        }
-      }
-    }
-  }
-
-// -------------
   getSpanBackgroundColor(deadline :any, task:any){
     let color:string;
-   
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const day = String(date.getDate()).padStart(2, '0'); 
-    
     const dateString = `${year}-${month}-${day}`;
 
     dateString.slice(0, 10)
     if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed") {
-    
-      return true;
+      return 'warning';
     } 
-    return false;
+    return '';
   }
-// ---------------
-
-sortDeadline() {
-  for (let col of Object.entries(this.projectDetails.columns)) {
-    let [name, arr] = col as any;
-    arr = arr.sort((a: any, b: any) => {
-      let fa = a.deadline, fb = b.deadline;
-
-      if(fa == '' && fb !==''){
-        return 1;
-      }
-      if(fa !== '' && fb ==''){
-        return -1;
-      }
-      if (fa < fb) {
-        return -1;
-      }
-      if (fa > fb) {
-        return 1;
-      }
-      return 0;
-    })
-  }
-}
-  getTaskVisibility(status: string): boolean {
-  return (status === 'Archived') ? this.taskArchive : !this.taskArchive;
-}
+  
 }

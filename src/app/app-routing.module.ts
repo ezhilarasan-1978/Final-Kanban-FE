@@ -8,6 +8,7 @@ import { TaskComponent } from './task/task.component';
 import { AuthGuardGuard } from './service/auth-guard.guard';
 import { CanDeactivatedTeam } from './service/can-deactivate-guard.guard';
 import {HomepageComponent} from './homepage/homepage.component'
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'/homepage', pathMatch:'full'},
@@ -15,8 +16,8 @@ const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'register', component:RegisterComponent,  canDeactivate:[CanDeactivatedTeam] },
   {path:'project', component:ProjectComponent},
-  {path:'boardView', component:BoardViewComponent, canActivate:[AuthGuardGuard] }
-  // {path:'boardView', component:BoardViewComponent }
+  {path:'boardView', component:BoardViewComponent, canActivate:[AuthGuardGuard] },
+  {path:'**', component:PagenotfoundComponent }
 ];
 // ,
 @NgModule({

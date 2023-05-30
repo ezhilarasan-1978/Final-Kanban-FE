@@ -11,19 +11,24 @@
       <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
       <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
-          <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
-          <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
-          <mat-icon *ngIf="editEnable(project)" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
+          <div class="fixedWidth">
+            {{project.split("-->")[0]}}
+          </div>
+          <div class="editIcon">
+            <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
+          </div>
+          <div class="editIcon">
+            <mat-icon *ngIf="editEnable(project)" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
+          </div>
         </div>
-      </div>
+        
+      </div>      
     </div>
 
   </mat-sidenav>
 
   <!-- Main Task Board -->
   <mat-sidenav-content>
-
-    <!--Main Task Board Header -->
     <div class="nav">
       <input type="checkbox" id="nav-check">
       <div class="nav-header">
@@ -41,12 +46,12 @@
         </div>
       </div>
 
-      <div *ngIf="DeskTopView" >
+      <div *ngIf="DeskTopView">
 
         <button mat-icon-button (click)="sortName()" matTooltip="Sort by Name" class="icn"><i
             class="fa fa-sort-alpha-asc" style="font-size:18px;"></i></button>
-        <button  mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
-            src="../../assets/Arrow.png"  ></button>
+        <button mat-icon-button (click)="sortPriority()" matTooltip="Sort by Priority" class="icn"><img
+            src="../../assets/Arrow.png"></button>
         <button mat-icon-button (click)="sortDeadline()" matTooltip="Sort by Deadline" class="icn"><i
             class="fa fa-calendar" style="font-size:18px;"></i></button>
 
@@ -76,57 +81,56 @@
 
       </div>
 
-      <button *ngIf="!DeskTopView"  mat-icon-button [matMenuTriggerFor]="menu" aria-label="Toggle navigation">
-        <mat-icon >menu</mat-icon>
+      <button *ngIf="!DeskTopView" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Toggle navigation">
+        <mat-icon>menu</mat-icon>
       </button>
-<!-- _____________________MAT-MENU for toolbar in the mobile view________________________________________ -->
-    <mat-menu #menu="matMenu">
+      <!-- ________MAT-MENU for toolbar in the mobile view_____________ -->
+      <mat-menu #menu="matMenu">
 
-      <button mat-menu-item (click)="sortName()" matTooltip="Sort by Name" class="icn">
-        <i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i>
-      </button>
-      <button mat-menu-item (click)="sortPriority()" matTooltip="Sort by Priority" class="icn">
-        <img style="height:24px!important; width:24px!important" src="../../assets/Arrow.png">
-      </button>
-      <button mat-menu-item (click)="sortDeadline()" matTooltip="Sort by Deadline" class="icn">
-        <i class="fa fa-calendar" style="font-size:18px;"></i>
-      </button>
+        <button mat-menu-item (click)="sortName()" matTooltip="Sort by Name" class="icn">
+          <i class="fa fa-sort-alpha-asc" style="font-size:18px;"></i>
+        </button>
+        <button mat-menu-item (click)="sortPriority()" matTooltip="Sort by Priority" class="icn">
+          <img style="height:24px!important; width:24px!important" src="../../assets/Arrow.png">
+        </button>
+        <button mat-menu-item (click)="sortDeadline()" matTooltip="Sort by Deadline" class="icn">
+          <i class="fa fa-calendar" style="font-size:18px;"></i>
+        </button>
 
-      <button mat-menu-item [matMenuTriggerFor]="notificationMenu" class="icn" (click)="getNotification()">
-        <i matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
-          style="font-size:22px;" matTooltip="Notification"></i>
-      </button>
+        <button mat-menu-item [matMenuTriggerFor]="notificationMenu" class="icn" (click)="getNotification()">
+          <i matBadge="{{notificationSize}}" matBadgeSize="medium" matBadgeColor="accent" class="fa fa-bell"
+            style="font-size:22px;" matTooltip="Notification"></i>
+        </button>
 
-      <mat-menu #notificationMenu="matMenu">
-        <div class="notification">
-          <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
-          <button mat-menu-item *ngFor="let msg of notificationArray" (click)="readMsg(msg[0])"
-            [ngClass]="seenUnseen(msg[1])">
-            <p>{{msg[0]}}</p>
-          </button>
-        </div>
+        <mat-menu #notificationMenu="matMenu">
+          <div class="notification">
+            <button class="noti" mat-menu-item (click)="readAll()">Read All</button>
+            <button mat-menu-item *ngFor="let msg of notificationArray" (click)="readMsg(msg[0])"
+              [ngClass]="seenUnseen(msg[1])">
+              <p>{{msg[0]}}</p>
+            </button>
+          </div>
+        </mat-menu>
+
+        <button mat-menu-item class="icn" (click)="download()" matTooltip="Download Board">
+          <i class="fa fa-download" style="font-size:22px;"></i>
+        </button>
+        <button mat-menu-item class="icn" (click)="addColumn()" matTooltip="Add new Column">
+          <i class="fa fa-plus" style="font-size:22px;"></i>
+        </button>
+        <button mat-menu-item class="icn" (click)="shareBoard()" matTooltip="Share Board">
+          <i class="fa fa-share" style="font-size:22px;"></i>
+        </button>
+        <button *ngIf="!taskArchive" mat-menu-item class="icn" (click)="toggleArchive()" matTooltip="Open Archive">
+          <i class="fa fa-folder-open" style="font-size:22px;"></i>
+        </button>
+        <button *ngIf="taskArchive" mat-menu-item class="icn" (click)="toggleArchive()" matTooltip="Close Archive">
+          <i class="fa fa-folder" style="font-size:22px;"></i>
+        </button>
       </mat-menu>
-
-      <button mat-menu-item class="icn" (click)="download()" matTooltip="Download Board">
-        <i class="fa fa-download" style="font-size:22px;"></i>
-      </button>
-      <button mat-menu-item class="icn" (click)="addColumn()" matTooltip="Add new Column">
-        <i class="fa fa-plus" style="font-size:22px;"></i>
-      </button>
-      <button mat-menu-item class="icn" (click)="shareBoard()" matTooltip="Share Board">
-        <i class="fa fa-share" style="font-size:22px;"></i>
-      </button>
-      <button *ngIf="!taskArchive" mat-menu-item class="icn" (click)="toggleArchive()" matTooltip="Open Archive">
-        <i class="fa fa-folder-open" style="font-size:22px;"></i>
-      </button>
-      <button *ngIf="taskArchive" mat-menu-item class="icn" (click)="toggleArchive()" matTooltip="Close Archive">
-        <i class="fa fa-folder" style="font-size:22px;"></i>
-      </button>
-    </mat-menu>
-
-      
-<!-- _____________________MAT-MENU for toolbar in the mobile view________________________________________ -->
+      <!-- ________MAT-MENU for toolbar in the mobile view_____________ -->
     </div>
+
     <div cdkDropListGroup class="kanban-main">
       <div *ngFor="let columnName of getColumnNames()" class="example-container">
         <div style="display: flex; justify-content: center;">
@@ -149,33 +153,36 @@
               <div class="example-box" cdkDrag (cdkDragStarted)="onDragStart(task)">
                 <div *ngIf="getTaskStatus(task.status)" id="test">
                   <mat-card [ngClass]="getColorClass(task.priority)">
-
                     <mat-card-header class="container">
                       <mat-card-title>{{task.name}}</mat-card-title>
-
-
-                      <small *ngIf="task.createDate" id="createdate"
-                        matTooltip="Create date">{{task.createDate.slice(0,10)}}</small>
-                      <mat-card-subtitle>
-                        <div class="content">{{task.content}}</div>
-                      </mat-card-subtitle>
-
-                      <div class="box">
-                        <div class="icons">
-                          <div *ngFor="let name of task.members" class="icon">
-                            <div class="circle" matTooltip="{{name}}">{{name.charAt(0)}}</div>
+                      <div class="date-members">
+                        <div>
+                          <p *ngIf="task.createDate" id="createdate" matTooltip="Create date">
+                            {{task.createDate.slice(0,10)}}
+                          </p>
+                        </div>
+                        <div>
+                          <div class="box">
+                            <div class="icons">
+                              <div *ngFor="let name of task.members" class="icon">
+                                <div class="circle" matTooltip="{{name}}">{{name.charAt(0)}}</div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </mat-card-header>
-                    <div class="icon-row-one">
+                    <mat-card-content>
+                      <div class="content">{{task.content}}</div>
+                    </mat-card-content>
+                    <!-- <div class="icon-row-one">
                       <mat-icon class="editTaskICON" matTooltip="Edit Task" (click)="editTask(task)">
                         create
                       </mat-icon>
                       <div class="blink" matTooltip="Due Date Remainder">
                         <mat-icon *ngIf="getSpanBackgroundColor(task.deadline, task)">warning</mat-icon>
                       </div>
-                    </div>
+                    </div> -->
                     <mat-card-actions class="change">
                       <span>
                         <span mat-icon-button id="priority" matTooltip="Priority : {{task.priority}}">
@@ -189,19 +196,27 @@
                           <mat-icon class="picon" *ngIf="task.priority=='Clear' || task.priority==''">flag</mat-icon>
                         </span>
                       </span>
-                      <!-- <span matTooltip="Due date: {{ task.deadline.slice(0, 10) }}">
-                    <mat-icon id="cal">calendar_today</mat-icon>
-                    <small id="deadline">{{ task.deadline.slice(0, 10) }}</small>
-                  </span> -->
-                      <span matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
+
+                      <!-- <span matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
                         <mat-icon id="cal">calendar_today</mat-icon>
                         <small id="deadline">{{load(task.deadline)}}</small>
-                      </span>
+                      </span> -->
+                      <div class="calendar-icon" matTooltip="Due date : {{task.deadline.slice(0,10)}} ">
+                        <mat-icon [ngClass]="getSpanBackgroundColor(task.deadline, task)">calendar_today</mat-icon>
+                        <span class="date">{{load(task.deadline)}}</span>
+                      </div>
 
-                      <span matTooltip="Assigned by {{task.assignee}}">
+
+
+
+                      <div class="circle1" matTooltip="Assigned by {{task.assignee}}">{{task.assignee.charAt(0)}}</div>
+                      <!-- <span matTooltip="Assigned by {{task.assignee}}">
                         <mat-icon id="iconA">brightness_1</mat-icon>
                         <small id="assigne">{{loadA(task.assignee)}}</small>
-                      </span>
+                      </span> -->
+                      <mat-icon class="editTaskICON" matTooltip="Edit Task" (click)="editTask(task)">
+                        create
+                      </mat-icon>
                       <mat-icon
                         *ngIf="(!taskArchive && currentUser == task.assignee)||(!taskArchive && columnName=='Completed')"
                         id="delete" matTooltip="Delete Task" (click)="delete(columnName,task)">delete</mat-icon>
