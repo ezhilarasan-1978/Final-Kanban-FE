@@ -188,9 +188,9 @@ getProjectNameForEdit(name:string){
           
               this.user.removeProjectOfMember(project.name, this.deletedMember[i]).subscribe(
                 response=>{
-                  console.log(`____________This is response after deleting project name from the member of ${this.deletedMember[i]} ____________________`);
-                  console.log(response);
-                  this.editProjectMethod(project);
+                  if(response){
+                    this.editProjectMethod(project);
+                  }
                 }                                
               )
             }
@@ -340,7 +340,7 @@ getProjectNameForEdit(name:string){
               this.http.get(`http://localhost:8085/api/v1/user/updateProject/${this.tempArrayForEdit[i]}/${project.name}`).subscribe(
                 response => {
                    
-                  if((i===(this.members.value.length-1)&&response)){
+                  if((i===(this.tempArrayForEdit.length-1)&&response)){
                     this.openSnackBar("Project updated Successfully", "OK");
                     this.routes.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                       this.routes.navigate(['/boardView']);

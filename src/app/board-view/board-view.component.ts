@@ -16,6 +16,7 @@ import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
 import html2canvas from 'html2canvas';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
@@ -460,10 +461,16 @@ export class BoardViewComponent implements OnInit {
 
   // Edit project 
   editProject(project: any) {
-    this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
-    this.projectService.editProject = true;
-    this.projectDialog = this.dialog.open(ProjectComponent);
-    this.projectService.closeBoxForProject = false;
+    this.projectService.getProject(project).subscribe(
+      response=>{
+          alert(JSON.stringify(response))
+        this.projectService.setProjectDetailsForProjectEdit(response);
+        this.projectService.editProject = true;
+        this.projectDialog = this.dialog.open(ProjectComponent);
+        this.projectService.closeBoxForProject = false;
+      }
+    )
+
   }
 
   // ----------------------------------
