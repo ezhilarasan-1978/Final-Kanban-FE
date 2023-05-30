@@ -1,4 +1,6 @@
 <body>
+  <img class="loginBackGroundImage" src="../../assets/loginImage.png" alt="">
+
   <mat-card class="loginPanel">
     <mat-card-header>
       <mat-card-title>
@@ -16,12 +18,11 @@
           </p>
         </div>
         
-          <mat-form-field appearance="outline">
-            <!-- <span id="icon"><i class="fa fa-solid fa-lock fa-bounce"></i></span> -->
-            <span id="eyes" (click)="change()"><i class="fa {{eyeIcon}}"></i></span>
-            <input matInput [type]="type" placeholder="Password" formControlName="password">
-   
-          </mat-form-field>
+        <mat-form-field >
+          <span id="eyes" (click)="change()"><i class="fa {{eyeIcon}}"></i></span>
+          <input matInput [type]="type" placeholder="Password" formControlName="password">
+ 
+        </mat-form-field>
         
 
         <div *ngIf="loginForm.controls.password.dirty||loginForm.controls.password.touched">

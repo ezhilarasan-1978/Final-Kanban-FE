@@ -15,6 +15,7 @@ import { NotificationService } from '../service/notification.service';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
 import html2canvas from 'html2canvas';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -29,10 +30,15 @@ export class BoardViewComponent implements OnInit {
   projectList: any=[];
   // ---------------------------------------------
   constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
-    private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog) { }
+    private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog,private breakPoint:BreakpointObserver) { }
   notifications: any = {};
 
   ngOnInit(): void {
+    this.breakPoint.observe([Breakpoints.Handset]).subscribe(
+      result => {
+        this.DeskTopView = !result.matches;
+      }
+    )
 
     let val = this.projectService.getProjectName();
 
@@ -69,6 +75,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   showL: boolean = true;
+  DeskTopView: boolean = false;
 
   showList() {
     this.showL = !this.showL;
@@ -149,6 +156,7 @@ export class BoardViewComponent implements OnInit {
 
       if ((final-initial>=2) || (initial-final>=2)) {
         this.openSnackBar("Kindly don't skip any step", "OK");
+        console.log(event.previousContainer.data[0])
         return;
       }
       transferArrayItem(
@@ -159,7 +167,7 @@ export class BoardViewComponent implements OnInit {
       );
     }
     console.log(this.projectDetails);
-
+    console.log(event.previousContainer.data[0])
     this.projectService.updateProject(this.projectDetails).subscribe(
       response => {
         console.log(response);
@@ -313,8 +321,13 @@ export class BoardViewComponent implements OnInit {
   }
   // ------------------------------methods for manipulation of content drag and drop
   getNumberOfTaskInWIP(): boolean {
-    let num = this.projectDetails.columns["Work In Progress"].length
-    return num <= 4;
+    let count=0;
+    for(let i=0;i<this.projectDetails.columns["Work In Progress"].length;i++){
+      if(this.projectDetails.columns["Work In Progress"][i].status!='Archived'){
+        count++;
+      }
+    }
+    return count <= 4;
   }
 
   getThePriorityTasks() {
@@ -570,6 +583,10 @@ export class BoardViewComponent implements OnInit {
     }
     return !this.taskArchive;
   }
+  getTaskVisibility(status: string): boolean {
+    return (status === 'Archived') ? this.taskArchive : !this.taskArchive;
+  }
+
   toggleArchive(){
     this.taskArchive=!this.taskArchive
   }
@@ -663,17 +680,19 @@ export class BoardViewComponent implements OnInit {
     return false;
   }
 
-
-
-// -------------
   getSpanBackgroundColor(deadline :any, task:any){
     let color:string;
-    const date=new Date()
-  
-    if (deadline.slice(8, 10)==date.getDate()&& task.status!=="Completed") {
-    
-      return true;
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
+    const dateString = `${year}-${month}-${day}`;
+
+    dateString.slice(0, 10)
+    if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed") {
+      return 'warning';
     } 
-    return false;
+    return '';
   }
+  
 }

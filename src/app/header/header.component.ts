@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthserviceService } from '../service/authservice.service';
 import { ProjectService } from '../service/project.service';
 @Component({
@@ -17,12 +17,19 @@ export class HeaderComponent {
   currentUser: boolean = false;
   DeskTopView: boolean = false;
 
+  isBoardViewVisible: boolean=false;
+
   ngOnInit() {
     this.breakPoint.observe([Breakpoints.Handset]).subscribe(
       result => {
         this.DeskTopView = !result.matches;
       }
     )
+    this.routing.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isBoardViewVisible = event.url !== '/homepage';
+      }
+    });
   }
 
 
@@ -43,5 +50,8 @@ export class HeaderComponent {
     this.currentUser = false;
     this.project.setProjectName(undefined);
     this.routing.navigate([`/login`])
+  }
+  openBoardView(){
+    this.routing.navigate([`/boardView`])
   }
 }
