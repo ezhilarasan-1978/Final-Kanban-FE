@@ -16,6 +16,7 @@ import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { ConfirmmessageComponent } from '../confirmmessage/confirmmessage.component';
 import html2canvas from 'html2canvas';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class BoardViewComponent implements OnInit {
   projectDetails: any | Project;
   currentCardTaskStatus: any;
   projectList: any=[];
+
+  showAddTask:boolean=true;
   // ---------------------------------------------
   constructor(private cdr:ChangeDetectorRef  ,private projectService: ProjectService, private http: HttpClient, private noti: NotificationService,
     private snackBar: MatSnackBar, private routing: Router, private user: UserService, private dialog: MatDialog,private breakPoint:BreakpointObserver) { }
@@ -44,11 +47,6 @@ export class BoardViewComponent implements OnInit {
 
     this.user.getProjectList().subscribe(
       response => {
-        this.projectList = response;
-        // if ((val === null || typeof val === 'undefined') && (this.projectList.projectList.length > 0)) {
-        // let val = this.projectService.getProjectName();
-        this.user.getProjectList().subscribe(
-          response => {
             this.projectList = response;
             if (val === null || typeof val === 'undefined') {
               val = this.projectList.projectList[0];
@@ -68,11 +66,39 @@ export class BoardViewComponent implements OnInit {
           error => {
             console.log(error);
           }
-        );
+          if(this.projectList==""||this.projectList.length===0||typeof this.projectList==='undefined'||val==null){
+            this.showAddTask=false;
+          } 
+          this.projectService.setProjectName(val);
+          this.projectService.getProject(val).subscribe(
+            response => {
+              this.projectDetails = response;
+              this.projectService.setProjectDetails(this.projectDetails.columns["Work In Progress"])
+              this.projectService.setProjectDetailsTBD(this.projectDetails.columns["To Be Done"])
+              this.getNotification();
+  
+            },
+            error => console.log("There was error fetching Project Details")
+          )
+        }
+      },
+      error => {
+        this.showAddTask==false;
+      }
+    );
+    
+    this.breakPoint.observe([Breakpoints.Handset]).subscribe(
+      result => {
+        this.DeskTopView = !result.matches;
       }
     )
+
     this.getNotification();
+  
+ 
   }
+
+
 
   showL: boolean = true;
   DeskTopView: boolean = false;
@@ -461,10 +487,15 @@ export class BoardViewComponent implements OnInit {
 
   // Edit project 
   editProject(project: any) {
-    this.projectService.setProjectDetailsForProjectEdit(this.projectDetails);
-    this.projectService.editProject = true;
-    this.projectDialog = this.dialog.open(ProjectComponent);
-    this.projectService.closeBoxForProject = false;
+
+    this.projectService.getProject(project).subscribe(
+      response=>{
+        this.projectService.setProjectDetailsForProjectEdit(response);
+        this.projectService.editProject = true;
+        this.projectDialog = this.dialog.open(ProjectComponent);
+        this.projectService.closeBoxForProject = false;
+      }
+    )
   }
 
   // ----------------------------------
@@ -692,10 +723,12 @@ export class BoardViewComponent implements OnInit {
     if(deadline==''){
       return '';
     }
-    if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed") {
+    if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed"
+    ) {
       return 'warning';
     } 
     return '';
   }
   
 }
+

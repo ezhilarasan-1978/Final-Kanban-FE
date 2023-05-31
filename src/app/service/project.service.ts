@@ -40,6 +40,7 @@ export class ProjectService {
 
   private allProjectDetails:any;
   setProjectDetailsForProjectEdit(projectDetails:any){
+    alert(JSON.stringify(projectDetails))
     this.allProjectDetails=projectDetails;
   }
 
@@ -54,6 +55,14 @@ export class ProjectService {
   // baseurl:string="http://localhost:8007/api/v1/project/";
   baseurl:string="http://localhost:8085/api/v1/project/";
   
+  // -------------------------------
+
+
+
+  // -------------------------
+
+
+
   addNewProject(project:any){
     return this.httpClient.post(this.baseurl+"add", project)
   }

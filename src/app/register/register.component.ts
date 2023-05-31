@@ -33,7 +33,8 @@ export class RegisterComponent implements OnInit{
     phonePattern = /^[7-9]\d{9}$/;
     // emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]$/;
     emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z.-]+\.[a-zA-Z]{2,4}$/;
-    passwordPattern = /^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
 
     registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],

@@ -5,17 +5,25 @@
     <button mat-raised-button (click)="projectWindow()" class="btn"><mat-icon>add_box</mat-icon>Create
       Project</button>
 
-    <button mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
+    <button *ngIf="showAddTask" mat-raised-button (click)="taskWindow()" class="btn"> <mat-icon id="tsk">assignment</mat-icon>Add
+
       Task</button>
     <div class="firstCard">
       <button mat-raised-button class="btn" (click)="showList()"><mat-icon>list</mat-icon>List of Projects</button>
       <div class="projectList" *ngFor="let project of projectList.projectList" id="list">
         <div class="projectButton" (click)="boardView(project)" [ngClass]="selectedProject(project)" *ngIf="showL">
-          <mat-icon id="arrow">keyboard_arrow_right</mat-icon>{{project.split("-->")[0]}}
-          <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
-          <mat-icon *ngIf="editEnable(project)" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
+          <div class="fixedWidth">
+            {{project.split("-->")[0]}}
+          </div>
+          <div class="editIcon">
+            <mat-icon (click)="deleteProject(project)" class="deleteIcon">delete</mat-icon>
+          </div>
+          <div class="editIcon">
+            <mat-icon *ngIf="editEnable(project)" (click)="editProject(project)" class="deleteIcon">create</mat-icon>
+          </div>
         </div>
-      </div>
+        
+      </div>      
     </div>
 
   </mat-sidenav>

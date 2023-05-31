@@ -5,6 +5,7 @@
 .kanban-main {
   display: flex;
   flex-wrap: nowrap;
+
 }
 
 #icon {
@@ -14,6 +15,7 @@
 #search {
   padding-left: 30px;
 }
+
 
 .example-container-nav {
   height: 100%;
@@ -74,6 +76,8 @@
 .projectList {
   width: 10vw;
   margin-bottom: 10px;
+  color: white;
+  font-family: 'Mulish';
 }
 
 #delete {
@@ -111,7 +115,8 @@
   box-sizing: border-box;
   cursor: move;
   font-size: 14px;
-  margin: 20px;
+  margin: 20px ;
+
 }
 
 h2 {
@@ -146,10 +151,22 @@ h2 {
   .kanban-column {
     width: calc(100% - 20px);
   }
+  .fixedWidth{
+    width: 41vw;
+    min-width: 41vw!important;
+    max-width: 41vw;
+  }
+  
+  .editIcon{
+    display: inline-block;
+    width: 8vw!important;
+    min-width: 8vw!important;;; 
+    max-width: 8vw;
+  }
 }
 
 mat-card-actions {
-  display: flex;
+  display: flex;  
   justify-content: space-between;
 }
 
@@ -158,6 +175,23 @@ mat-card {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 180px;
+}
+@keyframes warning-animation {
+  0% {
+    color: red;
+  }
+  50% {
+    color: rgb(241, 141, 141);
+  }
+  100% {
+    color: red;
+  }
+}
+
+.warning {
+  animation-name: warning-animation;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 }
 
 @keyframes warning-animation {
@@ -201,6 +235,23 @@ mat-card {
   color: white;
   margin-left: -17px;
 }
+.container{
+  /* background-color: yellowgreen; */
+  display: grid;
+  grid-template-columns: 65% 30%;
+  grid-gap: 10px;
+}
+mat-card-title{
+  /* background-color: #3969fa; */
+  word-wrap: break-word;
+}
+.date-members{
+  display: grid;
+  grid-template-rows: 30px 1fr;
+  padding: 5px;
+}
+
+
 
 .container {
   /* background-color: yellowgreen; */
@@ -219,6 +270,7 @@ mat-card-title {
   grid-template-rows: 30px 1fr;
   padding: 5px;
 }
+
 
 .circle1 {
   display: flex;
@@ -271,9 +323,13 @@ mat-sidenav-content {
   position: fixed;
   padding-top: 51px;
   width: 230px;
-  background-image: linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, .5) 50%);
+
+  /* background-image: linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, .5) 50%); */
   /* background-color: #d2c9fd; */
-  background-color: #CB80FF;
+  /* background-color: #962f56; */
+  background: linear-gradient(to right, #004a64 74%, #007692 26%);
+  border-right: #007692;
+  z-index:-1;
 }
 
 .mat-drawer-content {
@@ -368,10 +424,18 @@ mat-form-field {
 body {
   margin: 0px;
   font-family: 'segoe ui';
+   
+
 }
 
 .nav {
   position: fixed;
+  margin-top: -21px;
+  height: 50px;
+  z-index: 4;
+  margin-left: -20px;
+  width:200%;
+  background-color: #00b1c8;
   margin-top: -20px;
   height: 50px;
   z-index: 4;
@@ -379,6 +443,7 @@ body {
   width: 200%;
   /* background-color: #d1bff1; */
   background-color: #fdacfd;
+
 }
 
 .nav>.nav-header {
@@ -507,8 +572,26 @@ body {
 
 .projectButton {
   width: 200px;
-  margin-left: -23px;
+  margin-left: -10px;
+  display: flex;
+  flex-direction: row;
 }
+/*  */
+
+.fixedWidth{
+  display: inline-block;
+  width: 12vw;
+  min-width: 12vw;
+  max-width: 12vw;
+}
+
+
+.editIcon{
+  display: inline-block;
+  width: 3vw;
+  max-width: 3vw;
+}
+
 
 .deleteIcon {
   height: 30px;
@@ -543,7 +626,7 @@ mat-card-content {
   cursor: pointer;
 }
 
-/* _________________________- */
+/* _________- */
 .blink {
   animation: blinker 0.6s linear infinite;
   color: red;
@@ -576,6 +659,7 @@ mat-card-header {
   margin-left: -10px;
 }
 
+
 .icon-row-one {
   font-size: 5px;
   margin-top: 20px;
@@ -586,7 +670,8 @@ mat-card-header {
   justify-content: flex-end;
 }
 
-.editTaskICON {
+
+.editTaskICON{
   cursor: pointer;
   margin-bottom: 3px;
 }

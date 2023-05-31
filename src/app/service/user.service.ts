@@ -46,7 +46,7 @@ export class UserService {
 
   getProjectList(){
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("jwt")}` })
-
+  
     return this.httpClient.get(this.baseurl2+"details", {headers})
   }
   
@@ -63,4 +63,6 @@ export class UserService {
   removeProjectOfMember(projectName:any, name:any){
     return this.httpClient.get(this.baseurl2+`removeProjectFromMember/${projectName}/${name}`)
   }
+
+
 }

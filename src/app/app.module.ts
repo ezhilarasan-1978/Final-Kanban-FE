@@ -35,6 +35,7 @@ import { EditTaskComponent } from './edit-task/edit-task.component';
 import { ConfirmmessageComponent } from './confirmmessage/confirmmessage.component';
 import { CanDeactivatedTeam } from './service/can-deactivate-guard.guard';
 import { HomepageComponent } from './homepage/homepage.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { HomepageComponent } from './homepage/homepage.component';
     TaskComponent,
     EditTaskComponent,
     ConfirmmessageComponent,
-    HomepageComponent
+    HomepageComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,
