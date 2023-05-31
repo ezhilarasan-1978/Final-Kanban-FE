@@ -24,7 +24,6 @@ nav {
         repeating-linear-gradient(135deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px),
         repeating-linear-gradient(90deg, hsla(207, 0%, 63%, 0.05) 0px, hsla(207, 0%, 63%, 0.05) 1px, transparent 1px, transparent 11px, hsla(207, 0%, 63%, 0.05) 11px, hsla(207, 0%, 63%, 0.05) 12px, transparent 12px, transparent 32px),
         linear-gradient(90deg, rgb(17, 17, 17), rgb(66, 66, 66)); */
-  
     height: 50px;
     display: flex;
     align-items: center;
@@ -88,4 +87,6 @@ mat-menu {
 .noteIcon{
     margin-top: 17px;
     font-size: 27px;
+
 }
+

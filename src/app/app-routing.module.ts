@@ -19,7 +19,7 @@ const routes: Routes = [
   {path:'boardView', component:BoardViewComponent, canActivate:[AuthGuardGuard] },
   {path:'**', component:PagenotfoundComponent }
 ];
-// ,
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

@@ -27,8 +27,6 @@ mat-card {
   transition: transform 0.3s;
   z-index: 2;
   opacity: 0.94;
-
-
 }
 .loginPanel:hover {
   transform: translateY(-10px) scale(1.05);
@@ -151,7 +149,7 @@ h3 {
     z-index: 1;
     height: 80%;
     width: 100%
+
 }
 
-
-
+}
