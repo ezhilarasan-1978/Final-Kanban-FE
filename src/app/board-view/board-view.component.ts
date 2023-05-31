@@ -689,6 +689,9 @@ export class BoardViewComponent implements OnInit {
     const dateString = `${year}-${month}-${day}`;
 
     dateString.slice(0, 10)
+    if(deadline==''){
+      return '';
+    }
     if ((deadline.slice(0, 10)==dateString.slice(0, 10)|| deadline.slice(0, 10)<dateString.slice(0, 10) )&& task.status!=="Completed") {
       return 'warning';
     } 
